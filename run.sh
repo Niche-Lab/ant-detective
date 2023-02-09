@@ -10,6 +10,6 @@
 #SBATCH --output=log.out
 #SBATCH --error=log.err
 
-conda activate torch
+conda activate tf
 
-python find_ants/main.py --num_epochs 5
+python find_ants/main.py --num_epochs 1 --demo
