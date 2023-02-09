@@ -12,7 +12,7 @@ class Niche_ViT(Niche_Model):
         super(Niche_ViT, self).__init__()
         weights = ViT_B_16_Weights.IMAGENET1K_SWAG_E2E_V1
         self.model = vit_b_16(weights=weights)
-        self.model.heads = nn.Linear(self.model.heads.in_features, 1)
+        self.model.heads = nn.Linear(self.model.heads.in_features, 2)
 
     def forward(self, x):
         return self.model(x)

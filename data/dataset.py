@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 from torchvision.io import read_image
 
 
-class Find_Ant_Dataset(Dataset):
+class PepSuc_Dataset(Dataset):
     """
     File structure:
     data/
@@ -46,8 +46,8 @@ class Find_Ant_Dataset(Dataset):
         # get image matrix
         img_path = os.path.join(self.dir_img, self.img_labels.iloc[idx, 0])
         image = read_image(img_path)
-        # get label
-        label = self.img_labels.iloc[idx, 1]
+        # get label: sucrose and peptone
+        label = self.img_labels.loc[idx, ["sucrose", "peptone"]].values
         # data transformation
         if self.transform:
             image = self.transform(image)
@@ -56,11 +56,17 @@ class Find_Ant_Dataset(Dataset):
         return image, label
 
 
-def create_loader(dir_data: str) -> dict(str, DataLoader):
+def create_loader(name_data: str) -> dict(str, DataLoader):
+    # get root directory
+    ROOT = os.path.dirname(os.path.abspath(__file__))
+    # create dataloader
     loader = dict({})
     for setname in ["train", "test", "val"]:
-        dataset = Find_Ant_Dataset(os.path.join(dir_data, setname))
         is_test = setname == "test"  # when is test, we don't shuffle
+        # init dataset
+        if name_data == "peptone_sucrose":
+            dataset = PepSuc_Dataset(os.path.join(ROOT, "peptone_sucrose", setname))
+        # init dataloader
         loader[setname] = DataLoader(
             dataset, batch_size=16, shuffle=~is_test, num_workers=4
         )
