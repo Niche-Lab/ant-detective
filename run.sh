@@ -7,9 +7,10 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
 #SBATCH --mem=128G
-#SBATCH --output=log.out
-#SBATCH --error=log.err
+#SBATCH --output=out.log
+#SBATCH --error=out.err
 
+module load site/tinkercliffs-rome_a100/easybuild/setup
 module load Anaconda3/2020.11
 source activate tf
 
