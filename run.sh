@@ -12,4 +12,4 @@
 
 conda activate tf
 
-python find_ants/main.py --num_epochs 1 --demo
+python /home/niche/find_ants/main.py --num_epochs 1 --demo
