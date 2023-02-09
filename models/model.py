@@ -5,8 +5,8 @@ import platform
 import torch
 import torch.nn as nn
 
-# custom modules
-import ViT
+# local modules
+from .ViT import Niche_ViT, Niche_ViT_Attn
 
 
 def freeze_param(model: nn.Module, freeze: bool = True) -> None:
@@ -20,7 +20,10 @@ def freeze_param(model: nn.Module, freeze: bool = True) -> None:
 def load_model(model: str, dir_weights: str) -> nn.Module:
     # select model
     if model == "ViT":
-        model = ViT.init_model()
+        model = Niche_ViT()
+    elif model == "ViT_Attn":
+        model = Niche_ViT_Attn()
+
     # load existing weights
     load_weights(model, dir_weights)
     return model
@@ -29,7 +32,8 @@ def load_model(model: str, dir_weights: str) -> nn.Module:
 def load_weights(model: nn.Module, dir_weights: str) -> nn.Module:
     try:
         model.load_state_dict(torch.load(dir_weights))
-    except:
+    except Exception as e:
+        print(e, flush=True)
         print("Weights not found. Using original weights", flush=True)
     return model
 

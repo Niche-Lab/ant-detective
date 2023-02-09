@@ -6,7 +6,6 @@ __pycache__
 *.ipynb_checkpoints
 ipynb_checkpoints
 .env
-# **/data/*
 
 # common files
 *.csv
@@ -22,5 +21,8 @@ ipynb_checkpoints
 *.mov
 *.avi
 
+# torch model
+*.pt
+
 # exception
-!/data_demo/*
+!**/demo/**

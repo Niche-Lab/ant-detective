@@ -1,0 +1,6 @@
+filename,time,sucrose,peptone,total_foragers,trial,split
+t6_826.JPG,11:13:00,1,0,1,trial_6,val
+t6_827.JPG,11:43:00,8,5,13,trial_6,val
+t6_828.JPG,12:13:00,15,4,19,trial_6,val
+t6_829.JPG,12:43:00,13,3,16,trial_6,val
+t6_830.JPG,13:13:00,14,8,22,trial_6,val

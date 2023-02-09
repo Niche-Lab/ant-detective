@@ -2,6 +2,7 @@
 This script is used to split the data into train, val, and test sets. The outputs include two parts: images and annotation.txt
 """
 import os
+import shutil
 import pandas as pd
 import numpy as np
 from PIL import Image
@@ -90,3 +91,20 @@ for s in ["train", "val", "test"]:
     df_out.query("split == @s").to_csv(
         os.path.join(DIR_ROOT, s, "annotation.txt"), index=False
     )
+
+
+# create demo set
+os.chdir(DIR_ROOT)
+
+DEMO_SIZE = 5
+for s in ["train", "val", "test"]:
+    data = pd.read_csv(os.path.join(s, "annotation.txt"))
+    # create folder
+    os.makedirs(os.path.join("demo", s), exist_ok=True)
+    for f in data.iloc[:DEMO_SIZE].loc[:, "filename"].values:
+        shutil.copyfile(
+            os.path.join(s, f),
+            os.path.join("demo", s, f),
+        )
+    # copy annotation.txt
+    data.iloc[:DEMO_SIZE].to_csv(os.path.join("demo", s, "annotation.txt"), index=False)

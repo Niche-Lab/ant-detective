@@ -2,13 +2,42 @@
 import torch
 import torch.nn as nn
 
-# custom modules
-from models.model import get_device
-from misc import Timer, BatchCounter
-
 # native imports
 import copy
 import os
+import pandas as pd
+
+# local imports
+from models.model import get_device
+from misc import Timer, BatchCounter
+
+
+def wrapper(
+    model: nn.Module,
+    loaders: dict,
+    criterion: nn.Module,
+    optimizer: torch.optim.Optimizer,
+    num_epochs: int = 10,
+    mode: str = "train",  # train or test
+) -> None:
+
+    # config
+    ROOT = os.path.dirname(os.path.abspath(__file__))
+    PATH_MODEL = os.path.join(ROOT, "models")
+    PATH_OUT = os.path.join(ROOT, "out")
+    timer = Timer()
+    device = get_device()
+    model.float().to(device)
+    # model.check_param()
+
+    if mode == "train":
+        train_wrapper(
+            model, loaders, criterion, optimizer, device, PATH_MODEL, num_epochs
+        )
+    elif mode == "test":
+        test_wrapper(model, loaders, criterion, optimizer, device, PATH_OUT)
+
+    timer.report()
 
 
 def train_wrapper(
@@ -16,24 +45,21 @@ def train_wrapper(
     loaders: dict,
     criterion: nn.Module,
     optimizer: torch.optim.Optimizer,
-    num_epochs: int = 10,
+    device: torch.device,
+    num_epochs: int,
+    path_out: str,
 ) -> None:
 
-    # config
-    ROOT = os.path.dirname(os.path.abspath(__file__))
-    timer = Timer()
-    device = get_device()
     model.float().to(device)
-    model.check_param()
 
     # metrics
     val_acc_history = []
     train_acc_history = []
-    best_model_wts = copy.deepcopy(model.state_dict())
     best_loss = 10e10
 
+    # epochs
     for epoch in range(num_epochs):
-        print("Epoch {}/{}".format(epoch, num_epochs - 1))
+        print("Epoch {}/{}".format(epoch + 1, num_epochs))
         print("-" * 10)
 
         # Each epoch has a training and validation phase
@@ -69,23 +95,19 @@ def train_wrapper(
                 # print which batch is being processed
                 loss = loss.item()
                 counter.report(loss=loss)
-                running_loss += loss.item() * inputs.size(0)
+                running_loss += loss * inputs.size(0)
 
             epoch_loss = running_loss / len(dataloader.dataset)
             print("")
             print("{} Loss: {:.4f}".format(phase, epoch_loss))
 
-            # deep copy the model
             if phase == "val" and epoch_loss < best_loss:
                 best_loss = epoch_loss
-                best_model_wts = copy.deepcopy(model.state_dict())
             if phase == "val":
                 val_acc_history.append(epoch_loss)
                 torch.save(
                     model.state_dict(),
-                    os.path.join(
-                        ROOT, "models", "ViT_%d_%.3f.pt" % (epoch, epoch_loss)
-                    ),
+                    os.path.join(path_out, "ViT_%d_%.3f.pt" % (epoch, epoch_loss)),
                 )
             elif phase == "train":
                 train_acc_history.append(epoch_loss)
@@ -93,9 +115,53 @@ def train_wrapper(
         print()
 
     history = dict({"train": train_acc_history, "val": val_acc_history})
-    plot_curve(history, name=os.path.join(ROOT, "models", "loss.png"))
-    timer.report()
+    plot_curve(history, name=os.path.join(path_out, "loss.png"))
     print("Best val loss: {:4f}".format(best_loss))
+
+
+def test_wrapper(
+    model: nn.Module,
+    loaders: dict,
+    criterion: nn.Module,
+    device: torch.device,
+    path_out: str,
+) -> None:
+
+    model.float().to(device)
+    model.eval()
+    dataloader = loaders["test"]
+    counter = BatchCounter(num_batches=len(dataloader))
+    pred = []
+    running_loss = 0
+    for inputs, labels in dataloader:
+        inputs = inputs.float().to(device)
+        labels = labels.float().to(device)
+
+        # forward
+        # track history if only in train
+        with torch.set_grad_enabled(False):
+            # Get model outputs and calculate loss
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            pred.append(outputs.cpu().detach().numpy())
+
+        # print which batch is being processed
+        loss = loss.item()
+        counter.report(loss=loss)
+        running_loss += loss * inputs.size(0)
+
+    epoch_loss = running_loss / len(dataloader.dataset)
+    print("")
+    print("{} Loss: {:.4f}".format("test", epoch_loss))
+
+    # save prediction
+    df_pred = dataloader.dataset.img_labels.copy()
+    dim_new_columns = pred[0].shape[1]
+    # create new columns
+    for i in range(dim_new_columns):
+        df_pred.loc[:, "pred_%d" % i] = 0
+        df_pred["pred_%d" % i] = pred[0][:, i]
+    df_pred.to_csv(os.path.join(path_out, "pred.csv"), index=False)
 
 
 def plot_curve(history: dict, name: str = "loss.png") -> None:
