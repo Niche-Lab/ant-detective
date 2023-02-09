@@ -155,13 +155,9 @@ def test_wrapper(
     print("{} Loss: {:.4f}".format("test", epoch_loss))
 
     # save prediction
-    df_pred = dataloader.dataset.img_labels.copy()
-    dim_new_columns = pred[0].shape[1]
-    # create new columns
-    for i in range(dim_new_columns):
-        df_pred.loc[:, "pred_%d" % i] = 0
-        df_pred["pred_%d" % i] = pred[0][:, i]
-    df_pred.to_csv(os.path.join(path_out, "pred.csv"), index=False)
+    matrix_out = pred[0]
+    df_pred = pd.DataFrame(matrix_out)
+    df_pred.to_csv(os.path.join(path_out, "pred.out"), index=False)
 
 
 def plot_curve(history: dict, name: str = "loss.png") -> None:
