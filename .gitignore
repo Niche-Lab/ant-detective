@@ -26,3 +26,4 @@ ipynb_checkpoints
 
 # exception
 !**/demo/**
+!requirements.txt
