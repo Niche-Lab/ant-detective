@@ -13,4 +13,4 @@
 module load Anaconda3/2020.11
 source activate tf
 
-python /home/niche/find_ants/main.py --num_epochs 1 --demo
+python3.9 /home/niche/find_ants/main.py
