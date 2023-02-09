@@ -11,7 +11,6 @@
 #SBATCH --error=log.err
 
 module load Anaconda3/2020.11
-conda activate tf
-
+source activate tf
 
 python /home/niche/find_ants/main.py --num_epochs 1 --demo
