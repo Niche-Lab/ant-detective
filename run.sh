@@ -3,10 +3,9 @@
 #SBATCH --account=vos
 #SBATCH --time=12:10:00
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=8
-#SBATCH --cpus-per-task=8
+#SBATCH --ntasks-per-node=4
 #SBATCH --gres=gpu:1
-#SBATCH --mem=128G
+#SBATCH --mem=32G
 #SBATCH --output=out.log
 #SBATCH --error=out.err
 
