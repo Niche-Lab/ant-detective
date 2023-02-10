@@ -57,6 +57,7 @@ def train_wrapper(
     # metrics
     val_acc_history = []
     train_acc_history = []
+    best_model_wts = copy.deepcopy(model.state_dict())
     best_loss = 10e10
 
     # epochs
@@ -105,6 +106,7 @@ def train_wrapper(
 
             if phase == "val" and epoch_loss < best_loss:
                 best_loss = epoch_loss
+                best_model_wts = copy.deepcopy(model.state_dict())
             if phase == "val":
                 val_acc_history.append(epoch_loss)
                 torch.save(
@@ -119,6 +121,10 @@ def train_wrapper(
     history = dict({"train": train_acc_history, "val": val_acc_history})
     plot_curve(history, name=os.path.join(path_out, "loss.png"))
     print("Best val loss: {:4f}".format(best_loss))
+
+    torch.save(best_model_wts, os.path.join(path_out, "model.pt"))
+    model.load_state_dict(best_model_wts)
+    return model
 
 
 def test_wrapper(

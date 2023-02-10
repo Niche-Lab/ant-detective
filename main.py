@@ -30,8 +30,8 @@ def main(argv: list) -> None:
     optimizer = optim.Adam(model.parameters(), lr=argv.lr)
 
     timer = Timer()
-    if argv.mode == "train":
-        train_wrapper(
+    if not argv.inference:
+        model = train_wrapper(
             model=model,
             loaders=loader,
             criterion=criterion,
@@ -40,14 +40,13 @@ def main(argv: list) -> None:
             num_epochs=argv.epochs,
             path_out=PATH_MODEL,
         )
-    elif argv.mode == "test":
-        test_wrapper(
-            model=model,
-            loaders=loader,
-            criterion=criterion,
-            device=get_device(),
-            path_out=PATH_OUT,
-        )
+    test_wrapper(
+        model=model,
+        loaders=loader,
+        criterion=criterion,
+        device=get_device(),
+        path_out=PATH_OUT,
+    )
     timer.report()
 
 
@@ -57,9 +56,11 @@ if __name__ == "__main__":
     parser.add_argument("--data", type=str, default="peptone_sucrose")
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--batch", type=int, default=4)
-    parser.add_argument("--lr", type=float, default=0.001)
-    parser.add_argument("--mode", type=str, default="train")
+    parser.add_argument("--lr", type=float, default=0.0005)
     parser.add_argument("--demo", action=argparse.BooleanOptionalAction, default=False)
+    parser.add_argument(
+        "--inference", action=argparse.BooleanOptionalAction, default=False
+    )
     argv = parser.parse_args()
     # display config
     print("Config:")

@@ -15,15 +15,19 @@ class Niche_ViT(Niche_Model):
         self.model.heads = nn.Linear(self.model.heads.head.in_features, 512)
         self.mlps = nn.Sequential(
             nn.GELU(),
-            nn.Dropout(0.05),
+            nn.BatchNorm1d(512),
+            nn.Dropout(0.01),
             nn.Linear(512, 512),
+            nn.BatchNorm1d(512),
             nn.GELU(),
-            nn.Dropout(0.05),
+            nn.Dropout(0.01),
             nn.Linear(512, 128),
+            nn.BatchNorm1d(128),
             nn.GELU(),
-            nn.Dropout(0.05),
+            nn.Dropout(0.01),
             nn.Linear(128, 2),
             nn.GELU(),
+            nn.BatchNorm1d(2),
         )
 
     def forward(self, x):

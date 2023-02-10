@@ -8,6 +8,9 @@ from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
+# local import
+from sampler import ImbalancedDatasetSampler
+
 
 class PepSuc_Dataset(Dataset):
     """
@@ -83,7 +86,11 @@ def create_loader(name_data: str, batch_size: int = 32) -> dict:
 
         # init dataloader
         loader[setname] = DataLoader(
-            dataset, batch_size=batch_size, shuffle=is_train, num_workers=4
+            dataset,
+            batch_size=batch_size,
+            shuffle=is_train,
+            num_workers=4,
+            batch_sampler=ImbalancedDatasetSampler(dataset) if is_train else None,
         )
     # return
     return loader
