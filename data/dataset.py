@@ -65,7 +65,7 @@ class PepSuc_Dataset(Dataset):
         return image, label
 
 
-def create_loader(name_data: str) -> dict:
+def create_loader(name_data: str, batch_size: int = 32) -> dict:
     # get root directory
     ROOT = os.path.dirname(os.path.abspath(__file__))
     # create dataloader
@@ -83,7 +83,7 @@ def create_loader(name_data: str) -> dict:
 
         # init dataloader
         loader[setname] = DataLoader(
-            dataset, batch_size=4, shuffle=is_train, num_workers=4
+            dataset, batch_size=batch_size, shuffle=is_train, num_workers=4
         )
     # return
     return loader

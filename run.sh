@@ -14,4 +14,5 @@ module load site/tinkercliffs-rome_a100/easybuild/setup
 module load Anaconda3/2020.11
 source activate tf
 
-python3.9 /home/niche/find_ants/main.py
+python3.9 /home/niche/find_ants/main.py --batch 4
+python3.9 /home/niche/find_ants/main.py --batch 16
