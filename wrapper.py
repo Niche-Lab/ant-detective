@@ -30,7 +30,7 @@ def wrapper(
     timer = Timer()
     device = get_device()
     model.float().to(device)
-    # model.check_param()
+    model.check_param()
 
     if mode == "train":
         train_wrapper(
@@ -119,7 +119,7 @@ def train_wrapper(
         print()
 
     history = dict({"train": train_acc_history, "val": val_acc_history})
-    plot_curve(history, name=os.path.join(path_out, "loss.png"))
+    plot_curve(history, name=os.path.join(path_out, "loss_%.3f.png" % best_loss))
     print("Best val loss: {:4f}".format(best_loss))
 
     torch.save(best_model_wts, os.path.join(path_out, "model.pt"))
@@ -173,6 +173,8 @@ def test_wrapper(
         df_pred["pred_%d" % i] = pred_array[:, i]
     # suffix with timestemp
     df_pred.to_csv(os.path.join(path_out, "pred_%.3f.csv" % epoch_loss), index=False)
+    # return loss
+    return epoch_loss
 
 
 def plot_curve(history: dict, name: str = "loss.png") -> None:

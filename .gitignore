@@ -10,6 +10,7 @@ ipynb_checkpoints
 # common files
 *.csv
 *.txt
+*.json
 *.png
 *.jpg
 *.JPG

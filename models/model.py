@@ -28,11 +28,16 @@ def load_model(model: str, dir_weights: str) -> nn.Module:
 
 
 def load_weights(model: nn.Module, dir_weights: str) -> nn.Module:
-    try:
-        model.load_state_dict(torch.load(dir_weights))
-    except Exception as e:
-        print(e, flush=True)
-        print("Weights not found. Using original weights", flush=True)
+    if dir_weights:
+        try:
+            model.load_state_dict(torch.load(dir_weights))
+            print("Weights loaded", flush=True)
+        except Exception as e:
+            print(e, flush=True)
+            print(
+                "Weights not found or not compatible, using original weights",
+                flush=True,
+            )
     return model
 
 
