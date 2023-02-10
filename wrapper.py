@@ -167,6 +167,12 @@ def test_wrapper(
     pred_array = np.array(pred).reshape((-1, p))
 
     df_pred = dataloader.dataset.img_labels.copy()
+    ### DEBUG
+    print("pred: ")
+    print(pred_array)
+    print("DF:  ")
+    print(df_pred)
+    ### DEBUG
     # create new columns
     for i in range(p):
         df_pred.loc[:, "pred_%d" % i] = 0

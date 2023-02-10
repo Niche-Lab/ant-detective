@@ -18,11 +18,11 @@ def loss_function(lr, batch, delta):
     return -find_ants(
         weights=None,
         data="peptone_sucrose",
-        epochs=20,
+        epochs=2,
         batch=int(batch),
         lr=lr,
         inference=False,
-        demo=True,
+        demo=False,
         path_model=PATH_MODEL,
         path_out=PATH_OUT,
         delta=delta,
@@ -42,7 +42,7 @@ def main():
     optimizer.subscribe(Events.OPTIMIZATION_STEP, logger)
 
     # run
-    optimizer.maximize(init_points=2, n_iter=2)
+    optimizer.maximize(init_points=5, n_iter=20)
 
 
 if __name__ == "__main__":
