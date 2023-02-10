@@ -49,7 +49,7 @@ def get_device() -> torch.device:
     if torch.cuda.is_available():
         print("GPU is available", flush=True)
         str_device = "cuda"
-	torch.cuda.empty_cache()
+        torch.cuda.empty_cache()
     elif platform.system() == "Darwin":
         print("GPU is not available, MPS used", flush=True)
         str_device = "mps"
