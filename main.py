@@ -25,7 +25,7 @@ def main(argv: list) -> None:
     if argv.demo:
         argv.data += "_demo"
         argv.epochs = 1
-    loader = create_loader(name_data=argv.data, batch_size=argv.batch_size)
+    loader = create_loader(name_data=argv.data, batch_size=argv.batch)
     criterion = nn.HuberLoss(delta=5)
     optimizer = optim.Adam(model.parameters(), lr=argv.lr)
 
