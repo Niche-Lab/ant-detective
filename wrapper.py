@@ -6,6 +6,8 @@ import torch.nn as nn
 import copy
 import os
 import pandas as pd
+import numpy as np
+
 
 # local imports
 from models.model import get_device
@@ -155,8 +157,14 @@ def test_wrapper(
     print("{} Loss: {:.4f}".format("test", epoch_loss))
 
     # save prediction
-    matrix_out = pred[0]
-    df_pred = pd.DataFrame(matrix_out)
+    p = pred[0].shape[1]  # number of outputs
+    pred_array = np.array(pred).reshape((-1, p))
+
+    df_pred = dataloader.dataset.img_labels.copy()
+    # create new columns
+    for i in range(p):
+        df_pred.loc[:, "pred_%d" % i] = 0
+        df_pred["pred_%d" % i] = pred_array[:, i]
     df_pred.to_csv(os.path.join(path_out, "pred.out"), index=False)
 
 

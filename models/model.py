@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 
 # local modules
-from .ViT import Niche_ViT, Niche_ViT_Attn
+from .ViT import Niche_ViT
 
 
 def freeze_param(model: nn.Module, freeze: bool = True) -> None:
@@ -21,8 +21,6 @@ def load_model(model: str, dir_weights: str) -> nn.Module:
     # select model
     if model == "ViT":
         model = Niche_ViT()
-    elif model == "ViT_Attn":
-        model = Niche_ViT_Attn()
 
     # load existing weights
     load_weights(model, dir_weights)

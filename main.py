@@ -24,7 +24,7 @@ def main(argv: list) -> None:
     model = load_model(model="ViT", dir_weights=weights)
     if argv.demo:
         argv.data += "_demo"
-        argv.num_epochs = 1
+        argv.epochs = 1
     loader = create_loader(name_data=argv.data)
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=argv.lr)
@@ -37,7 +37,7 @@ def main(argv: list) -> None:
             criterion=criterion,
             optimizer=optimizer,
             device=get_device(),
-            num_epochs=argv.num_epochs,
+            num_epochs=argv.epochs,
             path_out=PATH_MODEL,
         )
     elif argv.mode == "test":
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--weights", type=str, default="model.pt")
     parser.add_argument("--data", type=str, default="peptone_sucrose")
-    parser.add_argument("--num_epochs", type=int, default=3)
+    parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--lr", type=float, default=0.001)
     parser.add_argument("--mode", type=str, default="train")
     parser.add_argument("--demo", action=argparse.BooleanOptionalAction, default=False)
