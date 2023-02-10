@@ -14,23 +14,19 @@ class Niche_ViT(Niche_Model):
         self.model = vit_b_16(weights=weights)
         self.model.heads = nn.Sequential(
             # 1st layer
-            nn.LazyLinear(512),
+            nn.Linear(self.model.heads.head.in_features, 512),
             nn.GELU(),
-            nn.LazyBatchNorm1d(),
             nn.Dropout(0.01),
             # 2nd layer
-            nn.LazyLinear(512),
+            nn.Linear(512, 512),
             nn.GELU(),
-            nn.LazyBatchNorm1d(),
             nn.Dropout(0.01),
             # 3rd layer
-            nn.LazyLinear(128),
+            nn.Linear(512, 128),
             nn.GELU(),
-            nn.LazyBatchNorm1d(),
             nn.Dropout(0.01),
             # 4th layer
-            nn.LazyLinear(2),
-            nn.LazyBatchNorm1d(),
+            nn.Linear(128, 2),
         )
 
     def forward(self, x):
