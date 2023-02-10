@@ -171,7 +171,8 @@ def test_wrapper(
     for i in range(p):
         df_pred.loc[:, "pred_%d" % i] = 0
         df_pred["pred_%d" % i] = pred_array[:, i]
-    df_pred.to_csv(os.path.join(path_out, "pred.out"), index=False)
+    # suffix with timestemp
+    df_pred.to_csv(os.path.join(path_out, "pred_%.3f.csv" % epoch_loss), index=False)
 
 
 def plot_curve(history: dict, name: str = "loss.png") -> None:

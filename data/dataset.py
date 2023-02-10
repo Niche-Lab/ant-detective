@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 
 # local import
-from sampler import ImbalancedDatasetSampler
+from .sampler import ImbalancedDatasetSampler
 
 
 class PepSuc_Dataset(Dataset):
@@ -67,6 +67,11 @@ class PepSuc_Dataset(Dataset):
             label = self.target_transform(label)
         return image, label
 
+    def get_labels(self):
+        label = self.img_labels.loc[:, ["sucrose", "peptone"]].values
+        label = label.astype("float").reshape((-1, 2))
+        return label.sum(axis=1)
+
 
 def create_loader(name_data: str, batch_size: int = 32) -> dict:
     # get root directory
@@ -88,9 +93,9 @@ def create_loader(name_data: str, batch_size: int = 32) -> dict:
         loader[setname] = DataLoader(
             dataset,
             batch_size=batch_size,
-            shuffle=is_train,
+            # shuffle=is_train,
             num_workers=4,
-            batch_sampler=ImbalancedDatasetSampler(dataset) if is_train else None,
+            sampler=ImbalancedDatasetSampler(dataset) if is_train else None,
         )
     # return
     return loader
