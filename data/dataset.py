@@ -6,7 +6,6 @@ from PIL import Image
 # pytorch imports
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
-from torchvision.io import read_image
 from torchvision import transforms
 
 
@@ -84,7 +83,7 @@ def create_loader(name_data: str) -> dict:
 
         # init dataloader
         loader[setname] = DataLoader(
-            dataset, batch_size=16, shuffle=is_train, num_workers=4
+            dataset, batch_size=4, shuffle=is_train, num_workers=4
         )
     # return
     return loader

@@ -24,6 +24,8 @@ ipynb_checkpoints
 
 # torch model
 *.pt
+*.log
+*.err
 
 # exception
 !**/demo/**

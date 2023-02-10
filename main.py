@@ -26,7 +26,7 @@ def main(argv: list) -> None:
         argv.data += "_demo"
         argv.epochs = 1
     loader = create_loader(name_data=argv.data)
-    criterion = nn.MSELoss()
+    criterion = nn.HuberLoss(delta=10)
     optimizer = optim.Adam(model.parameters(), lr=argv.lr)
 
     timer = Timer()
