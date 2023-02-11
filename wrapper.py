@@ -162,17 +162,16 @@ def test_wrapper(
     print("")
     print("{} Loss: {:.4f}".format("test", epoch_loss))
 
+    
     # save prediction
+    print(pred)
     p = pred[0].shape[1]  # number of outputs
+    print(p)
     pred_array = np.array(pred).reshape((-1, p))
+    print(pred_array)
 
     df_pred = dataloader.dataset.img_labels.copy()
-    ### DEBUG
-    print("pred: ")
-    print(pred_array)
-    print("DF:  ")
     print(df_pred)
-    ### DEBUG
     # create new columns
     for i in range(p):
         df_pred.loc[:, "pred_%d" % i] = 0
