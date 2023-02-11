@@ -109,10 +109,6 @@ def train_wrapper(
                 best_model_wts = copy.deepcopy(model.state_dict())
             if phase == "val":
                 val_acc_history.append(epoch_loss)
-                torch.save(
-                    model.state_dict(),
-                    os.path.join(path_out, "ViT_%d_%.3f.pt" % (epoch, epoch_loss)),
-                )
             elif phase == "train":
                 train_acc_history.append(epoch_loss)
 
@@ -123,6 +119,7 @@ def train_wrapper(
     print("Best val loss: {:4f}".format(best_loss))
 
     torch.save(best_model_wts, os.path.join(path_out, "model.pt"))
+    torch.save(best_model_wts, os.path.join(path_out, "model_%.3f.pt" % (best_loss)))
     model.load_state_dict(best_model_wts)
     return model
 
@@ -163,16 +160,14 @@ def test_wrapper(
     print("{} Loss: {:.4f}".format("test", epoch_loss))
 
     # save prediction
-    print(pred)
-    p = pred[0].shape[1]  # number of outputs
-    print(p)
-    pred_array = np.array(pred, dtype=object).reshape((-1, p)).astype(float)
-    print(pred_array)
-
+    pred_array = pred[0] # list of list, concatenate it to a single list
+    for p in pred[1:]:
+        pred_array = np.concatenate([pred_array, p])
     df_pred = dataloader.dataset.img_labels.copy()
-    print(df_pred)
+
     # create new columns
-    for i in range(p):
+    n_col = np.array(pred_array).shape[1]
+    for i in range(n_col):
         df_pred.loc[:, "pred_%d" % i] = 0
         df_pred["pred_%d" % i] = pred_array[:, i]
     # suffix with timestemp

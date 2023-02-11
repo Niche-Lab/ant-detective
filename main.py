@@ -1,8 +1,10 @@
 # native imports
 import argparse
 import os
+import gc
 
 # pytorch
+import torch
 import torch.nn as nn
 import torch.optim as optim
 
@@ -83,6 +85,10 @@ def find_ants(
         device=device,
         path_out=path_out,
     )
+    # gc
+    del model
+    gc.collect()
+    torch.cuda.empty_cache()
 
     # return
     return loss
