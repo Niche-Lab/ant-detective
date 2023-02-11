@@ -162,12 +162,11 @@ def test_wrapper(
     print("")
     print("{} Loss: {:.4f}".format("test", epoch_loss))
 
-    
     # save prediction
     print(pred)
     p = pred[0].shape[1]  # number of outputs
     print(p)
-    pred_array = np.array(pred).reshape((-1, p))
+    pred_array = np.array(pred, dtype=object).reshape((-1, p)).astype(float)
     print(pred_array)
 
     df_pred = dataloader.dataset.img_labels.copy()
