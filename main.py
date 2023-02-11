@@ -55,6 +55,15 @@ def find_ants(
     delta: float = 5.0,
 ) -> float:
 
+    # CUDA memory
+    torch.cuda.empty_cache()
+    print("CUDA memory:")
+    print(f"\tAllocated: {round(torch.cuda.memory_allocated(0) / 1024 ** 3, 1)} GB")
+    print(f"\tCached: {round(torch.cuda.memory_cached(0) / 1024 ** 3, 1)} GB")
+    print(
+        f"\tAvailable: {round(torch.cuda.get_device_properties(0).total_memory / 1024 ** 3, 1)} GB"
+    )
+
     # config
     weights = os.path.join(path_model, weights) if weights else None
     model = load_model(model="ViT", dir_weights=weights)
