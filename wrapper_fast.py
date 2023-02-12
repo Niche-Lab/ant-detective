@@ -51,11 +51,12 @@ def train_wrapper(
             counter = BatchCounter(num_batches=len(dataloader))
             running_loss = 0
 
-            RATE = 4
-            optimizer.zero_grad()
-            for i, (inputs, labels) in enumerate(dataloader):
+            for inputs, labels in dataloader:
                 inputs = inputs.float().to(device)
                 labels = labels.float().to(device)
+
+                # zero the parameter gradients
+                optimizer.zero_grad()
 
                 # gradient decent
                 with torch.set_grad_enabled(phase == "train"):
@@ -65,9 +66,7 @@ def train_wrapper(
                     # backward + optimize only if in training phase
                     if phase == "train":
                         loss.backward()
-                        if (i + 1) % RATE == 0:
-                            optimizer.step()
-                            optimizer.zero_grad()
+                        optimizer.step()
 
                 # print which batch is being processed
                 loss = loss.item()
@@ -163,7 +162,7 @@ def test_wrapper(
 def plot_curve(history: dict, name: str = "loss.png") -> None:
     import matplotlib.pyplot as plt
     # set boundary
-    plt.ylim(0, 100)
+    plt.ylim(0, 30)
     plt.plot(history["train"], label="train")
     plt.plot(history["val"], label="val")
     plt.legend()

@@ -34,7 +34,7 @@ def main():
     # config
     params = {}
     params["lr"] = (1e-5, 1e-1)
-    params["batch"] = (4, 256)
+    params["batch"] = (1, 64) # RATE = 4
     params["delta"] = (3, 20)
 
 
