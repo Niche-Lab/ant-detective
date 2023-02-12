@@ -22,6 +22,6 @@ class BatchCounter:
 
     def report(self, loss: float) -> None:
         print(
-            "\r", "Batch %d/%d: Loss %.4f" % (self.step, self.num_batches, loss), end=""
+            "\r", "Batch %d/%d: Loss %.3f" % (self.step, self.num_batches, loss), end=""
         )
         self.step += 1

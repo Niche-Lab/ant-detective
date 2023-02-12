@@ -47,10 +47,10 @@ def save_model(model: nn.Module, dir_weights: str) -> None:
 
 def get_device() -> torch.device:
     if torch.cuda.is_available():
-        print("GPU is available", flush=True)
+        print("GPU is available, CUDA used", flush=True)
         str_device = "cuda"
     elif platform.system() == "Darwin":
-        print("GPU is not available, MPS used", flush=True)
+        print("M1 GPU is available, MPS used", flush=True)
         str_device = "mps"
     else:
         print("GPU is not available, CPU used", flush=True)

@@ -1,46 +1,19 @@
 # torch imports
 import torch
 import torch.nn as nn
+from koila import lazy
 
 # native imports
 import copy
 import os
 import pandas as pd
 import numpy as np
+import gc
 
 
 # local imports
 from models.model import get_device
 from misc import Timer, BatchCounter
-
-
-def wrapper(
-    model: nn.Module,
-    loaders: dict,
-    criterion: nn.Module,
-    optimizer: torch.optim.Optimizer,
-    num_epochs: int = 10,
-    mode: str = "train",  # train or test
-) -> None:
-
-    # config
-    ROOT = os.path.dirname(os.path.abspath(__file__))
-    PATH_MODEL = os.path.join(ROOT, "models")
-    PATH_OUT = os.path.join(ROOT, "out")
-    timer = Timer()
-    device = get_device()
-    model.float().to(device)
-    model.check_param()
-
-    if mode == "train":
-        train_wrapper(
-            model, loaders, criterion, optimizer, device, PATH_MODEL, num_epochs
-        )
-    elif mode == "test":
-        test_wrapper(model, loaders, criterion, optimizer, device, PATH_OUT)
-
-    timer.report()
-
 
 def train_wrapper(
     model: nn.Module,
@@ -53,11 +26,12 @@ def train_wrapper(
 ) -> None:
 
     model.float().to(device)
+    # model.check_param()
 
     # metrics
     val_acc_history = []
     train_acc_history = []
-    best_model_wts = copy.deepcopy(model.state_dict())
+    best_model_wts = None
     best_loss = 10e10
 
     # epochs
@@ -76,6 +50,7 @@ def train_wrapper(
             dataloader = loaders[phase]
             counter = BatchCounter(num_batches=len(dataloader))
             running_loss = 0
+
             for inputs, labels in dataloader:
                 inputs = inputs.float().to(device)
                 labels = labels.float().to(device)
@@ -83,17 +58,26 @@ def train_wrapper(
                 # zero the parameter gradients
                 optimizer.zero_grad()
 
-                # forward
-                # track history if only in train
-                with torch.set_grad_enabled(phase == "train"):
-                    # Get model outputs and calculate loss
-                    outputs = model(inputs)
-                    loss = criterion(outputs, labels)
-
-                    # backward + optimize only if in training phase
-                    if phase == "train":
+                # gradient decent
+                if phase == "train":
+                    with torch.enable_grad():
+                        for name, param in model.named_parameters():                
+                            param.requires_grad = True
+                        # Get model outputs and calculate loss
+                        outputs = model(inputs)
+                        loss = criterion(outputs, labels)
+                        # backward + optimize only if in training phase
                         loss.backward()
                         optimizer.step()
+                        (inputs, labels) = lazy(inputs, labels, batch=0)
+                elif phase == "val":
+                    with torch.no_grad():
+                        for name, param in model.named_parameters():                
+                            param.requires_grad = False
+                        # Get model outputs and calculate loss
+                        outputs = model(inputs)
+                        loss = criterion(outputs, labels)
+                        (inputs, labels) = lazy(inputs, labels, batch=0)
 
                 # print which batch is being processed
                 loss = loss.item()
@@ -101,8 +85,7 @@ def train_wrapper(
                 running_loss += loss * inputs.size(0)
 
             epoch_loss = running_loss / len(dataloader.dataset)
-            print("")
-            print("{} Loss: {:.4f}".format(phase, epoch_loss))
+            print("  | %s loss: %.3f" % (phase, epoch_loss))
 
             if phase == "val" and epoch_loss < best_loss:
                 best_loss = epoch_loss
@@ -112,11 +95,12 @@ def train_wrapper(
             elif phase == "train":
                 train_acc_history.append(epoch_loss)
 
-        print()
 
     history = dict({"train": train_acc_history, "val": val_acc_history})
     plot_curve(history, name=os.path.join(path_out, "loss_%.3f.png" % best_loss))
-    print("Best val loss: {:4f}".format(best_loss))
+    print("-" * 10)
+    print(" Best val loss: %.3f" % (best_loss))
+    print("-" * 10)
 
     torch.save(best_model_wts, os.path.join(path_out, "model.pt"))
     torch.save(best_model_wts, os.path.join(path_out, "model_%.3f.pt" % (best_loss)))
@@ -142,22 +126,32 @@ def test_wrapper(
         inputs = inputs.float().to(device)
         labels = labels.float().to(device)
 
-        # forward
-        # track history if only in train
-        with torch.set_grad_enabled(False):
+        # forward only
+        with torch.no_grad():
+            for name, param in model.named_parameters():                
+                param.requires_grad = False
             # Get model outputs and calculate loss
             outputs = model(inputs)
-            loss = criterion(outputs, labels)
-            pred.append(outputs.cpu().detach().numpy())
+            (inputs, labels) = lazy(inputs, labels, batch=0)
+        loss = criterion(outputs, labels)
+        pred.append(outputs.cpu().detach().numpy())
+        # GC
+        del outputs
+        torch.cuda.empty_cache()
 
         # print which batch is being processed
         loss = loss.item()
         counter.report(loss=loss)
         running_loss += loss * inputs.size(0)
 
+    del model
+    gc.collect()
+    torch.cuda.empty_cache()
+
     epoch_loss = running_loss / len(dataloader.dataset)
-    print("")
-    print("{} Loss: {:.4f}".format("test", epoch_loss))
+    print("  | test loss: %.3f" % (epoch_loss))
+    print("-" * 10)
+    print()
 
     # save prediction
     pred_array = pred[0] # list of list, concatenate it to a single list
@@ -178,7 +172,8 @@ def test_wrapper(
 
 def plot_curve(history: dict, name: str = "loss.png") -> None:
     import matplotlib.pyplot as plt
-
+    # set boundary
+    plt.ylim(0, 30)
     plt.plot(history["train"], label="train")
     plt.plot(history["val"], label="val")
     plt.legend()

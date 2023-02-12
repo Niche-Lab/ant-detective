@@ -2,6 +2,7 @@
 import argparse
 import os
 import gc
+import time
 
 # pytorch
 import torch
@@ -13,6 +14,7 @@ from models.model import load_model, get_device
 from data.dataset import create_loader
 from wrapper import train_wrapper, test_wrapper
 from misc import Timer
+from device import free_gpu_cache
 
 
 def main(argv: list) -> None:
@@ -55,14 +57,8 @@ def find_ants(
     delta: float = 5.0,
 ) -> float:
 
-    # CUDA memory
+    gc.collect()
     torch.cuda.empty_cache()
-    print("CUDA memory:")
-    print(f"\tAllocated: {round(torch.cuda.memory_allocated(0) / 1024 ** 3, 1)} GB")
-    print(f"\tCached: {round(torch.cuda.memory_cached(0) / 1024 ** 3, 1)} GB")
-    print(
-        f"\tAvailable: {round(torch.cuda.get_device_properties(0).total_memory / 1024 ** 3, 1)} GB"
-    )
 
     # config
     weights = os.path.join(path_model, weights) if weights else None
@@ -94,10 +90,15 @@ def find_ants(
         device=device,
         path_out=path_out,
     )
+
     # gc
+    model = None
+    loader = None
     del model
+    del loader
     gc.collect()
     torch.cuda.empty_cache()
+    time.sleep(10)
 
     # return
     return loss

@@ -12,5 +12,11 @@
 module load site/tinkercliffs-rome_a100/easybuild/setup
 module load Anaconda3/2020.11
 source activate tf
+ 
+export PYTORCH_CUDA_ALLOC_CONF=garbage_collection_threshold:0.6,max_split_size_mb:128
 
-python3.9 /home/niche/find_ants/optimization.py
+for i in {1..200}
+do
+    echo "Iteration $i"
+    python3.9 /home/niche/find_ants/optimization.py
+done
