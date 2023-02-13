@@ -17,7 +17,7 @@ def loss_function(lr, batch, delta):
     PATH_OUT = os.path.join(ROOT, "out")
 
     return -find_ants(
-        weights=None,
+        weights="model_0.717.pt",
         data="peptone_sucrose",
         epochs=20,
         batch=int(batch),

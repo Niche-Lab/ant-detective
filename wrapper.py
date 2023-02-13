@@ -92,7 +92,6 @@ def train_wrapper(
     print(" Best val loss: %.3f" % (best_loss))
     print("-" * 10)
 
-    torch.save(best_model_wts, os.path.join(path_out, "model.pt"))
     torch.save(best_model_wts, os.path.join(path_out, "model_%.3f.pt" % (best_loss)))
     model.load_state_dict(best_model_wts)
     return model
@@ -163,7 +162,7 @@ def test_wrapper(
 def plot_curve(history: dict, name: str = "loss.png") -> None:
     import matplotlib.pyplot as plt
     # set boundary
-    plt.ylim(0, 100)
+    plt.ylim(0, 20)
     plt.plot(history["train"], label="train")
     plt.plot(history["val"], label="val")
     plt.legend()
