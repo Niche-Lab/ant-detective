@@ -87,12 +87,12 @@ def train_wrapper(
 
 
     history = dict({"train": train_acc_history, "val": val_acc_history})
-    plot_curve(history, name=os.path.join(path_out, "loss_%.3f.png" % best_loss))
+    if best_loss < 5:
+        plot_curve(history, name=os.path.join(path_out, "loss_%.3f.png" % best_loss))
     print("-" * 10)
     print(" Best val loss: %.3f" % (best_loss))
     print("-" * 10)
 
-    torch.save(best_model_wts, os.path.join(path_out, "model_%.3f.pt" % (best_loss)))
     model.load_state_dict(best_model_wts)
     return model
 
@@ -133,9 +133,6 @@ def test_wrapper(
         counter.report(loss=loss)
         running_loss += loss * inputs.size(0)
 
-    del model
-    gc.collect()
-    torch.cuda.empty_cache()
 
     epoch_loss = running_loss / len(dataloader.dataset)
     print("  | test loss: %.3f" % (epoch_loss))
@@ -153,16 +150,22 @@ def test_wrapper(
     for i in range(n_col):
         df_pred.loc[:, "pred_%d" % i] = 0
         df_pred["pred_%d" % i] = pred_array[:, i]
-    # suffix with timestemp
-    df_pred.to_csv(os.path.join(path_out, "pred_%.3f.csv" % epoch_loss), index=False)
+    # save only if loss is lower than 1
+    if epoch_loss < 1:
+        df_pred.to_csv(os.path.join(path_out, "pred_%.3f.csv" % epoch_loss), index=False)
+        torch.save(model.state_dict(), os.path.join(path_out, "model_%.3f.pt" % (epoch_loss)))
+
     # return loss
+    del model
+    gc.collect()
+    torch.cuda.empty_cache()
     return epoch_loss
 
 
 def plot_curve(history: dict, name: str = "loss.png") -> None:
     import matplotlib.pyplot as plt
     # set boundary
-    plt.ylim(0, 20)
+    plt.ylim(0, 5)
     plt.plot(history["train"], label="train")
     plt.plot(history["val"], label="val")
     plt.legend()

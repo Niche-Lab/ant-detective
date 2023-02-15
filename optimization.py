@@ -17,7 +17,7 @@ def loss_function(lr, batch, delta):
     PATH_OUT = os.path.join(ROOT, "out")
 
     return -find_ants(
-        weights="model_0.717.pt",
+        weights=None,
         data="peptone_sucrose",
         epochs=20,
         batch=int(batch),
@@ -33,9 +33,9 @@ def loss_function(lr, batch, delta):
 def main():
     # config
     params = {}
-    params["lr"] = (1e-5, 1e-1)
-    params["batch"] = (1, 64) # RATE = 4
-    params["delta"] = (3, 20)
+    params["lr"] = (1e-8, 1e-4)
+    params["batch"] = (1, 8) # RATE = 4
+    params["delta"] = (2, 10)
 
 
     optimizer = BayesianOptimization(f=loss_function, pbounds=params)

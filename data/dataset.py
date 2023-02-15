@@ -41,7 +41,8 @@ class PepSuc_Dataset(Dataset):
         self.transform = transforms.Compose(
             [
                 # transforms.RandomResizedCrop(input_size),
-                # transforms.RandomHorizontalFlip(),
+                transforms.RandomHorizontalFlip(),
+                transforms.RandomVerticalFlip(),
                 transforms.Resize((384, 384)),
                 transforms.ToTensor(),
                 transforms.ColorJitter(hue=0.3, brightness=0.05),
