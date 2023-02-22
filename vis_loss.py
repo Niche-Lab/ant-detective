@@ -1,15 +1,17 @@
-import dash
-from dash.exceptions import PreventUpdate
-from dash import dcc, html
-from dash.dependencies import Input, Output
-import plotly.express as px
-import pandas as pd
 import os
+from dash import Dash, dcc, html, Input, Output, no_update
+import plotly.graph_objects as go
+import pandas as pd
+import numpy as np
+
 
 # CONSTANTS
 ROOT = os.path.join("/Users/niche/OneDrive - Virginia Tech/_03_Papers", "find_ants")
-DIR_PRED = os.path.join(ROOT, "out", "pred_0.341.csv")
+MODELNAME = "pred_0.401.csv"
+DIR_PRED = os.path.join(ROOT, "out", MODELNAME)
 DIR_IMGS = os.path.join(ROOT, "data", "peptone_sucrose", "test")
+JITTER = 0.1
+PAD = 50
 os.chdir(ROOT)
 
 # predictions
@@ -21,7 +23,6 @@ df_pred["filename"] = df_pred["filename"].apply(lambda x: os.path.join(DIR_IMGS,
 df_pred["err_su"] = abs(df_pred["p_sucrose"] - df_pred["sucrose"])
 df_pred["err_pep"] = abs(df_pred["p_peptone"] - df_pred["peptone"])
 df_pred["err_total"] = abs(df_pred["p_total"] - df_pred["total_foragers"])
-
 df_pred = df_pred.loc[
     :,
     [
@@ -42,13 +43,6 @@ df_pred["name"] = df_pred["filename"].apply(lambda x: os.path.basename(x))
 correlation = df_pred["total_foragers"].corr(df_pred["p_total"])
 mae = df_pred["err_total"].mean()
 
-from dash import Dash, dcc, html, Input, Output, no_update
-import plotly.graph_objects as go
-import pandas as pd
-import numpy as np
-
-JITTER = 0.1
-PAD = 50
 
 fig = go.Figure(
     data=[

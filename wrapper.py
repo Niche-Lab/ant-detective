@@ -15,6 +15,7 @@ import gc
 from models.model import get_device
 from misc import Timer, BatchCounter
 
+
 def train_wrapper(
     model: nn.Module,
     loaders: dict,
@@ -85,7 +86,6 @@ def train_wrapper(
             elif phase == "train":
                 train_acc_history.append(epoch_loss)
 
-
     history = dict({"train": train_acc_history, "val": val_acc_history})
     if best_loss < 5:
         plot_curve(history, name=os.path.join(path_out, "loss_%.3f.png" % best_loss))
@@ -117,7 +117,7 @@ def test_wrapper(
 
         # forward only
         with torch.no_grad():
-            for name, param in model.named_parameters():                
+            for name, param in model.named_parameters():
                 param.requires_grad = False
             # Get model outputs and calculate loss
             outputs = model(inputs)
@@ -133,14 +133,13 @@ def test_wrapper(
         counter.report(loss=loss)
         running_loss += loss * inputs.size(0)
 
-
     epoch_loss = running_loss / len(dataloader.dataset)
     print("  | test loss: %.3f" % (epoch_loss))
     print("-" * 10)
     print()
 
     # save prediction
-    pred_array = pred[0] # list of list, concatenate it to a single list
+    pred_array = pred[0]  # list of list, concatenate it to a single list
     for p in pred[1:]:
         pred_array = np.concatenate([pred_array, p])
     df_pred = dataloader.dataset.img_labels.copy()
@@ -152,8 +151,12 @@ def test_wrapper(
         df_pred["pred_%d" % i] = pred_array[:, i]
     # save only if loss is lower than 1
     if epoch_loss < 1:
-        df_pred.to_csv(os.path.join(path_out, "pred_%.3f.csv" % epoch_loss), index=False)
-        torch.save(model.state_dict(), os.path.join(path_out, "model_%.3f.pt" % (epoch_loss)))
+        df_pred.to_csv(
+            os.path.join(path_out, "pred_%.3f.csv" % epoch_loss), index=False
+        )
+        torch.save(
+            model.state_dict(), os.path.join(path_out, "model_%.3f.pt" % (epoch_loss))
+        )
 
     # return loss
     del model
@@ -164,6 +167,7 @@ def test_wrapper(
 
 def plot_curve(history: dict, name: str = "loss.png") -> None:
     import matplotlib.pyplot as plt
+
     # set boundary
     plt.ylim(0, 5)
     plt.plot(history["train"], label="train")

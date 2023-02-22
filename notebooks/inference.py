@@ -3,15 +3,19 @@ import torch
 import torch.nn as nn
 from torchvision.io import read_image
 from torchvision import transforms
+import matplotlib.pyplot as plt
 
 # native importss
 import os
+import numpy as np
+
+os.chdir("..")
+
 from PIL import Image
 from models.model import load_model
 
-
 # PATH
-ROOT = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PATH_MODEL = os.path.join(ROOT, "models")
 PATH_DATA = os.path.join(ROOT, "data", "peptone_sucrose")
 weights = os.path.join(PATH_MODEL, "model.pt")
@@ -21,10 +25,11 @@ model.heads = nn.Identity()
 # load tensor
 filename = os.path.join(PATH_DATA, "train", "t1_421.JPG")
 img = Image.open(filename)
-img
 
 transf = transforms.Compose(
     [
+        transforms.RandomHorizontalFlip(),
+        transforms.RandomVerticalFlip(),
         transforms.Resize((384, 384)),
         transforms.ToTensor(),
         transforms.ColorJitter(hue=0.3, brightness=0.05),
@@ -32,10 +37,11 @@ transf = transforms.Compose(
     ]
 )
 
-import matplotlib.pyplot as plt
+plt.imshow(np.array(img))
 
-img_s = transf(img)
-plt.imshow(img_s.permute(1, 2, 0))
+img_s = transf(img).permute(1, 2, 0)
+plt.imshow(img_s)
+
 
 img_out = model(img_s.unsqueeze(0))
 img_out
