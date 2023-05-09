@@ -181,4 +181,4 @@ def display_hover(hoverData):
 
 if __name__ == "__main__":
     # export as html
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=8051)

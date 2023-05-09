@@ -25,6 +25,7 @@ ipynb_checkpoints
 
 # torch model
 *.pt
+*.pth
 *.log
 *.err
 
