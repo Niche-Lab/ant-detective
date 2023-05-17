@@ -6,6 +6,7 @@ __pycache__
 *.ipynb_checkpoints
 ipynb_checkpoints
 .env
+**/node_modules/*
 
 # common files
 *.csv
@@ -22,12 +23,25 @@ ipynb_checkpoints
 *.mp4
 *.mov
 *.avi
+*.bmp
+*.zip
+
+# log
+*.log
+*.err
+*.out
 
 # torch model
 *.pt
 *.pth
 *.log
 *.err
+*.yaml
+*.ckpt
+
+# folders
+slides/
+modules/
 
 # exception
 !**/demo/**

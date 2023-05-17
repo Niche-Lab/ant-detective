@@ -1,0 +1,37 @@
+# env
+*.DS_Store
+**/.DS_Store
+__pycache__
+.vscode
+*.ipynb_checkpoints
+ipynb_checkpoints
+.env
+
+# common files
+*.csv
+*.txt
+*.json
+*.png
+*.jpg
+*.JPG
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.tif
+*.mp4
+*.mov
+*.avi
+
+# torch model
+*.pt
+*.pth
+*.log
+*.err
+
+# exception
+!**/demo/**
+!requirements.txt
+
+# clone
+GroundingDINO/**
