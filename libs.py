@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 
-def split_img(image, rate=8, newsize=(640, 640)):
+def tile_img(image, rate=8, newsize=(640, 640)):
     """
     split image into rate x rate pieces
     ---

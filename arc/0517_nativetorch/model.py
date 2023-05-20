@@ -14,7 +14,7 @@ from transformers import (
 )
 
 # local modules
-from .ViT import Niche_ViT
+from ...models.vit import Niche_ViT
 
 
 def freeze_param(model: nn.Module, freeze: bool = True) -> None:
