@@ -11,19 +11,19 @@ DIR_DATA = os.path.join(ROOT, "data", "raw")
 PATH_EXCEL = os.path.join(DIR_DATA, "OHA Foraging Trials Recount Whole Tray.xlsx")
 PATH_OUT = os.path.join(DIR_DATA, "peptone_sucrose", "annotations.csv")
 
-annotations = pd.read_csv(PATH_OUT)
-len(annotations)
-annotations
-traits = ["peptone", "sucrose"]
-labels = annotations.loc[:, traits].values
-labels = labels.astype("float").reshape((-1, len(traits)))
-idx = 3
-os.path.join(os.path.dirname(PATH_OUT), annotations.loc[idx, "filename"])
+# annotations = pd.read_csv(PATH_OUT)
+# len(annotations)
+# annotations
+# traits = ["peptone", "sucrose"]
+# labels = annotations.loc[:, traits].values
+# labels = labels.astype("float").reshape((-1, len(traits)))
+# idx = 3
+# os.path.join(os.path.dirname(PATH_OUT), annotations.loc[idx, "filename"])
 
-annotations.query("split in ['train', 'val']")
-annotations.loc[annotations.split != "test", "split"] = "train"
-annotations.query("split == 'train'").trial.unique()
-np.random.choice([1, 2, 3], 1)[0]
+# annotations.query("split in ['train', 'val']")
+# annotations.loc[annotations.split != "test", "split"] = "train"
+# annotations.query("split == 'train'").trial.unique()
+# np.random.choice([1, 2, 3], 1)[0]
 
 
 def main():
