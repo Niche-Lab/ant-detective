@@ -43,7 +43,7 @@ df_raw.columns = [
     "name_raw",
     "manual_peptone",
     "manual_sucrose",
-    "namual_all",
+    "manual_all",
     "trial",
     "split",
 ]
@@ -86,7 +86,7 @@ df_grid = df_grid.loc[
         "id",
         "manual_peptone",
         "manual_sucrose",
-        "namual_all",
+        "manual_all",
         "split",
     ],
 ]
@@ -99,7 +99,7 @@ df_ori = df_ori.loc[
         "id",
         "manual_peptone",
         "manual_sucrose",
-        "namual_all",
+        "manual_all",
         "split",
     ],
 ]
