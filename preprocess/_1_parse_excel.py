@@ -1,5 +1,13 @@
 """
-This script is used to split the data into train, val, and test sets. The outputs include two parts: images and annotation.txt
+This script is used to extract ant counts from excel spreadsheets.
+The excel spreadsheets are from the OHA Foraging Trials Recount Whole Tray.xlsx file.
+The output is a csv file with the following columns:
+    filename: the image file name
+    peptone: the number of ants on the peptone side
+    sucrose: the number of ants on the sucrose side
+    total: the total number of ants
+    trial: the trial number
+    split: the split of the data, including train,
 """
 import os
 import pandas as pd

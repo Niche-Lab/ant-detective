@@ -25,6 +25,7 @@ ipynb_checkpoints
 *.avi
 *.bmp
 *.zip
+*.tar.gz
 
 # log
 *.log
