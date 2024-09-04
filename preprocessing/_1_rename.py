@@ -6,14 +6,14 @@ import os
 
 load_dotenv('../.env')
 
-DIR_ROOT = os.getenv('DIR_ROOT')
-DIR_RAW = os.path.join(DIR_ROOT, 'data', 'raw')
-DIR_DST = os.path.join(DIR_ROOT, 'data', 'processed')
+DIR_SRC = os.getenv('DIR_SRC')
+DIR_RAW = os.path.join(DIR_SRC, 'data', 'raw')
+DIR_DST = os.path.join(DIR_SRC, 'data', 'processed')
 HEIGHT = 1080
 if not os.path.exists(DIR_DST):
     os.makedirs(DIR_DST)
 
-os.chdir(DIR_ROOT)
+os.chdir(DIR_SRC)
 os.listdir(DIR_RAW)
 
 # get mtime and to yyyymmdd-hhmm
@@ -60,50 +60,50 @@ def process(names, prefix_src, prefix_dst,
 
 
 
-# # CONTROL VS VIRUS
-# # a01: Bait Trials
-# names = dict({
-#     "src": "Bait Trials",
-#     "dst": "a01-bait-trials",
-# })
-# process_virus_based(names, ls_prefix=["Control", "1762 virus"])
+# CONTROL VS VIRUS
+# a01: Bait Trials
+names = dict({
+    "src": "Bait Trials",
+    "dst": "a01-bait-trials",
+})
+process_virus_based(names, ls_prefix=["Control", "1762 virus"])
 
-# # a02: Virus Honey Trials
-# names = dict({
-#     "src": "Virus Honey Trials",
-#     "dst": "a02-virus-honey-trials",
-# })
-# process_virus_based(names, ls_prefix=["1_OHA_007_Control", "1_OHA_007_1762"])
+# a02: Virus Honey Trials
+names = dict({
+    "src": "Virus Honey Trials",
+    "dst": "a02-virus-honey-trials",
+})
+process_virus_based(names, ls_prefix=["1_OHA_007_Control", "1_OHA_007_1762"])
 
-# # a03: Virus Sugar Trials
-# names = dict({
-#     "src": "Virus Peptone _ Sucrose Trials",
-#     "dst": "a03-virus-peptone-sucrose-trials",
-# })
-# process_virus_based(names, ls_prefix=["1_OHA_007_Control", "1_OHA_007_1762"])
+# a03: Virus Sugar Trials
+names = dict({
+    "src": "Virus Peptone _ Sucrose Trials",
+    "dst": "a03-virus-peptone-sucrose-trials",
+})
+process_virus_based(names, ls_prefix=["1_OHA_007_Control", "1_OHA_007_1762"])
 
-# # MULTI-TRIALS
-# # b01: fire_ant_activity
-# names = dict({
-#     "src": "fire_ant_activity",
-#     "dst": "b01-dense-fire-ant"
-# })
-# process_trial_based(names, n_trials=2, prefix="A", 
-#                     resize=False, rename=False)
+# MULTI-TRIALS
+# b01: fire_ant_activity
+names = dict({
+    "src": "fire_ant_activity",
+    "dst": "b01-dense-fire-ant"
+})
+process_trial_based(names, n_trials=2, prefix="A", 
+                    resize=False, rename=False)
 
-# # b02: honey_trials
-# names = dict({
-#     "src": "honey_trials",
-#     "dst": "b02-honey-trials"
-# })
-# process_trial_based(names, n_trials=4, prefix="OHA honey-lemon trial ")
+# b02: honey_trials
+names = dict({
+    "src": "honey_trials",
+    "dst": "b02-honey-trials"
+})
+process_trial_based(names, n_trials=4, prefix="OHA honey-lemon trial ")
 
-# # b03: honey_trials_v2
-# names = dict({
-#     "src": "honey_trials_v2",
-#     "dst": "b03-honey-trials-v2"
-# })
-# process_trial_based(names, n_trials=11, prefix="Trial ")
+# b03: honey_trials_v2
+names = dict({
+    "src": "honey_trials_v2",
+    "dst": "b03-honey-trials-v2"
+})
+process_trial_based(names, n_trials=11, prefix="Trial ")
 
 # b04: peptone_sucrose
 names = dict({
