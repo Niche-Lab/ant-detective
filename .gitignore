@@ -47,3 +47,5 @@ modules/
 # exception
 !**/demo/**
 !requirements.txt
+!metadata.csv
+!summary.csv
