@@ -5,21 +5,16 @@ prerequisite: YOLO annotation from Roboflow. The train path must be modified by 
 """
 
 import os
-import sys
-import re
 import numpy as np
-from datetime import datetime
 from dotenv import load_dotenv
 import tqdm
-import supervision as sv
-load_dotenv('../.env')
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 DIR_SRC = os.getenv('DIR_SRC')
 DIR_DATA = os.getenv('DIR_DATA_ROBO')
 DIR_DATA_RAW = os.getenv('DIR_DATA_RAW')
 DIR_OUT = os.path.join(os.path.dirname(DIR_DATA), "final")
 # sys.path.append(DIR_SRC)
 # from data.yolo import YOLO_API
-
 
 class YOLO_ROBOFLOW_API:
     def __init__(self, path_yaml):
@@ -120,7 +115,7 @@ class YOLO_ROBOFLOW_API:
         idx_keep = [i for i, n in enumerate(ls_n) if n > 3]
         self.ids['new_train'] = list(np.array(self.ids['new_train'])[idx_keep])
 
-    
+    dir_data_raw = DIR_DATA_RAW
     
 def append_subset_id(ids, dir_data_raw):
     """
@@ -134,7 +129,9 @@ def append_subset_id(ids, dir_data_raw):
         # loop over actual dirs
         for d in ls_dirs:
             if prefix in d:
-                ls_filename = [f[:-4] for f in os.listdir(os.path.join(dir_data_raw, d))]
+                # .JPEG, skip last 5 letters, otherwise, skip last 4 letters (.jpg)
+                skip = -5 if prefix == 'b01' else -4
+                ls_filename = [f[:skip] for f in os.listdir(os.path.join(dir_data_raw, d))]
                 # loop over filenames and append it to the list
                 ids[prefix] = []
                 for f_raw in ls_filename:
@@ -145,6 +142,7 @@ def append_subset_id(ids, dir_data_raw):
                             break
     # return 
     return ids
+
 
 def assign_new_split(ids):
     # new train: b02: t1 and t2, b03: t1-t5, b04: t1-t5
