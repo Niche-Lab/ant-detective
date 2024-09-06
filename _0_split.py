@@ -8,13 +8,11 @@ import os
 import numpy as np
 from dotenv import load_dotenv
 import tqdm
-load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
+load_dotenv(".env")
 DIR_SRC = os.getenv('DIR_SRC')
-DIR_DATA = os.getenv('DIR_DATA_ROBO')
-DIR_DATA_RAW = os.getenv('DIR_DATA_RAW')
-DIR_OUT = os.path.join(os.path.dirname(DIR_DATA), "final")
-# sys.path.append(DIR_SRC)
-# from data.yolo import YOLO_API
+DIR_DATA_RAW  = os.getenv('DIR_DATA_RAW')
+DIR_DATA_ROBO = os.getenv('DIR_DATA_ROBO')
+
 
 class YOLO_ROBOFLOW_API:
     def __init__(self, path_yaml):
@@ -97,11 +95,11 @@ class YOLO_ROBOFLOW_API:
     def keys(self):
         return self.ids.keys()
         
-    def filter_low_train(self):
+    def filter_low_train(self, splitname):
         """
         Remove the images with low number of labels
         """
-        path_lbs_train = self.ids_to_labels(self.ids['new_train'])
+        path_lbs_train = self.ids_to_labels(self.ids[splitname])
         # get number of lines in each label file
         ls_n = []
         n_0 = 0
@@ -113,9 +111,9 @@ class YOLO_ROBOFLOW_API:
                 ls_n.append(n)
         # from 1591 to 698 (43.87%)
         idx_keep = [i for i, n in enumerate(ls_n) if n > 3]
-        self.ids['new_train'] = list(np.array(self.ids['new_train'])[idx_keep])
+        print("From %d to %d (%.2f%%)" % (len(ls_n), len(idx_keep), 100 * len(idx_keep) / len(ls_n)))
+        self.ids[splitname] = list(np.array(self.ids[splitname])[idx_keep])
 
-    dir_data_raw = DIR_DATA_RAW
     
 def append_subset_id(ids, dir_data_raw):
     """
@@ -140,24 +138,38 @@ def append_subset_id(ids, dir_data_raw):
                         if f_raw in f_robo:
                             ids[prefix].append(f_robo)
                             break
+    # special case to avoid mixing up with t1-A1_17
+    ids["b01"].append("t1-A1_1_JPEG.rf.aa31bc41fb5cd460b62715fdf93014fe")
     # return 
     return ids
 
 
 def assign_new_split(ids):
+    # study 1
     # new train: b02: t1 and t2, b03: t1-t5, b04: t1-t5
-    ids["new_train"] = [f for f in ids["b02"] if "t1-" in f or "t2-" in f] +\
-        [f for f in ids["b03"] if "t1-" in f or "t2-" in f or "t3-" in f or "t4-" in f or "t5-" in f] +\
-            [f for f in ids["b04"] if "t1-" in f or "t2-" in f or "t3-" in f or "t4-" in f or "t5-" in f]
-    # new val: b02: t3, b03: t6, b04: t6
-    ids["new_val"] = [f for f in ids["b02"] if "t3-" in f] +\
-            [f for f in ids["b03"] if "t6-" in f] +\
-                [f for f in ids["b04"] if "t6-" in f]
+    ids["s1_train"] = \
+        [f for f in ids["b02"] if "t1-" in f or "t2-" in f or "t3-" in f] +\
+        [f for f in ids["b03"] if "t1-" in f or "t2-" in f or "t3-" in f or "t4-" in f or "t5-" in f or "t6-" in f] +\
+        [f for f in ids["b04"] if "t1-" in f or "t2-" in f or "t3-" in f or "t4-" in f or "t5-" in f or "t6-" in f]
     # new test
-    ids["new_test_b03"] = [f for f in ids["b03"] if "t7-" in f or "t8-" in f or "t9-" in f]
-    ids["new_test_b04"] = [f for f in ids["b04"] if "t7-" in f or "t8-" in f]
-    for new_test in ["b01", "b05", "b06", "a01", "a02", "a03"]:
-        ids["new_test_%s" % new_test] = ids[new_test]
+    # similar
+    ids["s1_test_a01"] = [f for f in ids["b03"] if "t7-" in f or "t8-" in f or "t9-" in f]
+    ids["s1_test_a02"] = [f for f in ids["b04"] if "t7-" in f or "t8-" in f]
+    ids["s1_test_a03"] = ids["b05"]
+    # different
+    ids["s1_test_b01"] = ids["b06"]
+    ids["s1_test_b02"] = ids["a03"]
+    ids["s1_test_b03"] = ids["b01"] # dense fire ant
+    # pseudo test split for pyniche YOLO_API
+    ids["s1_test"] = ids["b01"]
+    
+    # study 2
+    ids["s2_train"] = ids["b02"] + ids["b03"] + ids["b04"] +\
+                        ids["b05"] + ids["b06"] +\
+                            ids["a01"] + ids["a02"] + ids["a03"]
+    ids["s2_test"] = ids["b01"]
+    
+    # return
     return ids
 
 def check_split_dir(dir_out):
@@ -174,7 +186,7 @@ def write_dataset(data, keys_new, dir_out):
 
 def write_images_labels(ids, keys, dir_out):
     for key in keys:
-        subname = key.replace("new_", "")
+        subname = key[3:] # skip s1_ or s2_
         dir_key = os.path.join(dir_out, subname)
         check_split_dir(dir_key)
         for id in tqdm.tqdm(ids[key], desc="Writing %s" % subname):
@@ -189,22 +201,22 @@ def write_images_labels(ids, keys, dir_out):
 
 def write_yaml(data, keys_new, dir_out):
     with open(os.path.join(dir_out, "data.yaml"), "w") as f:
-        f.write("path: .\n")
+        f.write("path: %s\n" % dir_out)
         f.write("nc: %d\n" % data.nc)
         f.write("names: ['%s']\n" % "', '".join(data.classes))
         for s in keys_new:
-            key = s.replace("new_", "")
+            key = s[3:] # skip s1_ or s2_
             f.write("%s: %s/images\n" % (key, key))
 
-
 if __name__ == "__main__":
-    path_yaml = os.path.join(DIR_DATA, "data.yaml")
+    path_yaml = os.path.join(DIR_DATA_ROBO, "data.yaml")
     data = YOLO_ROBOFLOW_API(path_yaml)
-    data.filter_low_train()
-    keys_new = [k for k in data.ids.keys() if "new" in k]
-    dir_out = os.path.join(os.path.dirname(DIR_DATA), "final")
-    write_dataset(data, keys_new, dir_out)
-
+    dir_root = os.path.dirname(DIR_DATA_ROBO)
+    for i in [1, 2]:
+        dir_out = os.path.join(dir_root, "study%d" % i)
+        data.filter_low_train("s%d_train" % i)
+        keys_new = [k for k in data.ids.keys() if "s%d_" % i in k]
+        write_dataset(data, keys_new, dir_out)
 
 
 

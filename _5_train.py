@@ -18,7 +18,6 @@ This trial aims to compare the performance difference based on two factors:
 # 1. Imports -------------------------------------------------------------------
 # native imports
 import os
-import sys
 import argparse
 
 # import torch
@@ -74,7 +73,8 @@ def main(args):
         modelclass=NicheYOLO,
         checkpoint=model,
     )
-    test_splits = ["test_a01", "test_a02", "test_a03", "test_b01", "test_b03", "test_b04", "test_b05", "test_b06", ]
+    test_splits = ["test_a01", "test_a02", "test_a03", 
+                   "test_b01", "test_b03", "test_b04", "test_b05", "test_b06", ]
     trainer.set_data(
         dataclass=DIR_DATA,
         batch=16,
@@ -94,7 +94,8 @@ def main(args):
     for test_split in test_splits:
         metrics = trainer.evaluate_on_test(
             split=test_split,
-            name_task=DIR_OUT + "_" + test_split,)
+            name_task=DIR_OUT + "_" + test_split,
+            conf=0.5,)
         metrics["test_split"] = test_split
         metrics["model"] = model.split(".")[0]  # remove .pt
         metrics["n"] = n

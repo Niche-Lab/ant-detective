@@ -1,6 +1,7 @@
 """
 This script is used to prepare the data for training YOLOv8:
 
+
 1. Turn yaml from path-to-split to txt-to-split
 2. Merge train and val
 3. Clone the folder for 4 times for multi-threading
