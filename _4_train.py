@@ -35,6 +35,7 @@ def main(args):
     # extract arguments
     model = args.model
     n = int(args.n)
+    study = int(args.study)
     DIR_DATA_ROOT = args.dir_data
     DIR_OUT_ROOT = args.dir_out
 
@@ -49,10 +50,16 @@ def main(args):
     # resuem iteration
     i = 1
     while True:
-        DIR_OUT = os.path.join(
-            DIR_OUT_ROOT,
-            "%s_%d_%d" % (model[:-3], n, i),
-        )
+        if study == 1:
+            DIR_OUT = os.path.join(
+                DIR_OUT_ROOT,
+                "study%d_%d_%d" % (study, n, i),
+            )
+        else:
+            DIR_OUT = os.path.join(
+                DIR_OUT_ROOT,
+                "study%d_%d" % (study, i),
+            )
         if not os.path.exists(DIR_OUT):
             break
         i += 1
@@ -64,7 +71,7 @@ def main(args):
         os.makedirs(os.path.dirname(FILE_OUT), exist_ok=True)
         with open(FILE_OUT, "w") as file:
             file.write(
-                "map5095,map50,precision,recall,f1,n_all,n_fn,n_fp,test_split,model,n\n"
+                "map5095,map50,precision,recall,f1,n_all,n_fn,n_fp,study,split,model,n\n"
             )
 
     # 4. Modeling -------------------------------------------------------------
@@ -73,30 +80,34 @@ def main(args):
         modelclass=NicheYOLO,
         checkpoint=model,
     )
-    test_splits = ["test_a01", "test_a02", "test_a03", 
-                   "test_b01", "test_b03", "test_b04", "test_b05", "test_b06", ]
     trainer.set_data(
         dataclass=DIR_DATA,
         batch=16,
-        n=n,
+        n=n if study == 1 else None, # use all data for study 2
+        k=5 if study == 1 else 0, # no shuffle for study 2
         classes=["ant"],
-        extra_splits=test_splits,
     )
     trainer.set_out(DIR_OUT)
     trainer.fit(
-        epochs=100,
+        epochs=2,
         rm_threshold=0,
         copy_paste=0.3,
         mixup=0.15,
     )
 
     # 5. Evaluation -------------------------------------------------------------
+    if study == 1:
+        test_splits = ["test_a01", "test_a02", "test_a03", 
+                       "test_b01", "test_b02", "test_b03",]
+    else:
+        test_splits = ["test", "test_2x2", "test_2x4", "test_4x4", "test_4x5", ]
     for test_split in test_splits:
         metrics = trainer.evaluate_on_test(
             split=test_split,
             name_task=DIR_OUT + "_" + test_split,
             conf=0.5,)
-        metrics["test_split"] = test_split
+        metrics["study"] = study
+        metrics["split"] = test_split
         metrics["model"] = model.split(".")[0]  # remove .pt
         metrics["n"] = n
         line = ",".join([str(value) for value in metrics.values()])
@@ -113,6 +124,11 @@ if __name__ == "__main__":
         "--model",
         type=str,
         help="yolo checkpoint",
+    )
+    parser.add_argument(
+        "--study",
+        type=int,
+        help="study number, 1 or 2",
     )
     parser.add_argument(
         "--n",

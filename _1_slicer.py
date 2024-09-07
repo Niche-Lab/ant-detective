@@ -22,7 +22,6 @@ step 2:
 """
 
 import os
-import numpy as np
 from dotenv import load_dotenv
 import cv2
 import tqdm
@@ -41,6 +40,20 @@ def main():
         slice_images(DIR_DENSE_TEST, DIR_DENSE_TEST + "_%sx%s" % (slice_x, slice_y),
                     slice_x=slice_x, slice_y=slice_y)
     mv_to_val(ls_slices)
+    modify_yaml()
+
+def modify_yaml():
+    with open(os.path.join(DIR_STUDY, "data.yaml"), "w") as f:
+        f.write("path: %s\n" % DIR_STUDY)
+        f.write("nc: 1\n")
+        f.write("names: ['ant']\n")
+        f.write(f"train: {DIR_STUDY}/train\n")
+        f.write(f"val: {DIR_STUDY}/val\n")
+        f.write(f"test: {DIR_STUDY}/test\n")
+        f.write(f"test_2x2: {DIR_STUDY}/test_2x2\n")
+        f.write(f"test_2x4: {DIR_STUDY}/test_2x4\n")
+        f.write(f"test_4x4: {DIR_STUDY}/test_4x4\n")
+        f.write(f"test_4x5: {DIR_STUDY}/test_4x5\n")
 
 def mv_to_val(ls_slices):
     FILE_A1 = "t1-A1_1_JPEG"
