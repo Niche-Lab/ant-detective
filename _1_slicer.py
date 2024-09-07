@@ -15,9 +15,11 @@ study2
     test_patch <output> patch images for test
 
 
+step 1:
+    slice image in the test folder
+step 2:
+    move one set of images to the val folder
 """
-
-
 
 import os
 import numpy as np
@@ -31,40 +33,74 @@ DIR_STUDY = os.path.join(DIR_DATA, "study2")
 DIR_DENSE_VAL = os.path.join(DIR_STUDY, "val")
 DIR_DENSE_TEST = os.path.join(DIR_STUDY, "test")
 
+def main():
+    ls_slices = [(2, 2), (2, 4), (4, 4), (4, 5)]
+    for slices in ls_slices:
+        slice_x, slice_y = slices
+        print(f"Slicing images into {slice_x}x{slice_y} patches...")
+        slice_images(DIR_DENSE_TEST, DIR_DENSE_TEST + "_%sx%s" % (slice_x, slice_y),
+                    slice_x=slice_x, slice_y=slice_y)
+    mv_to_val(ls_slices)
 
-# Example usage:
-image_folder = "path_to_images"
-label_folder = "path_to_labels"
-output_image_folder = "path_to_output_images"
-output_label_folder = "path_to_output_labels"
+def mv_to_val(ls_slices):
+    FILE_A1 = "t1-A1_1_JPEG"
+    FILE_A2 = "t2-A2_20_JPEG"
+    # destination
+    dir_dst = DIR_DENSE_VAL
+    dir_img_dst, dir_lb_dst = make_dir(dir_dst)
 
-for slices in [(1, 1), (2, 2), (2, 4), (4, 4), (4, 5)]:
-    slice_x, slice_y = slices
-    print(f"Slicing images into {slice_x}x{slice_y} patches...")
-    slice_image_and_annotations(
-        image_folder, 
-        label_folder, 
-        output_image_folder, 
-        output_label_folder, 
-        slice_x=slice_x, slice_y=slice_y)
+    # move patches (2x2, 2x4, 4x4, 4x5)
+    for slices in ls_slices:
+        slice_x, slice_y = slices
+        # source
+        dir_src = DIR_DENSE_TEST + "_%sx%s" % (slice_x, slice_y)
+        dir_img_src = os.path.join(dir_src, "images")
+        dir_lb_src = os.path.join(dir_src, "labels")
+        # mv images
+        for f in os.listdir(dir_img_src):
+            if FILE_A1 in f or FILE_A2 in f:
+                mv_src = os.path.join(dir_img_src, f)
+                mv_dst = os.path.join(dir_img_dst, f)
+                os.rename(mv_src, mv_dst)
+        # mv labels
+        for f in os.listdir(dir_lb_src):
+            if FILE_A1 in f or FILE_A2 in f:
+                mv_src = os.path.join(dir_lb_src, f)
+                mv_dst = os.path.join(dir_lb_dst, f)
+                os.rename(mv_src, mv_dst)
+    # move test (1x1) images
+    dir_img_src = os.path.join(DIR_DENSE_TEST, "images")
+    dir_lb_src = os.path.join(DIR_DENSE_TEST, "labels")
+    for f in os.listdir(dir_img_src):
+        if FILE_A1 in f or FILE_A2 in f:
+            mv_src = os.path.join(dir_img_src, f)
+            mv_dst = os.path.join(dir_img_dst, f)
+            os.rename(mv_src, mv_dst)
+    for f in os.listdir(dir_lb_src):
+        if FILE_A1 in f or FILE_A2 in f:
+            mv_src = os.path.join(dir_lb_src, f)
+            mv_dst = os.path.join(dir_lb_dst, f)
+            os.rename(mv_src, mv_dst)
     
-    
-def slice_image_and_annotations(
-    image_folder,  # path to the folder containing the images
-    label_folder,  # path to the folder containing the labels
-    output_image_folder, # path to the folder where the sliced images will be saved
-    output_label_folder, # path to the folder where the sliced labels will be saved
-    slice_x=2, slice_y=4,):
 
-    os.makedirs(output_image_folder, exist_ok=True)
-    os.makedirs(output_label_folder, exist_ok=True)
+
+def make_dir(dir_name):
+    dir_img = os.path.join(dir_name, "images")
+    dir_lb = os.path.join(dir_name, "labels")
+    os.makedirs(dir_img, exist_ok=True)
+    os.makedirs(dir_lb, exist_ok=True)
+    return dir_img, dir_lb
+
+def slice_images(dir_src, dir_dst, slice_x, slice_y):
+    dir_img_src, dir_lb_src = make_dir(dir_src)
+    dir_img_dst, dir_lb_dst = make_dir(dir_dst)
 
     # List all images
-    image_files = [f for f in os.listdir(image_folder) if f.endswith(('.jpg', '.png'))]
+    image_files = [f for f in os.listdir(dir_img_src) if f.endswith(('.jpg', '.png'))]
 
     for image_file in image_files:
         # Load the image
-        image_path = os.path.join(image_folder, image_file)
+        image_path = os.path.join(dir_img_src, image_file)
         img = cv2.imread(image_path)
         height, width, _ = img.shape
 
@@ -74,7 +110,7 @@ def slice_image_and_annotations(
 
         # Load the corresponding label file
         label_file = image_file.replace('.jpg', '.txt').replace('.png', '.txt')
-        label_path = os.path.join(label_folder, label_file)
+        label_path = os.path.join(dir_lb_src, label_file)
 
         with open(label_path, 'r') as f:
             labels = f.readlines()
@@ -94,7 +130,7 @@ def slice_image_and_annotations(
                 # Create new filenames
                 filename = os.path.splitext(image_file)[0] # remove extension
                 patch_image_file = f"{filename}_{slice_x}x{slice_y}_{i}_{j}.jpg"
-                patch_image_path = os.path.join(output_image_folder, patch_image_file)
+                patch_image_path = os.path.join(dir_img_dst, patch_image_file)
                 
                 # Save the sliced image
                 cv2.imwrite(patch_image_path, patch)
@@ -121,10 +157,15 @@ def slice_image_and_annotations(
                         patch_labels.append(f"{int(class_id)} {new_cx:.6f} {new_cy:.6f} {new_w:.6f} {new_h:.6f}\n")
                 
                 # Write new label file if there are any labels in this patch
+                patch_label_file = patch_image_file.replace('.jpg', '.txt')
+                patch_label_path = os.path.join(dir_lb_dst, patch_label_file)
                 if patch_labels:
-                    patch_label_file = patch_image_file.replace('.jpg', '.txt')
-                    patch_label_path = os.path.join(output_label_folder, patch_label_file)
                     with open(patch_label_path, 'w') as f:
                         f.writelines(patch_labels)
+                else:
+                    # Still create an empty label file
+                    with open(patch_label_path, 'w') as f:
+                        pass
 
-    print("Processing complete.")
+if __name__ == "__main__":
+    main()

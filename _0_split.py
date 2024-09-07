@@ -1,6 +1,8 @@
 """
 This script generate a ready-to-use dataset for YOLO training
 
+study1 and study2 will be generated
+
 prerequisite: YOLO annotation from Roboflow. The train path must be modified by removing the relative path ".."
 """
 
