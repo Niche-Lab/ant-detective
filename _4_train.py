@@ -89,7 +89,7 @@ def main(args):
     )
     trainer.set_out(DIR_OUT)
     trainer.fit(
-        epochs=2,
+        epochs=100,
         rm_threshold=0,
         copy_paste=0.3,
         mixup=0.15,
