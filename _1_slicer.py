@@ -31,18 +31,18 @@ DIR_DATA = os.getenv('DIR_DATA')
 DIR_STUDY = os.path.join(DIR_DATA, "study2")
 DIR_DENSE_VAL = os.path.join(DIR_STUDY, "val")
 DIR_DENSE_TEST = os.path.join(DIR_STUDY, "test")
+LS_SLICES = [(2, 2), (2, 4), (4, 4), (4, 10), (8, 10)]
 
 def main():
-    ls_slices = [(2, 2), (2, 4), (4, 4), (4, 5)]
-    for slices in ls_slices:
+    for slices in LS_SLICES:
         slice_x, slice_y = slices
         print(f"Slicing images into {slice_x}x{slice_y} patches...")
         slice_images(DIR_DENSE_TEST, DIR_DENSE_TEST + "_%sx%s" % (slice_x, slice_y),
                     slice_x=slice_x, slice_y=slice_y)
-    mv_to_val(ls_slices)
-    modify_yaml()
+    mv_to_val(LS_SLICES)
+    modify_yaml(LS_SLICES)
 
-def modify_yaml():
+def modify_yaml(ls_slices):
     with open(os.path.join(DIR_STUDY, "data.yaml"), "w") as f:
         f.write("path: %s\n" % DIR_STUDY)
         f.write("nc: 1\n")
@@ -50,10 +50,9 @@ def modify_yaml():
         f.write(f"train: {DIR_STUDY}/train\n")
         f.write(f"val: {DIR_STUDY}/val\n")
         f.write(f"test: {DIR_STUDY}/test\n")
-        f.write(f"test_2x2: {DIR_STUDY}/test_2x2\n")
-        f.write(f"test_2x4: {DIR_STUDY}/test_2x4\n")
-        f.write(f"test_4x4: {DIR_STUDY}/test_4x4\n")
-        f.write(f"test_4x5: {DIR_STUDY}/test_4x5\n")
+        for slices in ls_slices:
+            slice_x, slice_y = slices
+            f.write(f"test_{slice_x}x{slice_y}: {DIR_STUDY}/test_{slice_x}x{slice_y}\n")
 
 def mv_to_val(ls_slices):
     FILE_A1 = "t1-A1_1_JPEG"

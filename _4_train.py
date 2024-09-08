@@ -56,9 +56,10 @@ def main(args):
                 "study%d_%d_%d" % (study, n, i),
             )
         else:
+            modelname = model.split(".")[0]
             DIR_OUT = os.path.join(
                 DIR_OUT_ROOT,
-                "study%d_%d" % (study, i),
+                "study%d_%s_%d" % (study, modelname, i),
             )
         if not os.path.exists(DIR_OUT):
             break
@@ -100,7 +101,8 @@ def main(args):
         test_splits = ["test_a01", "test_a02", "test_a03", 
                        "test_b01", "test_b02", "test_b03",]
     else:
-        test_splits = ["test", "test_2x2", "test_2x4", "test_4x4", "test_4x5", ]
+        test_splits = ["test", "test_2x2", "test_2x4", "test_4x4", 
+                       "test_4x10", "test_8x10"]
     for test_split in test_splits:
         metrics = trainer.evaluate_on_test(
             split=test_split,
@@ -115,8 +117,9 @@ def main(args):
             file.write(line + "\n")
 
     # remove model weights
-    os.remove(os.path.join(DIR_OUT, "weights", "best.pt"))
     os.remove(os.path.join(DIR_OUT, "weights", "last.pt"))
+    if study == 1:
+        os.remove(os.path.join(DIR_OUT, "weights", "best.pt"))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

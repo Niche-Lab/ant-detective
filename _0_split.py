@@ -216,7 +216,7 @@ if __name__ == "__main__":
     dir_root = os.path.dirname(DIR_DATA_ROBO)
     for i in [1, 2]:
         dir_out = os.path.join(dir_root, "study%d" % i)
-        data.filter_low_train("s%d_train" % i)
+        data.filter_low_train("s%d_train" % i) # s1 (2066 -> 954 (46.18*)), s2 (3992->1597 (40.01%)), 
         keys_new = [k for k in data.ids.keys() if "s%d_" % i in k]
         write_dataset(data, keys_new, dir_out)
 
