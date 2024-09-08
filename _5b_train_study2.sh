@@ -12,7 +12,7 @@
 source activate tf
 source .env
 
-for model in "yolov8n.pt" "yolov8m.pt" "yolov8x.pt" "yolov9c.pt" "yolov9e.pt" 
+for model in "yolov8n.pt" "yolov8m.pt"
 do
     python3.9 _4_train.py\
         --model ${model}\
