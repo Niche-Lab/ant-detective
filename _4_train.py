@@ -34,6 +34,7 @@ DEVICE = "cuda"
 def main(args):
     # extract arguments
     model = args.model
+    modelname = model.split(".")[0]
     n = int(args.n)
     study = int(args.study)
     DIR_DATA_ROOT = args.dir_data
@@ -53,10 +54,9 @@ def main(args):
         if study == 1:
             DIR_OUT = os.path.join(
                 DIR_OUT_ROOT,
-                "study%d_%d_%d" % (study, n, i),
+                "study%d_%s_%d_%d" % (study, modelname, n, i),
             )
         else:
-            modelname = model.split(".")[0]
             DIR_OUT = os.path.join(
                 DIR_OUT_ROOT,
                 "study%d_%s_%d" % (study, modelname, i),
@@ -107,7 +107,8 @@ def main(args):
         metrics = trainer.evaluate_on_test(
             split=test_split,
             name_task=DIR_OUT + "_" + test_split,
-            conf=0.5,)
+            conf=0.25,
+            )
         metrics["study"] = study
         metrics["split"] = test_split
         metrics["model"] = model.split(".")[0]  # remove .pt
@@ -118,7 +119,7 @@ def main(args):
 
     # remove model weights
     os.remove(os.path.join(DIR_OUT, "weights", "last.pt"))
-    if study == 1:
+    if study == 1 and i != 1 and n != 1024:
         os.remove(os.path.join(DIR_OUT, "weights", "best.pt"))
 
 if __name__ == "__main__":

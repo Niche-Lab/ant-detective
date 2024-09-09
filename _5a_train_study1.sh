@@ -15,13 +15,16 @@ source .env
 
 for i in {1..5}
 do
-    for n in 64 128 256 512 1024
+    for model in "yolov8n.pt" "yolov8m.pt"
     do
-        python3.9 _4_train.py\
-            --model yolov8m.pt\
-            --study 1\
-            --n $n\
-            --dir_out $DIR_SRC/out/thread_${SLURM_ARRAY_TASK_ID}\
-            --dir_data ${DIR_DATA_STUDY1}_${SLURM_ARRAY_TASK_ID}
+        for n in 64 128 256 512 1024
+        do
+            python3.9 _4_train.py\
+                --model ${model}\
+                --study 1\
+                --n $n\
+                --dir_out $DIR_SRC/out/thread_${SLURM_ARRAY_TASK_ID}\
+                --dir_data ${DIR_DATA_STUDY1}_${SLURM_ARRAY_TASK_ID}
+        done
     done
 done

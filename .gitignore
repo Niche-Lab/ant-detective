@@ -50,8 +50,6 @@ modules/
 !requirements.txt
 !metadata.csv
 !summary.csv
-!results_study1.png
-!results_study2.png
-!results_eval.csv
-!results_sum.csv
-!yolo8n_study2.pt
+!*_conf50*
+!*_conf25*
+!yolo8n_study*.pt
