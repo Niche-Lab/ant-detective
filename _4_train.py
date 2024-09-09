@@ -34,6 +34,7 @@ DEVICE = "cuda"
 def main(args):
     # extract arguments
     model = args.model
+    modelname = model.split(".")[0]
     n = int(args.n)
     study = int(args.study)
     DIR_DATA_ROOT = args.dir_data
@@ -56,7 +57,6 @@ def main(args):
                 "study%d_%s_%d_%d" % (study, modelname, n, i),
             )
         else:
-            modelname = model.split(".")[0]
             DIR_OUT = os.path.join(
                 DIR_OUT_ROOT,
                 "study%d_%s_%d" % (study, modelname, i),
