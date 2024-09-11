@@ -39,13 +39,15 @@ else:
     clean_up()
     
     update_globals()
-    predict()
-    st.image(st.session_state.file_pred[0])
-    st.success("All images are loaded successfully")
-    # yyyymmdd-hhmm
-    today = datetime.datetime.now().strftime("%Y%m%d-%H%M")
-    create_download_zip("yolo", f"{today}")
- 
+    detect_count = predict()
+    if detect_count == 0:
+        st.error("No ants detected")
+    else:
+        st.image(st.session_state.file_pred[0])
+        st.success("All images are loaded successfully")
+        # yyyymmdd-hhmm
+        today = datetime.datetime.now().strftime("%Y%m%d-%H%M")
+        create_download_zip("yolo", f"{today}")
 
 # left-hand side
 show_sidebar()

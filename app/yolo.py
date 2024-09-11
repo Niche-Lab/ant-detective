@@ -67,7 +67,8 @@ def predict():
         ls_counts += [count]
     data = pd.DataFrame({"Image": ls_filenames, "Count": ls_counts})
     print(data)
-    data.to_csv("yolo/counts.csv", index=False)        
+    data.to_csv("yolo/counts.csv", index=False)
+    return img_count     
 
 def create_download_zip(
         dir_zip="yolo",
