@@ -14,6 +14,12 @@ from widgets import (
 )
 import datetime
 
+def clean_up():
+    shutil.rmtree("yolo", ignore_errors=True)
+    shutil.rmtree("cache", ignore_errors=True)
+    for f in os.listdir():
+        if f.endswith(".zip"):
+            os.remove(f)
 
 st.set_page_config(
     page_title="Ant Detective",
@@ -44,10 +50,3 @@ else:
 # left-hand side
 show_sidebar()
 
-
-def clean_up():
-    shutil.rmtree("yolo", ignore_errors=True)
-    shutil.rmtree("cache", ignore_errors=True)
-    for f in os.listdir():
-        if f.endswith(".zip"):
-            os.remove(f)
