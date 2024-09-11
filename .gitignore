@@ -27,6 +27,7 @@ events.out.tfevents.*
 *.bmp
 *.zip
 *.tar.gz
+*.pdf
 
 # log
 *.log
