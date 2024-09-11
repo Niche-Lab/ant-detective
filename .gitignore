@@ -54,3 +54,4 @@ modules/
 !*_conf50*
 !*_conf25*
 !yolo8n_study*.pt
+!app/ant_detective.pt
