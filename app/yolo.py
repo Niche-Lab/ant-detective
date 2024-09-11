@@ -21,9 +21,11 @@ yolo
         ...
 """
 def predict():
+    filepath = __file__
+    weight_path = os.path.join(os.path.dirname(filepath), "ant_detective.pt")
     ls_img = st.session_state.file_imgs
     dir_img = os.path.dirname(ls_img[0])
-    model = YOLO("ant_detective.pt")
+    model = YOLO(weight_path)
     model.predict(
         dir_img, 
         save=True,
