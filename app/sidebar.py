@@ -44,7 +44,6 @@ def show_annotations():
 def show_about():
     st.divider()
     st.subheader("James Chen (<niche@vt.edu>)")
-    st.subheader("Scotty Yang (<scottyyang@vt.edu>)")
     st.write(
         """
         School of Animal Sciences, Virginia Tech
@@ -52,6 +51,15 @@ def show_about():
         Blacksburg, VA, USA
         """
     )
+    st.subheader("Scotty Yang (<scottyyang@vt.edu>)")
+    st.write(
+        """
+        Department of Entomology, Virginia Tech
+
+        Blacksburg, VA, USA
+        """
+    )
+
     st.divider()
-    today = datetime.date.today().strftime("%B %d, %Y")
-    st.write("Last updated:", today)
+    # today = datetime.date.today().strftime("%B %d, %Y")
+    st.write("Last updated:", "September 2024")
