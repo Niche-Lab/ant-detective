@@ -29,7 +29,7 @@ st.set_page_config(
     menu_items=None,
 )
 # enable_hotkeys()
-st.title("Ant Detective 🐜")
+st.title("Ant Detective 🔎 🐜")
 st.session_state.file_ram = image_uploader()
 st.session_state.n_imgs = len(st.session_state.file_ram)
 loaded = st.session_state.n_imgs > 0
