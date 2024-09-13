@@ -1,8 +1,8 @@
+import numpy as np
+import os
 import streamlit as st
 from PIL import Image
 import cv2
-import numpy as np
-import os
 
 
 def load_image(img, tgt_width=640):
@@ -15,6 +15,10 @@ def load_image(img, tgt_width=640):
 
 
 def caching_images(path_cache="cache"):
+    """
+    save images from RAM to local storage folder (cache/)
+    track the file paths in file_imgs
+    """
     if not os.path.exists(path_cache):
         os.makedirs(path_cache, exist_ok=True)
     text_bar = "Caching images..."
@@ -23,7 +27,6 @@ def caching_images(path_cache="cache"):
     file_imgs = st.session_state.file_imgs
     file_ram = st.session_state.file_ram
     portion = int(100 / n_imgs)
-    # showing progress bar of caching images
     for i in range(n_imgs):
         filename = file_ram[i].name
         pil = load_image(file_ram[i])
@@ -32,7 +35,6 @@ def caching_images(path_cache="cache"):
         pil.save(filepath)
         bar.progress((i + 1) * portion, text=text_bar)
     bar.empty()
-
 
 
 

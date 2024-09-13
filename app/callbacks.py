@@ -5,8 +5,6 @@ from streamlit_shortcuts import add_keyboard_shortcuts
 
 def change_cur_i(i):
     # only save json_data when switching images
-    cur_i = st.session_state.cur_i
-    st.session_state.json_data[cur_i] = st.session_state.json_data_tmp
     st.session_state.cur_i = i
     print("after changed:", i)
 
@@ -32,6 +30,7 @@ def next_img():
     i = st.session_state.cur_i
     n_imgs = st.session_state.n_imgs
     i += 1
+    # circular
     if i >= n_imgs:
         i = 0
     change_cur_i(i)

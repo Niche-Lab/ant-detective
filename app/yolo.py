@@ -1,10 +1,16 @@
 from ultralytics import YOLO
+import cv2
+from PIL import Image, ImageDraw, ImageFont
+
 import streamlit as st
 import os
 import shutil
 import pandas as pd
-import base64
-
+import numpy as np
+import time
+import streamlit as st
+from streamlit_webrtc import webrtc_streamer
+import av
 """
 yolo
     /labels
@@ -20,12 +26,52 @@ yolo
         t1-A1_14_4x10_8_3.jpg
         ...
 """
+FILEPATH = __file__
+MODEL_NAME = os.path.join(os.path.dirname(FILEPATH), "ant_detective.pt")
+
+
+# model = YOLO(MODEL_NAME)
+model = YOLO("yolov8n.pt")
+
+
+
+def video_frame_callback(frame):
+    nparray = frame.to_ndarray(format="bgr24")
+    img = Image.fromarray(nparray)
+
+    out = model(img)
+    ls_cls = out[0].names
+    ls_det_cls = out[0].boxes.cls.numpy()
+    ls_det_cls = [ls_cls[i] for i in ls_det_cls]
+    ls_det_xyxy = out[0].boxes.xyxy.numpy()
+    draw = ImageDraw.Draw(img)
+    for xyxy, name in zip(ls_det_xyxy, ls_det_cls):
+        print(name)
+        draw.rectangle(xyxy, outline="red", width=3)
+        font = ImageFont.load_default(size=30)
+        text_x = xyxy[0]
+        text_y = xyxy[3]
+        draw.text((text_x, text_y), name, fill="red", font=font)
+
+    nparray = np.array(img)
+    img_out = av.VideoFrame.from_ndarray(nparray, format="bgr24")
+    return img_out
+
+
+def live_inference():
+    webrtc_streamer(key="streamer",
+                    video_frame_callback=video_frame_callback)
+    # img_file_buffer = st.camera_input("Take a picture")
+    # while img_file_buffer:
+    #     img_tmp = st.image(img_file_buffer)
+    #     # remove the img
+    #     time.sleep(1)
+    #     img_tmp.empty()        
+        
+        
 def predict():
-    filepath = __file__
-    weight_path = os.path.join(os.path.dirname(filepath), "ant_detective.pt")
     ls_img = st.session_state.file_imgs
     dir_img = os.path.dirname(ls_img[0])
-    model = YOLO(weight_path)
     model.predict(
         dir_img, 
         save=True,
@@ -36,56 +82,4 @@ def predict():
         project="yolo",
         name=".",
     )
-    if not os.path.exists("yolo/images"):
-        os.makedirs("yolo/images", exist_ok=True)
-    if not os.path.exists("yolo/counts"):
-        os.makedirs("yolo/counts", exist_ok=True)
-    img_count = 0
-    for f in os.listdir("yolo"):
-        if f.endswith(".jpg"):
-            mv_src = os.path.join("yolo", f)
-            mv_dst = os.path.join("yolo/counts", f)
-            os.rename(mv_src, mv_dst)
-            st.session_state.file_pred[img_count] = mv_dst
-            img_count += 1
-    # copy
-    for f in os.listdir("cache"):
-        if f.endswith(".jpg"):
-            mv_src = os.path.join("cache", f)
-            mv_dst = os.path.join("yolo/images", f)
-            shutil.copy(mv_src, mv_dst)
-    # list counts table
-    ls_filenames = []
-    ls_counts = []
-    for f in os.listdir("yolo/labels"):
-        f = f.split(".")[0]
-        path_labels = os.path.join("yolo/labels", f + ".txt")
-        with open(path_labels, "r") as file:
-            lines = file.readlines()
-            count = len(lines)
-        ls_filenames += [f]
-        ls_counts += [count]
-    data = pd.DataFrame({"Image": ls_filenames, "Count": ls_counts})
-    print(data)
-    data.to_csv("yolo/counts.csv", index=False)
-    return img_count     
-
-def create_download_zip(
-        dir_zip="yolo",
-        name_zip="yolo",
-):
-    """ 
-        zip_directory (str): path to directory  you want to zip 
-        zip_path (str): where you want to save zip file
-        filename (str): download filename for user who download this
-    """
-    shutil.make_archive(name_zip, 'zip', dir_zip)
-    # get basename
-    filename = os.path.basename(name_zip)
-    with open(name_zip + ".zip", 'rb') as f:
-        bytes = f.read()
-        b64 = base64.b64encode(bytes).decode()
-        href = f'<a href="data:file/zip;base64,{b64}" download=\'ant-detective-{filename}.zip\'>\
-            Download file \
-        </a>'
-        st.markdown(href, unsafe_allow_html=True)
+  
