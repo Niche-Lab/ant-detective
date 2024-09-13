@@ -42,12 +42,8 @@ def main():
     else:      
         # initial message
         st.success("Please upload images to get started")
-        st.write("or live stream from your webcam")
-        live_inference()
-        # st.button("Live Inference", 
-        #         key="live-button", 
-        #         type="primary",
-        #         on_click=live_inference)
+        # st.write("or live stream from your webcam")
+        # live_inference()
                  
     # left-hand side
     show_sidebar()

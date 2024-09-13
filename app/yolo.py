@@ -30,15 +30,12 @@ FILEPATH = __file__
 MODEL_NAME = os.path.join(os.path.dirname(FILEPATH), "ant_detective.pt")
 
 
-# model = YOLO(MODEL_NAME)
-model = YOLO("yolov8n.pt")
-
-
+model = YOLO(MODEL_NAME)
+# model = YOLO("yolov8n.pt")
 
 def video_frame_callback(frame):
     nparray = frame.to_ndarray(format="bgr24")
     img = Image.fromarray(nparray)
-
     out = model(img)
     ls_cls = out[0].names
     ls_det_cls = out[0].boxes.cls.numpy()
@@ -46,7 +43,6 @@ def video_frame_callback(frame):
     ls_det_xyxy = out[0].boxes.xyxy.numpy()
     draw = ImageDraw.Draw(img)
     for xyxy, name in zip(ls_det_xyxy, ls_det_cls):
-        print(name)
         draw.rectangle(xyxy, outline="red", width=3)
         font = ImageFont.load_default(size=30)
         text_x = xyxy[0]
