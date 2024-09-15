@@ -43,7 +43,7 @@ def main():
         # initial message
         st.success("Please upload images to get started")
         # st.write("or live stream from your webcam")
-        # live_inference()
+        live_inference()
                  
     # left-hand side
     show_sidebar()
