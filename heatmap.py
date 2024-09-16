@@ -34,11 +34,11 @@ def from_det_to_cir(ls_det):
     return ls_cir
 
 def cir_to_heatmap(ls_cir):
-    # Image size
+    # image size
     image_size = (1000, 1000)
-    # Create an empty image grid
+    # create an empty image grid
     heatmap = np.zeros(image_size)
-    # Resize the coordinates and plot circles
+    # resize the coordinates and plot circles
     for x, y, r in tqdm.tqdm(ls_cir, desc="Creating heatmap"):
         x_resized = int(x * image_size[0])
         y_resized = int(y * image_size[1])
@@ -46,11 +46,11 @@ def cir_to_heatmap(ls_cir):
         if radius_resized == 0:
             radius_resized = 1
 
-        # Create a grid of the same size as the image
+        # create a grid of the same size as the image
         Y, X = np.ogrid[:image_size[0], :image_size[1]]
         distance = np.sqrt((X - x_resized) ** 2 + (Y - y_resized) ** 2)
 
-        # Add intensity to the heatmap
+        # add intensity to the heatmap
         num = -(distance**2)
         den = 2 * (radius_resized**2)
         heatmap += np.exp(num / den)
