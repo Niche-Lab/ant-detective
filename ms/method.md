@@ -30,4 +30,18 @@ In addition to spatial data, temporal changes in ant presence were analyzed to e
 
 ## Model Calibration and Evaluation
 
-recall, precision, r2 and rmse
+The CV detection system is based on the YOLOv8 architecture [cite]. Given that ant detection is relatively straightforward compared to general object detection tasks involving over 50 object classes [cite], the smallest model version, YOLOv8n, with 3.2 million parameters, was chosen to balance detection accuracy and computational efficiency. This model version is suitable for deployment on most personal computers due to its minimal hardware requirements (e.g., GPU or high memory), without compromising detection performance, particularly for simple tasks [cite].
+
+The model was calibrated using the designated number of images and subsets from Studies 1 and 2. To mitigate imaging biases caused by inconsistent camera angles, lighting conditions, and ant distribution, data augmentation was applied during the calibration process. This augmentation involved introducing random noise, rotation, scaling, and cropping to the original images, enhancing the model’s robustness to such variations. The model was calibrated with the Adam optimizer [cite], using a learning rate scheduler that started at 0.001 and decreased by 10% every 10 epochs. The batch size was set to 16, and the calibration was conducted for a total of 100 epochs. Twenty percent of the calibration dataset was randomly selected as the validation set to monitor performance during calibration. The model achieving the best performance on the validation set was chosen for subsequent evaluation. Calibration was conducted using the Ultralytics framework on NVIDIA A100 GPUs.
+
+Model evaluation was performed on the designated subsets from Studies 1 and 2, using metrics such as recall, precision, R², and Root Mean Square Error (RMSE). Recall and precision were calculated based on the number of true positive (TP), false positive (FP), and false negative (FN) detections:
+
+
+\text{Recall} = \frac{TP}{TP + FN}
+
+
+
+\text{Precision} = \frac{TP}{TP + FP}
+
+
+A high recall indicates that the model successfully detected most ants in the images, while a high precision indicates that the detections were mostly correct with few false positives. Two additional criteria were considered when calculating precision and recall: Intersection over Union (IoU) and confidence threshold. IoU measures the ratio of overlap between the detected bounding box and the actual area occupied by the ant, while the confidence threshold is the minimum confidence score required for a detection to be included in the final results. In this study, the IoU and confidence threshold were set at 0.6 and 0.25, respectively. In addition to evaluating detection performance, R² and RMSE were calculated to compare automated counting results with manual counts. R² assesses the agreement between automated and manual counting results, while RMSE measures the absolute difference between them. Depends on different needs of model accuracy, such as focusing on precise localization or counting, these metrics provide a comprehensive evaluation of the model’s effectiveness and reliability for automated ant detection and counting
