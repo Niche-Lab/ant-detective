@@ -8,6 +8,7 @@ The "Calibration" subset shares a similar imaging background with the subsets la
 
 The images were annotated using the YOLO object detection format [cite] to calibrate the CV system to recognize ants. As depicted in Figure 1b, in this format, each ant is marked with a bounding box, defined by four parameters: the x and y coordinates of the box’s center, along with its width and height. These values are normalized to the range [0, 1] by dividing the x and y coordinates by the image’s width and height, respectively. For instance, in a 1920 x 1080 image, a bounding box with a center at (960, 540) and dimensions of 100 x 100 pixels would be represented as (0.5, 0.5, 0.0521, 0.0926), where 0.0521 and 0.0926 are the normalized width and height. Each ant was assigned a class ID. Since the study focuses exclusively on detecting ants without differentiating between species, all ants were assigned a class ID of 0.
 
+Figure 1: (a) Overview of the dataset subsets used in this study. (b) Example of ant annotation in the YOLO object detection format.
 
 ## Study 1: Determining the Amount of Image Resources Required for Generalization
 
@@ -19,6 +20,8 @@ The "Calibration" subset was used to "teach" the CV system how the ant morpholog
 Detecting ants in a dense population, such as in subset "B03", is challenging despite an abundance of image data, due to the limitations of the model architecture described in the introduction. Inspired by the Slicing Aided Hyper Inference technique [cite], which improves detection accuracy by dividing input images into smaller patches for separate object detection, this study explores an optimized patch size for subset "B03". To avoid bias from varied sampling, all available images—excluding the "B03" subset—were used for model calibration. The system was calibrated using 1,597 images containing 16,368 total ant instances.
 
 During the calibration process, multiple candidate model weights were generated, and the model with the best performance on two randomly selected images from the "B03" subset was selected for further evaluation. These two images were excluded from subsequent evaluation steps. Finally, the model was evaluated on the "B03" subset using the optimized slicing size. The original images, with a resolution of 1636 x 2180 pixels, were divided into different patch sizes: 818 x 1090 (2 x 2 patches), 818 x 545 (2 x 4 patches), 409 x 545 (4 x 4 patches), 409 x 218 (4 x 10 patches), and 204 x 218 (8 x 10 patches), as shown in Figure 2. The evaluation aimed to identify the optimal patch size for this dense imaging scenario.
+
+Figure 2. Illustration of the image slicing process for the "B03" subset. The original image is divided into patches of different sizes for object detection.
 
 ## Study 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant Foraging Behaviors
 
@@ -39,9 +42,14 @@ Model evaluation was performed on the designated subsets from Studies 1 and 2, u
 
 \text{Recall} = \frac{TP}{TP + FN}
 
-
-
 \text{Precision} = \frac{TP}{TP + FP}
 
 
-A high recall indicates that the model successfully detected most ants in the images, while a high precision indicates that the detections were mostly correct with few false positives. Two additional criteria were considered when calculating precision and recall: Intersection over Union (IoU) and confidence threshold. IoU measures the ratio of overlap between the detected bounding box and the actual area occupied by the ant, while the confidence threshold is the minimum confidence score required for a detection to be included in the final results. In this study, the IoU and confidence threshold were set at 0.6 and 0.25, respectively. In addition to evaluating detection performance, R² and RMSE were calculated to compare automated counting results with manual counts. R² assesses the agreement between automated and manual counting results, while RMSE measures the absolute difference between them. Depends on different needs of model accuracy, such as focusing on precise localization or counting, these metrics provide a comprehensive evaluation of the model’s effectiveness and reliability for automated ant detection and counting
+A high recall indicates that the model successfully detected most ants in the images, while a high precision indicates that the detections were mostly correct with few false positives. Two additional criteria were considered when calculating precision and recall: Intersection over Union (IoU) and confidence threshold. IoU measures the ratio of overlap between the detected bounding box and the actual area occupied by the ant, while the confidence threshold is the minimum confidence score required for a detection to be included in the final results. In this study, the IoU and confidence threshold were set at 0.6 and 0.25, respectively. In addition to evaluating detection performance, R² and RMSE were calculated to compare automated counting results with manual counts. 
+
+\text{r} =(\frac{\text{cov}(\hat{Y}, Y)}{\sigma_\hat{Y} \sigma_Y}) ^ 2
+
+\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (\hat{Y}_i - Y_i)^2}
+where Y and \hat{Y} are the manual and automated counts, respectively, and n is the total number of images. \sigma_Y and \sigma_\hat{Y} are the standard deviations of the manual and automated counts, respectively. R² assesses the agreement between automated and manual counting results, while RMSE measures the absolute difference between them. Depending on different needs of model accuracy, such as focusing on precise localization or counting, these metrics provide a comprehensive evaluation of the model’s effectiveness and reliability for automated ant detection and counting.
+
+R² assesses the agreement between automated and manual counting results, while RMSE measures the absolute difference between them. Depends on different needs of model accuracy, such as focusing on precise localization or counting, these metrics provide a comprehensive evaluation of the model’s effectiveness and reliability for automated ant detection and counting
