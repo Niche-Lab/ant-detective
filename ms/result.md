@@ -12,6 +12,26 @@ When comparing manual and automated counting results (Figure 4) using a calibrat
 
 The poorest performance is observed in subset B02, where the RMSE is 1.50 and r² drops to 0.58. This suggests that the sparse and small distribution of ants makes the counting results highly sensitive to false detections, significantly affecting the correlation. These findings highlight the importance of background uniformity and ant distribution in ensuring accurate automated counting results.
 
+
+## Slicing Dense-populated Images Significantly Improves Model Performance
+
+The computer vision (CV) system achieved a substantial accuracy improvement by slicing densely populated images into smaller patches (Figure 5, Table 3). Peak performance was observed when the original images were divided into 4 x 10 patches, resulting in a precision of 77.97% and a recall of 71.36%. This represents a significant enhancement compared to the performance on the original images (precision: 9.92%, recall: 1.60%). Additionally, since the YOLOv8n model architecture requires the input image to be in a 640x640 matrix, the slicing ratio plays a crucial role in preventing image distortion, especially when the width/height ratio of the input image deviates from 1. For instance, in this study, the original image size was 1636x2180 pixels. Directly resizing this image to 640x640 results in a height-axis distortion of 1.34 times (calculated from the width/height ratio of 1636/2180). With this in mind, the study also examined whether such height-axis distortion, ideally close to 1, would affect detection performance. Surprisingly, the 4 x 10 patched images, which exhibited the most distorted ratio of 0.53, achieved the best performance, while the 8 x 10 patched images, which were the least distorted at 1.06 times, performed the worst among the sliced images. This indicates that height-axis distortion has no significant correlation with detection performance. Figure 6 provides an example of detection results between the original image and the 4 x 10 patches. Most missed detections in the original image occurred where ants were densely populated, such as on the edges of the nest and the water feeder. This example demonstrates the effectiveness of the slicing strategy, as only a few ants were missed in the 4 x 10 patched images.
+
+The automated counting results for the 4 x 10 patched images were compared with manual counts, showing a high correlation with an R² of 0.938 and an RMSE of 465.05 (Figure 7a, left). The high RMSE value is attributed to overlooked ants in the manual counts, while the CV system was able to capture these missing ants, maintaining strong agreement with the manual counts. The background of experiment B03 was to investigate the impact of SINV-3 infection on ant foraging behaviors. The automated counting results effectively captured the ant population dynamics in the presence of SINV-3 infection (Figure 7a, right). Moreover, when propagating the automated counts to the entire image set collected over the 14-day experiment, a temporal trend of ant population dynamics was observed, which closely matched the manual counts (Figure 7b). Both counting methods revealed a similar trend in ant population dynamics, with SINV-3 infected ants consistently showing higher and more active foraging behavior than the control group. This result demonstrates the potential of the CV system to accurately capture ant population dynamics in a high-throughput manner, which is crucial for studying the effects of pathogens on ant foraging behaviors.
+
+
+
+1636x2180: 1.34
+818x1090: 1.34
+818x545: 0.67
+409x545: 1.34
+409x218
+
+168/204.5
+
+to ensure different size of patch is not stretched to differen
+1636x2180
+
 ## Data dissemination and web-based application
 
 The studied ant images with YOLO annotation is organized at 
