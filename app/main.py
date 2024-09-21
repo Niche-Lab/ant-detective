@@ -13,7 +13,6 @@ from widgets import (
 )
 import datetime
 from globals import init_globals
-from file_io import inspect_results, clean_up
 
 st.set_page_config(
     page_title="Ant Detective",
@@ -43,7 +42,7 @@ def main():
         # initial message
         st.success("Please upload images to get started")
         # st.write("or live stream from your webcam")
-        live_inference()
+        # live_inference()
                  
     # left-hand side
     show_sidebar()

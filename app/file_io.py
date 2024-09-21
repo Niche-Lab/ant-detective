@@ -15,6 +15,9 @@ def clean_up(dir_src="cache", dir_dst="yolo"):
     
 def inspect_results(dir_src="cache", dir_dst="yolo"):
     """
+    Move the images and generated labels to the respective folders
+    compress the folder and return the image count
+    
     <dir_src>
         img1.jpg
         img2.jpg
@@ -38,7 +41,7 @@ def inspect_results(dir_src="cache", dir_dst="yolo"):
     # mv detected images to counts/ folder
     img_count = 0
     for f in os.listdir(dir_dst):
-        if f.endswith(".jpg"):
+        if is_img(f):     
             mv_src = os.path.join(dir_dst, f)
             mv_dst = os.path.join(dir_counts, f)
             os.rename(mv_src, mv_dst)
@@ -46,7 +49,7 @@ def inspect_results(dir_src="cache", dir_dst="yolo"):
             img_count += 1
     # copy original images to images/ folder
     for f in os.listdir(dir_src):
-        if f.endswith(".jpg"):
+        if is_img(f):     
             mv_src = os.path.join(dir_src, f)
             mv_dst = os.path.join(dir_images, f)
             shutil.copy(mv_src, mv_dst)
@@ -54,7 +57,7 @@ def inspect_results(dir_src="cache", dir_dst="yolo"):
     ls_filenames = []
     ls_counts = []
     for f in os.listdir(dir_labels):
-        f = f.split(".")[0]
+        f = os.path.splitext(f)[0]
         path_labels = os.path.join(dir_labels, f + ".txt")
         with open(path_labels, "r") as file:
             lines = file.readlines()
@@ -71,3 +74,8 @@ def inspect_results(dir_src="cache", dir_dst="yolo"):
     # return
     return img_count   
 
+
+def is_img(f):
+    return f.upper().endswith(".JPG") or\
+           f.upper().endswith(".JPEG") or\
+           f.upper().endswith(".PNG")
