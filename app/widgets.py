@@ -25,7 +25,7 @@ def show_navigator():
     cur_i = st.session_state.cur_i
     n_imgs = st.session_state.n_imgs
 
-    if n_imgs == 0:
+    if n_imgs == 0 or n_imgs == 1:
         st.empty()
     else:
         col_b1, col_b2 = st.columns([3, 1])
