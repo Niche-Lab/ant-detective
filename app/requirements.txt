@@ -2,4 +2,4 @@ streamlit
 streamlit_shortcuts
 opencv-python-headless
 ultralytics
-streamlit
+dill
