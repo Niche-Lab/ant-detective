@@ -1,16 +1,14 @@
 from ultralytics import YOLO
-import cv2
 from PIL import Image, ImageDraw, ImageFont
 
-import streamlit as st
 import os
 import shutil
 import pandas as pd
 import numpy as np
 import time
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer
-import av
+# from streamlit_webrtc import webrtc_streamer
+# import av
 """
 yolo
     /labels
