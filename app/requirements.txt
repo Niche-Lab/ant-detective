@@ -1,3 +1,4 @@
 streamlit_shortcuts
-ultralytics
 opencv-python-headless
+ultralytics
+streamlit
