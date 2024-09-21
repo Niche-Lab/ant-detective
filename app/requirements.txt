@@ -1,5 +1,3 @@
 streamlit_shortcuts
 ultralytics
 opencv-python-headless
-dill
-streamlit_webrtc
