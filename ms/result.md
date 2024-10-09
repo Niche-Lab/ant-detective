@@ -14,7 +14,12 @@ The poorest performance is observed in subset B02, where the RMSE is 1.50 and r�
 
 Figure 3. Model performance on different evaluation subsets (color-coded) with varying calibration set sizes (n). One standard deviation of the 30 sampling iterations is shown as colored bands of each line.
 
+alt text: A graph showing how well the model performs on different data sets (indicated by different colors) using various numbers of calibration images. Shaded areas around each line show the variability in the results.
+
 Figure 4. Comparison of manual and automated counting results for subsets A01, A02, A03, B01, and B02. The calibration set size is fixed at 1024 images. Each point represents the count of ants in a single image.
+
+alt text: A scatter plot comparing the number of ants counted manually versus counted by the computer for several data sets. Each dot represents one image’s ant count.
+
 
 Table 2. Model performance on different evaluation subsets with varying calibration set sizes (n). THe precision and recall values are the presented as the mean ± 1.96 standard deviation from 30 sampling iterations. The Intersection over Union (IoU) threshold and confidence threshold are set to 0.6 and 0.25, respectively. The highest precision and recall values of each subset are highlighted in bold.
 
@@ -26,9 +31,18 @@ The automated counting results for the 10 x 4 patched images were compared with 
 
 Figure 5a. Model performance on original and sliced images with different patch ratios. Precision and recall values are represented by blue and orange lines, respectively. Figure 5b. Example images resized to 640 x 640 pixels, with subtitles indicating the patch ratio and height-to-width ratio in parentheses.
 
+alt text: 5a A line graph displaying the model’s precision (blue line) and recall (orange line) when using original and sliced images with different patch sizes.
+5b Examples of images resized to 640×640 pixels, each labeled with its patch size and aspect ratio. 
+
 Figure 6a. Comparison of detection results between the original image and 10 x 4 patched images. The original image (left) and the 10 x 4 patched images (right) are displayed with blue detection bounding boxes. Figure 6b. Three examples in rows showing zoomed-in views of the original image (left) and the 10 x 4 patched images (right), each with blue detection bounding boxes.
 
+alt text: 6a Side-by-side images showing ant detection results: the original image with blue boxes around ants on the left, and the same image divided into 10×4 patches with detections on the right. 6b Three sets of close-up views comparing the original image (left) and the patched images (right), both with ants highlighted by blue boxes.
+
+
 Figure 7a. Comparison of manual and automated counting results for the 10 x 4 patched images. The left panel shows a scatter plot of the manual and automated counts, while the right panel shows the automated counts for the SINV-3 infection experiment. Figure 7b. Temporal trend of ant population dynamics in the SINV-3 infection experiment. 
+
+7a. Left: A scatter plot comparing manual and automated ant counts for the patched images. Right: A graph showing automated ant counts over time during the SINV-3 infection experiment.
+7b. A line graph illustrating how the ant population changes over time in the SINV-3 infection experiment
 
 Table 3. Model performance on original and sliced images with varying patch ratios, resolutions, and height-to-width ratios. Precision and recall values are calculated using an Intersection over Union (IoU) threshold of 0.6 and a confidence threshold of 0.25. The highest precision and recall values are highlighted in bold.
 
@@ -42,7 +56,13 @@ The dense ant images from experiment subset B03 were visualized in a heatmap usi
 
 Figure 8. Heatmap of ant distribution over time for experiments B01 (8a) and B02 (8b). The top row displays the original images, followed by heatmaps illustrating ant activity over time. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity. The bottom row presents line plots of ant presence over time, with the x-axis representing hours and the y-axis representing the number of detected ants.
 
+alt text:
+Visualizations of ant activity over time for experiments B01 (8a) and B02 (8b). Top row: Original images. Middle: Heatmaps showing where ants were active; brighter colors indicate more activity. Bottom row: Line graphs of ant counts over time.
+
 Figure 9. Heatmap of ant distribution in experiment B03. The left panel displays the control group, while the right panel shows the SINV-3 infected group. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity. 
+
+alt text:
+Heatmaps comparing ant activity in experiment B03 between the control group (left) and the SINV-3 infected group (right); brighter colors indicate higher ant activity levels.
 
 ## Data dissemination and web-based application
 

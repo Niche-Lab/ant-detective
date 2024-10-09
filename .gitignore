@@ -56,3 +56,4 @@ modules/
 !yolo8n_study*.pt
 !app/ant_detective.pt
 !packages.txt
+report.md

@@ -1,5 +1,5 @@
-# Discussion
+# Conclusion
 
+This study demonstrated that with the relatively small amount of images (i.e., 64 images), a promising detecting precision can be anticipated in a range betwen 0.75 and 0.88 when the imaging background is similar to the calibration images. Even with a non-uniform and new background, 128 images are sufficient to reach a 0.75 precision in detecting presence of ants. When it comes to densely-packed ant population, slicing the image into smaller patches can dramatically affect the system performance, yielding nearly a 0.78 precision accuracy when the iamges were sliced into 4 columns by 10 rows patches. Finally, using the density map derived from gaussian kernel function, the system can provide a more in-depth understanding of the spatial and temporal aspects of ant foraging behaviors. Overall, this study provides a comprehensive analysis of the system's performance under different imaging conditions and demonstrates the potential of computer vision in enhancing our understanding of ant foraging behaviors.
 
-## Applying to different species classificaiton
 

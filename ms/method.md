@@ -9,6 +9,7 @@ The "Calibration" subset shares a similar imaging background with the subsets la
 The images were annotated using the YOLO object detection format [cite] to calibrate the CV system to recognize ants. As depicted in Figure 1b, in this format, each ant is marked with a bounding box, defined by four parameters: the x and y coordinates of the box’s center, along with its width and height. These values are normalized to the range [0, 1] by dividing the x and y coordinates by the image’s width and height, respectively. For instance, in a 1920 x 1080 image, a bounding box with a center at (960, 540) and dimensions of 100 x 100 pixels would be represented as (0.5, 0.5, 0.0521, 0.0926), where 0.0521 and 0.0926 are the normalized width and height. Each ant was assigned a class ID. Since the study focuses exclusively on detecting ants without differentiating between species, all ants were assigned a class ID of 0.
 
 Figure 1: (a) Overview of the dataset subsets used in this study. (b) Example of ant annotation in the YOLO object detection format.
+alt text: (a) Visual summary of the different data sets used in the study. (b) An image showing an ant marked with a box to demonstrate how the computer detects it.
 
 ## Study 1: Determining the Amount of Image Resources Required for Generalization
 
@@ -22,6 +23,8 @@ Detecting ants in a dense population, such as in subset "B03", is challenging de
 During the calibration process, multiple candidate model weights were generated, and the model with the best performance on two randomly selected images from the "B03" subset was selected for further evaluation. These two images were excluded from subsequent evaluation steps. Finally, the model was evaluated on the "B03" subset using the optimized slicing size. The original images, with a resolution of 1636 x 2180 pixels, were divided into different patch sizes: 818 x 1090 (2 x 2 patches), 818 x 545 (2 x 4 patches), 409 x 545 (4 x 4 patches), 409 x 218 (4 x 10 patches), and 204 x 218 (8 x 10 patches), as shown in Figure 2. The evaluation aimed to identify the optimal patch size for this dense imaging scenario.
 
 Figure 2. Illustration of the image slicing process for the "B03" subset. The original image is divided into patches of different sizes for object detection.
+
+alt txt: An illustration of how an original image from the “B03” set is divided into smaller pieces to help detect ants
 
 ## Study 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant Foraging Behaviors
 
