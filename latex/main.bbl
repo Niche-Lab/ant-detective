@@ -1,0 +1,145 @@
+\begin{thebibliography}{10}
+
+\bibitem{Reeves2019Evolution}
+DeAnna~D. Reeves and Corrie~S. Moreau.
+\newblock The evolution of foraging behavior in ants (hymenoptera: Formicidae).
+\newblock {\em Arthropod Systematics \& Phylogeny}, 77(2):351--363, 2019.
+
+\bibitem{Parr2022Response}
+Catherine~L. Parr and Trevor~R. Bishop.
+\newblock The response of ants to climate change.
+\newblock {\em Global Change Biology}, 28(10):3188--3205, 2022.
+
+\bibitem{Alciatore2021Immune}
+Giorgia Alciatore, Line~V. Ugelvig, Etienne Frank, Jean Bidaux, Adva Gal,
+  Thomas Schmitt, Daniel J.~C. Kronauer, and Yuko Ulrich.
+\newblock Immune challenges increase network centrality in a queenless ant.
+\newblock {\em Proceedings of the Royal Society B: Biological Sciences},
+  288(1958):20211456, 2021.
+
+\bibitem{Thiel2016Sublethal}
+S.~Thiel and Heinz-R. K{\"o}hler.
+\newblock A sublethal imidacloprid concentration alters foraging and
+  competition behaviour of ants.
+\newblock {\em Ecotoxicology}, 25(4):814--823, 2016.
+
+\bibitem{Galante2024Acute}
+H.~Galante, M.~De Agr{\`o}, A.~Koch, S.~Kau, and T.~J. Czaczkes.
+\newblock Acute exposure to caffeine improves foraging in an invasive ant.
+\newblock {\em iScience}, 27(6):109935, 2024.
+
+\bibitem{Hsu2018Viral}
+Hsiu-Wen Hsu, Ming-Chung Chiu, DeWayne Shoemaker, and Chiung-Chih~Shan Yang.
+\newblock Viral infections in fire ants lead to reduced foraging activity and
+  dietary changes.
+\newblock {\em Scientific Reports}, 8(1):13498, 2018.
+
+\bibitem{Sola2016Feeding}
+Francisco~J. Sola and Roxana Josens.
+\newblock Feeding behavior and social interactions of the argentine ant
+  \emph{Linepithema humile} change with sucrose concentration.
+\newblock {\em Bulletin of Entomological Research}, 106(4):522--529, 2016.
+
+\bibitem{Du2023Foraging}
+Chunxiao Du, Hui Lyu, Ling Wang, Lin Mao, Lili Li, Xueqing Yang, and Cheng
+  Wang.
+\newblock Foraging behaviors of red imported fire ants (hymenoptera:
+  Formicidae) in response to bait containing different concentrations of
+  fipronil, abamectin, or indoxacarb.
+\newblock {\em Insects}, 14(11):852, 2023.
+
+\bibitem{Parker2020Using}
+Chris Parker, Matthew Meador, and John~P. Hoover.
+\newblock Using digital image analysis to quantify small arthropod vectors.
+\newblock {\em Journal of Medical Entomology}, 57(5):1671--1674, 2020.
+
+\bibitem{Smythe2020Using}
+Brandon Smythe, Dan Boxler, Greg Brewer, Eric Psota, and D.~Wes Watson.
+\newblock Using visual and digital imagery to quantify horn fly (diptera:
+  Muscidae) densities.
+\newblock {\em Journal of Insect Science}, 20(6):16, 2020.
+
+\bibitem{Wang2022YOLOv7}
+Chien-Yao Wang, Alexey Bochkovskiy, and Hong-Yuan~Mark Liao.
+\newblock {YOLOv7}: Trainable bag-of-freebies sets new state-of-the-art for
+  real-time object detectors.
+\newblock {\em arXiv preprint arXiv:2207.02696}, 2022.
+\newblock Accessed 2024 Oct 8.
+
+\bibitem{Jocher2023YOLO}
+Glenn Jocher, Ayush Chaurasia, and Jing Qiu.
+\newblock Yolo by ultralytics.
+\newblock \url{https://github.com/ultralytics/ultralytics}, 2023.
+\newblock Accessed 2023 Sep 6.
+
+\bibitem{Terven2023Comprehensive}
+Jes{\'u}s Terven, David-Miguel C{\'o}rdova-Esparza, and Juan-Antonio
+  Romero-Gonz{\'a}lez.
+\newblock A comprehensive review of yolo architectures in computer vision: From
+  yolov1 to yolov8 and yolo-nas.
+\newblock {\em Machine Learning and Knowledge Extraction}, 5(4):1680--1716,
+  2023.
+
+\bibitem{Saradopoulos2023Image}
+Ioannis Saradopoulos, Ioannis Potamitis, Andreas~I. Konstantaras, Panagiotis
+  Eliopoulos, Stavros Ntalampiras, and Ioannis Rigakis.
+\newblock Image-based insect counting embedded in e-traps that learn without
+  manual image annotation and self-dispose captured insects.
+\newblock {\em Information}, 14(5):267, 2023.
+
+\bibitem{Lin2014Microsoft}
+Tsung-Yi Lin, Michael Maire, Serge Belongie, Lubomir~D. Bourdev, Ross~B.
+  Girshick, James Hays, Pietro Perona, Deva Ramanan, Piotr Doll{\'a}r, and
+  C.~Lawrence Zitnick.
+\newblock Microsoft {COCO}: Common objects in context.
+\newblock In {\em European Conference on Computer Vision (ECCV)}, pages
+  740--755, 2014.
+
+\bibitem{Deng2009ImageNet}
+Jia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai Li, and Li~Fei-Fei.
+\newblock Imagenet: A large-scale hierarchical image database.
+\newblock In {\em 2009 IEEE Conference on Computer Vision and Pattern
+  Recognition}, pages 248--255, 2009.
+
+\bibitem{BereciartuaPerez2023Multiclass}
+A.~Bereciartua-P{\'e}rez, L.~G{\'o}mez, A.~Pic{\'o}n, R.~Navarra-Mestre,
+  C.~Klukas, and T.~Eggers.
+\newblock Multiclass insect counting through deep learning-based density maps
+  estimation.
+\newblock {\em Smart Agricultural Technology}, 3:100125, 2023.
+
+\bibitem{Hong2021Automatic}
+Seung-Jun Hong, Inyoung Nam, Sung-Yeon Kim, Eun Kim, Chang-Ho Lee, Sukjae Ahn,
+  In-Kyoung Park, and Gihun Kim.
+\newblock Automatic pest counting from pheromone trap images using deep
+  learning object detectors for \emph{Matsucoccus thunbergianae} monitoring.
+\newblock {\em Insects}, 12(4):342, 2021.
+
+\bibitem{Akyon2022Slicing}
+Fatih~Cagatay Akyon, Sezgin~Onur Altinuc, and A.~Temizel.
+\newblock Slicing aided hyper inference and fine-tuning for small object
+  detection.
+\newblock In {\em 2022 IEEE International Conference on Image Processing
+  (ICIP)}, pages 966--970, 2022.
+\newblock Accessed 2024 Sep 8.
+
+\bibitem{Everingham2010Pascal}
+Mark Everingham, Luc~Van Gool, Christopher K.~I. Williams, John Winn, and
+  Andrew Zisserman.
+\newblock The pascal visual object classes (voc) challenge.
+\newblock {\em International Journal of Computer Vision}, 88(2):303--338, 2010.
+
+\bibitem{Das2024Model}
+M.~Das, G.~Ferreira, and C.~P.~J. Chen.
+\newblock A model generalization study in localizing indoor cows with cow
+  localization (colo) dataset.
+\newblock {\em arXiv preprint arXiv:2407.20372}, 2024.
+\newblock Accessed 2024 Oct 8.
+
+\bibitem{Kingma2017Adam}
+Diederik~P. Kingma and Jimmy Ba.
+\newblock Adam: A method for stochastic optimization.
+\newblock {\em arXiv preprint arXiv:1412.6980}, 2017.
+\newblock Accessed 2023 Jun 4.
+
+\end{thebibliography}

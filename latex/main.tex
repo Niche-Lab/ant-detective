@@ -1,0 +1,82 @@
+\documentclass{article}
+
+\usepackage{arxiv}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{amsmath}        % popular math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{lipsum}		% Can be removed after putting your text content
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{natbib}
+\usepackage{doi}
+\usepackage{setspace} % double spacing
+\usepackage{lineno} % line numbering
+\graphicspath{ {.} }
+%%%%%%%
+% Add titlesec package and customize subsection spacing
+\usepackage{titlesec}
+\titlespacing*{\subsection}
+  {0pt}    % Left indentation
+  {1ex}    % Space before the subsection title
+  {1ex}    % Space after the subsection title
+
+\usepackage{authblk}
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage{amsmath} % For mathematical equations
+\usepackage{geometry} % For adjusting page margins
+\geometry{margin=1in}
+
+\title{An Automated Approach for Counting Ants in Densely Populated Images and Gaining Insight into Ant Foraging Behavior }
+
+\author[1]{Mautushi Das}
+\author[2]{Fang-Ling Chloe Liu}
+\author[2]{Charly Hartle}
+\author[2]{Chin-Cheng Scotty Yang\textsuperscript{*}}
+\author[1]{C. P. James Chen\textsuperscript{*}}
+
+\affil[1]{School of Animal Sciences, Virginia Tech, Blacksburg, VA 24061, USA}
+\affil[2]{Department of Entomology, Virginia Tech, Blacksburg, VA 24061, USA}
+
+
+\renewcommand{\shorttitle}{An Automated Approach for Counting Ants}
+
+\doublespacing
+\linenumbers
+
+\begin{document}
+\maketitle
+
+\input{_0_abstract.tex}
+\input{_1_introduction.tex}
+\input{_2_Materials and Methods }
+\input{_3_results}
+\input{_conclusion_}
+
+
+\section*{Acknowledgments}
+
+This research was supported by the USDA Hatch Research Project funding VA-160196. The authors acknowledge Advanced Research Computing at Virginia Tech for providing computational resources and technical support that have contributed to the results reported within this paper. URL: https://arc.vt.edu/. During the preparation of this work the author(s) used ChatGPT in order to ensure the grammar and clarity of the manuscript. After using this tool/service, the author(s) reviewed and edited the content as needed and take(s) full responsibility for the content of the publication.
+This project received partial funding from an internal competitive grant from the College of Agriculture and Life Sciences at Virginia Tech. The authors have declared no conflict of interest. We acknowledge the use of ChatGPT-4 in organizing and articulating ideas during the preparation of this manuscript. While the intellectual contributions and conceptual developments are entirely those of the authors, we duly recognize ChatGPT’s role in streamlining the writing process.
+
+\newpage
+
+%Bibliography
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+
+% just for references
+\newpage
+
+
+
+\end{document}
