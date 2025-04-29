@@ -1,0 +1,152 @@
+\section{Results and Discussion}
+
+\subsection{Relationship between Model Performance and Calibration Sample Sizes}
+
+The model performance in terms of precision and recall is presented in Table \ref{table2} and Figure \ref{fig:figure3}. With a calibration set consisting of only 64 images, similar in background to the test images, the model demonstrates reasonably good performance on subsets A01, A02, and A03. The average precision achieved is 87.96\%, 76.01\%, and 76.76\%, respectively, while the average recall is 87.78\%, 77.58\%, and 70.23\%, respectively. However, increasing the calibration set size does not consistently improve model performance. For instance, in subset A03, doubling the calibration size from 128 to 256 images results in only a slight improvement of 0.22\% in precision and 0.41\% in recall. Even when increasing the calibration size twentyfold, from 64 to 1024 images, the maximum gains observed are 7.54\% in precision for subset A02 and 11.64\% in recall for subset A03. In subset A01, these improvements are even smaller, at just 5.14\% and 5.33\%, respectively. When detecting an image containing 20 ants, the 5\% improvement in precision and recall corresponds to correctly detecting just one additional ant. These findings suggest the presence of a saturation point in model performance; when the detection task is relatively straightforward and the background is consistent, a small number of calibration images is sufficient to achieve good performance.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figure_3.png}
+    \caption{Model performance on different evaluation subsets (color-coded) with varying calibration set sizes ($n$). One standard deviation of the 30 sampling iterations is shown as colored bands of each line.}
+    \label{fig:figure3}
+\end{figure}
+
+\textit{Alt text}: A graph showing how well the model performs on different data sets (indicated by different colors) using various numbers of calibration images. Shaded areas around each line show the variability in the results.
+
+\begin{table}[H]
+    \centering
+    \caption{Model performance on different evaluation subsets with varying calibration set sizes ($n$). The precision and recall values are presented as the mean $\pm$ 1.96 standard deviations from 30 sampling iterations. The Intersection over Union (IoU) threshold and confidence threshold are set to 0.6 and 0.25, respectively. The highest precision and recall values of each subset are highlighted in bold.}
+    \label{table2}
+    \begin{tabular}{cccc}
+        \toprule
+        \textbf{Subset} & $n$ & \textbf{Precision} & \textbf{Recall} \\
+        \midrule
+        A01 & 64 & $87.96\% \pm 3.72\%$ & $87.78\% \pm 4.00\%$ \\
+        & 128 & $91.07\% \pm 1.84\%$ & $90.45\% \pm 1.94\%$ \\
+        & 256 & $92.32\% \pm 1.71\%$ & $91.06\% \pm 1.78\%$ \\
+        & 512 & $92.80\% \pm 2.27\%$ & $92.65\% \pm 1.38\%$ \\
+        & 1024 & $\mathbf{93.10\% \pm 1.60\%}$ & $\mathbf{93.11\% \pm 1.60\%}$ \\
+        \midrule
+        A02 & 64 & $76.01\% \pm 6.92\%$ & $77.58\% \pm 6.82\%$ \\
+        & 128 & $80.27\% \pm 8.17\%$ & $82.20\% \pm 5.57\%$ \\
+        & 256 & $81.60\% \pm 5.35\%$ & $83.68\% \pm 4.49\%$ \\
+        & 512 & $82.31\% \pm 4.43\%$ & $85.17\% \pm 3.63\%$ \\
+        & 1024 & $\mathbf{83.55\% \pm 4.27\%}$ & $\mathbf{85.67\% \pm 3.96\%}$ \\
+        \midrule
+        A03 & 64 & $76.76\% \pm 7.72\%$ & $70.23\% \pm 11.72\%$ \\
+        & 128 & $83.52\% \pm 5.49\%$ & $76.33\% \pm 6.06\%$ \\
+        & 256 & $83.74\% \pm 5.15\%$ & $76.74\% \pm 6.92\%$ \\
+        & 512 & $86.78\% \pm 3.61\%$ & $80.40\% \pm 4.70\%$ \\
+        & 1024 & $\mathbf{87.79\% \pm 4.57\%}$ & $\mathbf{81.87\% \pm 3.84\%}$ \\
+        \midrule
+        B01 & 64 & $68.96\% \pm 7.47\%$ & $65.79\% \pm 7.62\%$ \\
+        & 128 & $75.48\% \pm 7.82\%$ & $70.26\% \pm 5.72\%$ \\
+        & 256 & $77.91\% \pm 5.96\%$ & $73.68\% \pm 3.43\%$ \\
+        & 512 & $80.75\% \pm 6.25\%$ & $76.46\% \pm 4.12\%$ \\
+        & 1024 & $\mathbf{83.60\% \pm 2.49\%}$ & $\mathbf{78.88\% \pm 3.00\%}$ \\
+        \midrule
+        B02 & 64 & $75.04\% \pm 30.97\%$ & $52.75\% \pm 15.33\%$ \\
+        & 128 & $76.89\% \pm 24.87\%$ & $57.22\% \pm 12.13\%$ \\
+        & 256 & $78.54\% \pm 13.47\%$ & $59.02\% \pm 10.86\%$ \\
+        & 512 & $76.30\% \pm 18.80\%$ & $59.35\% \pm 8.08\%$ \\
+        & 1024 & $\mathbf{75.16\% \pm 23.25\%}$ & $\mathbf{60.58\% \pm 11.09\%}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+In contrast, for more complex and diverse backgrounds, the relationship between sample size and model performance varies significantly between subsets B01 and B02. In subset B01, the increase in performance is almost linear as the calibration size doubles, with precision and recall improving by 14.64\% and 13.09\%, respectively. Notably, when all calibration images are utilized, the model’s performance on B01, despite the new and complex background, is nearly equivalent to that on subsets A02 and A03, which feature similar backgrounds. This suggests that deploying the CV system in a new environment requires a large calibration set to ensure the model can generalize effectively to novel images. Interestingly, in subset B02, characterized by sparse ant distribution and uneven background colors, increasing the calibration size does not significantly enhance model performance. In fact, when the calibration size exceeds 512 images, precision decreased. This finding indicates that the model may overfit to the calibration set when the background is highly diverse, leading to generating more false detections and reducing precision.
+
+When comparing manual and automated counting results (Figure \ref{fig:figure4}) using a calibration size of 1024, all subsets except B02 show a high correlation between the automated and manual counts, with a minimum squared correlation ($r^2$) of 0.94. For subsets with similar backgrounds, the RMSE values are 0.96, 1.55, and 1.23 for A01, A02, and A03, respectively. In subset B01, where the background includes multiple debris and parts of insect prey resembling ants, the automated counts achieve an $r^2$ of 0.95 but with a higher RMSE of 11.36, indicating an overestimation by approximately 11 ants on average. This overestimation is primarily due to false detections caused by background objects that resemble ants. The poorest performance is observed in subset B02, where the RMSE is 1.50 and $r^2$ drops to 0.58. This suggests that the sparse and small distribution of ants makes the counting results highly sensitive to false detections, significantly affecting the correlation. These findings highlight the importance of background uniformity and ant distribution in ensuring accurate automated counting results.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure_4.png}
+    \caption{Comparison of manual and automated counting results for subsets A01, A02, A03, B01, and B02. The calibration set size is fixed at 1024 images. Each point represents the count of ants in a single image.}
+    \label{fig:figure4}
+\end{figure}
+
+\textit{Alt text}: A scatter plot comparing the number of ants counted manually versus counted by the computer for several data sets. Each dot represents one image's ant count.
+
+\subsection{Slicing Dense-Populated Images Significantly Improves Model Performance}
+
+The CV system achieved a substantial accuracy improvement by slicing densely populated images into smaller patches (Figure \ref{fig:figure5}, Table \ref{table3}). Peak performance was observed when the original images were divided into 4 x 10 patches, resulting in a precision of 77.97\% and a recall of 71.36\%. This represents a significant enhancement compared to the performance on the original images (precision: 9.92\%, recall: 1.60\%).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure_5.png}
+    \caption{(a) Model performance on original and sliced images with different patch ratios. Precision and recall values are represented by blue and orange lines, respectively. (b) Example images resized to $640 \times 640$ pixels, with subtitles indicating the patch ratio and height-to-width ratio in parentheses.}
+    \label{fig:figure5}
+\end{figure}
+
+\textit{Alt text}: 5a A line graph displaying the model's precision (blue line) and recall (orange line) when using original and sliced images with different patch sizes. 5b Examples of images resized to $640 \times 640$ pixels, each labeled with its patch size and aspect ratio.
+
+\begin{table}[H]
+    \centering
+    \caption{Model performance on original and sliced images with varying patch ratios, resolutions, and height-to-width ratios. Precision and recall values are calculated using an Intersection over Union (IoU) threshold of 0.6 and a confidence threshold of 0.25. The highest precision and recall values are highlighted in bold.}
+    \label{table3}
+    \begin{tabular}{ccccc}
+        \toprule
+        \textbf{Patch} & \textbf{Resolution (pixels)} & \textbf{Height-to-width ratio} & \textbf{Precision} & \textbf{Recall} \\
+        \midrule
+        Original & $1636 \times 2180$ & 1.34 & 9.92\% & 1.60\% \\
+        2 x 2 & $818 \times 1090$ & 1.34 & 62.15\% & 47.73\% \\
+        2 x 4 & $818 \times 545$ & 0.67 & 72.33\% & 60.88\% \\
+        4 x 4 & $409 \times 545$ & 1.34 & 75.26\% & 65.35\% \\
+        4 x 10 & $409 \times 218$ & 0.53 & $\mathbf{77.97\%}$ & $\mathbf{71.36\%}$ \\
+        8 x 10 & $205 \times 218$ & 1.06 & 41.75\% & 37.31\% \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Additionally, since the YOLOv8n model architecture requires the input image to be in a $640 \times 640$ matrix, the slicing ratio plays a crucial role in preventing image distortion, especially when the height/width ratio of the input image deviates from 1. For instance, in this study, the original image size was $1636 \times 2180$ pixels. Directly resizing this image to $640 \times 640$ results in a height-axis distortion of 1.34 times (calculated from the width/height ratio of $1636/2180$). The study also examined whether such height-axis distortion, ideally close to 1, would affect detection performance. Surprisingly, the 4 x 10 patched images, which exhibited the most distorted ratio of 0.53, achieved the best performance, while the 8 x 10 patched images, which were the least distorted at 1.06 times, performed the worst among the sliced images. This indicates that height-axis distortion has no significant correlation with detection performance. Figure \ref{fig:figure6} provides an example of detection results between the original image and the 4 x 10 patches. Most missed detections in the original image occurred where ants were densely populated, such as on the edges of the nest and the water feeder. This example demonstrates the effectiveness of the slicing strategy, as only a few ants were missed in the 4 x 10 patched images.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure_6.png}
+    \caption{(a) Comparison of detection results between the original image and 10 x 4 patched images. The original image (left) and the 10 x 4 patched images (right) are displayed with blue detection bounding boxes. (b) Three examples in rows showing zoomed-in views of the original image (left) and the 10 x 4 patched images (right), each with blue detection bounding boxes.}
+    \label{fig:figure6}
+\end{figure}
+
+\textit{Alt text}: 6a Side-by-side images showing ant detection results: the original image with blue boxes around ants on the left, and the same image divided into 10 x 4 patches with detections on the right. 6b Three sets of close-up views comparing the original image (left) and the patched images (right), both with ants highlighted by blue boxes.
+
+The automated counting results for the 4 x 10 patched images were compared with manual counts, showing a high correlation with an $R^2$ of 0.938 and an RMSE of 465.05 (Figure \ref{fig:figure7}a, left). The high RMSE value is attributed to overlooked ants in the manual counts, while the CV system was able to capture these missing ants, maintaining strong agreement with the manual counts. The experiment in B03 was to test whether SINV-3 infection alters foraging behaviors in fire ants. The automated counting results effectively captured the ant foraging dynamics in the presence of SINV-3 infection (Figure \ref{fig:figure7}a, right). Moreover, when propagating the automated counts to the entire image set collected over the 14-day experiment, a temporal trend of ant population dynamics was observed, which closely matched the manual counts (Figure \ref{fig:figure7}b). Both counting methods revealed a similar trend in ant foraging dynamics, with SINV-3 infected ants consistently showing higher levels of foraging behavior than the uninfected group. This result demonstrates the potential of the CV system to accurately capture ant foraging dynamics in a high-throughput manner, which is crucial for studying the effects of pathogens on foraging patterns and potentially other complex social behaviors.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure_7.png}
+    \caption{(a) Comparison of manual and automated counting results for the 10 x 4 patched images. The left panel shows a scatter plot of the manual and automated counts, while the right panel shows the automated counts for the SINV-3 infection experiment. (b) Temporal trend of ant population dynamics in the SINV-3 infection experiment.}
+    \label{fig:figure7}
+\end{figure}
+
+\textit{Alt text}: 7a. Left: A scatter plot comparing manual and automated ant counts for the patched images. Right: A graph showing automated ant counts over time during the SINV-3 infection experiment. 7b. A line graph illustrating how the ant population changes over time in the SINV-3 infection experiment.
+
+\subsection{Combining Spatial and Temporal Information Enhances Ant Detection and Counting}
+
+The study utilized a series of time-ordered images to create a heatmap illustrating the spatial distribution of ants over time (Figure \ref{fig:figure8}). In experiment B01, three trials were conducted to assess the impact of liquid food dispensing design on ant foraging behavior (Figure \ref{fig:figure8}a). In the first trial, a triangular filter paper was placed to distribute sugar solution from a 5 mL vial. In the second and third trials, a thread was used to dispense sucrose solutions from a 15 mL Falcon tube. The heatmap for the first trial indicates that ants were evenly distributed around the filter paper, with higher densities observed along the edges between the filter paper and the petri dish. For the thread-guided strategy, both trials showed high activities around the thread and the cap of the tube, with the second trial displaying a more concentrated ant distribution along the thread. Analysis of ant distribution over time revealed higher numbers of foraging ants in the first trial, suggesting that the triangular filter paper, which has a larger total area to dispense liquid food than the threads in other trials, effectively attracted more foraging ants.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure_8.png}
+    \caption{Heatmap of ant distribution over time for experiments B01 (8a) and B02 (8b). The top row displays the original images, followed by heatmaps illustrating ant activity over time. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity. The bottom row presents line plots of ant presence over time, with the x-axis representing hours and the y-axis representing the number of detected ants.}
+    \label{fig:figure8}
+\end{figure}
+
+\textit{Alt text}: Visualizations of ant activity over time for experiments B01 (8a) and B02 (8b). Top row: Original images. Middle: Heatmaps showing where ants were active; brighter colors indicate more activity. Bottom row: Line graphs of ant counts over time.
+
+Another experiment, B02, was conducted to investigate the macronutrient preference of OHAV-1 infected \emph{T. sessile} (Figure \ref{fig:figure8}b). Both uninfected and OHAV-1 infected ants were observed. A hypothetical line was drawn between the two food sources (i.e., Petri dishes) to analyze their preferences. The heatmap showed that infected ants foraged more on sucrose, while uninfected ants exhibited no obvious preference between the two macronutrients. When ant presence was plotted over time, it was observed that infected ants exhibited strong foraging preference and activities during the first five hours, followed by a sharp decline. This result demonstrates the capability of the CV system to capture spatial and temporal information simultaneously, providing insights into ant foraging behaviors that could be challenging to obtain through manual counting methods when ant colonies are large.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure_9.png}
+    \caption{Heatmap of ant distribution in experiment B03. The left panel displays the uninfected group, while the right panel shows the SINV-3 infected group. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity.}
+    \label{fig:figure9}
+\end{figure}
+
+\textit{Alt text}: Heatmaps comparing ant activity in experiment B03 between the uninfected group (left) and the SINV-3 infected group (right); brighter colors indicate higher ant activity levels.
+
+The dense ant images from experiment subset B03 were visualized in a heatmap using detection results from the 10 x 4 patched images (Figure \ref{fig:figure9}). This experiment examined the impact of SINV-3 infection on ant foraging behaviors, but with a significantly denser ant population and an ant nest cell positioned at the center of the image. The heatmap does not show a strong difference in foraging intensity between the uninfected and infected ants; both groups display hotspots in the four corners of the container, reflecting their natural tendency to explore the environment. Additionally, the heatmap indicates that worker ants are more concentrated around water sources compared to food sources and the nest area. This information is essential for understanding ant foraging behavior and can be applied to optimize bait placement in pest control strategies.
+
+\subsection{Data Dissemination and Web-Based Application}
+
+The source code, the dataset organized in YOLO format, along with the calibrated YOLOv8n model weights (.pt), can be accessed for generating and evaluating the CV system and is publicly available on GitHub (\url{https://github.com/Niche-Squad/ant-detective}). To support researchers and practitioners, a web-based Streamlit application called Ant Detective (\url{https://ant-detective.streamlit.app}) has also been developed. This application allows users to upload images and receive a folder containing detection results in YOLO format and visualized images with blue bounding boxes.
+

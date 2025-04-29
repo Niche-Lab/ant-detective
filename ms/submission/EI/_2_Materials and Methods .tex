@@ -1,0 +1,122 @@
+
+\section{Materials and Methods}
+
+\subsection{Experimental Setup}
+
+\emph{Tapinoma sessile} workers were allowed to feed on sucrose and/or peptone solutions using different setups (Figure \ref{fig:figure1}). \textbf{A01} consisted of a capped Petri dish containing 5 mL of 10\% sucrose solution. A cotton thread, with one end submerged in the sucrose solution and the other end resting on the Petri dish lid, allowed the ants to feed while minimizing evaporation. In \textbf{A02}, worker ants were provided with two liquid food dispensing devices identical to those in A01. One contained 10\% sucrose solution, while the other contained 5\% peptone solution. \textbf{A03} consisted of a Petri dish with an upside-down 5 mL vial filled with 10\% sucrose solution. Three cotton threads extended from the vial to the Petri dish lid, allowing the ants to access the sucrose. In all A01--A03 setups, the feeding devices were placed in a simple foraging area (a clean 15-cm cylindrical container) connected to the ant colony via a plastic tube.
+
+We then set up additional experiments with more complex backgrounds: \textbf{B01} was similar to A03 but used a triangular-shaped filter paper instead of cotton threads to dispense the sucrose solution. The device was placed in a foraging arena scattered with debris and parts of insect prey to add complexity to the background. In \textbf{B02}, both virus-infected (odorous house ant virus 1, OHAV-1) and uninfected \emph{T. sessile} ants were allowed to forage from a liquid food dispensing device similar to A02 (offering 10\% sucrose and 5\% peptone solutions), but with a more complex background. In \textbf{B03}, virus-infected (\emph{Solenopsis invicta} virus 3, SINV-3) and uninfected lab cultures of the red imported fire ant (\emph{Solenopsis invicta}) were used to generate images. A lab fire ant culture is housed in a tray that has a 15-cm Petri dish painted in red as the nest cell and two tubes with water trapped inside as water feeders. To capture the number of workers that stay outside at different timepoints, a photo of the entire lab culture was taken at 5 pm each day using the automated recording system (see below for detailed system setup).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure_1.png}
+    \caption{(a) Overview of the dataset subsets used in this study. (b) Example of ant annotation in the YOLO object detection format.}
+    \label{fig:figure1}
+\end{figure}
+
+\textit{Alt text}: (a) Visual summary of the different data sets used in the study. (b) An image showing an ant marked with a box to demonstrate how the computer detects it.
+
+\subsection{Data Collection and Image Annotation}
+
+The image dataset used in this study was divided into seven distinct subsets, as illustrated in Figure \ref{fig:figure1}a and Table \ref{table1}.
+
+\begin{table}[H]
+    \centering
+    \caption{Summary information of each image subset}
+    \label{table1}
+    \small % Reduce font size for the table
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{Subset names} & \textbf{Number of Images} & \textbf{Average Number} & \textbf{Standard Deviation} & \textbf{Note} \\
+        & & \textbf{(Ants per Image)} & \textbf{(Ants per Image)} & \\
+        \midrule
+        Calibration & 954 & 9.20 & 7.37 & Similar to the subsets A1, A2, and A3 \\
+        A01 & 378 & 4.59 & 3.83 & Single bait source \\
+        A02 & 289 & 4.38 & 4.30 & Two bait sources \\
+        A03 & 56 & 6.11 & 6.15 & Tube feeder \\
+        B01 & 151 & 13.75 & 13.94 & Tube feeder with complex background \\
+        B02 & 206 & 0.69 & 1.26 & Outdoor and complex background \\
+        B03 & 60 & 717.70 & 442.76 & Dense-populated ants with their colony \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Table \ref{table1} summarizes the properties of each subset, including the number of images and the average number of ants per image. The dataset was captured using an automated recording system comprising a GoPro camera mounted with a 15X macro lens, which was clamped on the desk edge via a gooseneck mount, allowing the camera to be approximately 10 cm above the ant's foraging arena where foragers were feeding. All images were taken under consistent lighting conditions to ensure uniform image quality and maintained a minimum resolution of $1920 \times 1080$ pixels.
+
+The "Calibration" subset shares a similar imaging background with the subsets labeled "A" (i.e., "A01", "A02", and "A03"). In contrast, the "B" subsets exhibit more complex imaging conditions. "B01" includes images with debris and parts of insect prey resembling ants, "B02" contains images with non-uniform backgrounds, and "B03" represents images with dense ant populations containing more than 700 ants per image on average.
+
+The manual counting was achieved by annotating the images using the YOLO object detection format \cite{Jocher2023YOLO}, which is also a data format for calibrating the CV system to recognize ants. As depicted in Figure \ref{fig:figure1}b, in this format, each ant is marked with a bounding box, defined by four parameters: the $x$ and $y$ coordinates of the box's center, along with its width and height. These values are normalized to the range [0, 1] by dividing the $x$ and $y$ coordinates by the image's width and height, respectively. For instance, in a $1920 \times 1080$ image, a bounding box with a center at (960, 540) and dimensions of $100 \times 100$ pixels would be represented as $(0.5, 0.5, 0.0521, 0.0926)$, where 0.0521 and 0.0926 are the normalized width and height. Each ant was assigned a class ID. Since the study focuses exclusively on detecting ants without differentiating between species, all ants were assigned a class ID of 0.
+
+\subsection{Objective 1: Determining the Amount of Image Resources Required for Generalization}
+
+The "Calibration" subset was used to "teach" the CV system how the ant morphology appears in images, while the other subsets were employed to evaluate its generalization capabilities. The “A” subsets were designed to mimic the system being deployed in an ongoing and repetitive experiment, with images with similar imaging backgrounds over time. In contrast, the “B” subsets aim to test the system robustness in handling images with less controlled imaging conditions. Except for the subset "B03", in which the number of ants per image was significantly higher than in the other subsets and required additional procedures to calibrate the system, this study focused on the performance of the CV system with different numbers of available images for the model calibration. The available images were randomly sampled from the "Calibration" subset given the numbers of 64, 128, 256, 512, and 1024. Since the number of available images was only 954, when the sampled number was set as 1024, the system sampled the images with replacement until the number of images reached 1024. The sampling process was repeated 30 times for each subset and each available number to avoid sampling bias.
+
+\subsection{Objective 2: Strategies for Handling Dense Imaging Scenarios}
+Detecting ants in a dense population, such as in subset "B03", is challenging despite an abundance of image data, due to the limitations of the model architecture described in the introduction. Inspired by the Slicing Aided Hyper Inference technique \cite{Akyon2022Slicing}, which improves detection accuracy by dividing input images into smaller patches for separate object detection, this study explores an optimized patch size for subset "B03". To avoid bias from varied sampling, all available images—excluding the "B03" subset—were used for model calibration. The system was calibrated using 1,597 images containing 16,368 total ant instances.
+
+During the calibration process, multiple candidate model weights were generated, and the model with the best performance on two randomly selected images from the "B03" subset was selected for further evaluation. These two images were excluded from subsequent evaluation steps. Finally, the model was evaluated on the "B03" subset with different slicing sizes. The original images, with a resolution of $1636 \times 2180$ pixels, were divided into different patch sizes: $818 \times 1090$ (2 x 2 patches), $818 \times 545$ (2 x 4 patches), $409 \times 545$ (4 x 4 patches), $409 \times 218$ (4 x 10 patches), and $204 \times 218$ (8 x 10 patches), as shown in Figure \ref{fig:figure2}. The evaluation aimed to identify the optimal patch size for this dense imaging scenario.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{figure_2.png}
+    \caption{Illustration of the image slicing process for the "B03" subset. The original image is divided into patches of different sizes for object detection.}
+    \label{fig:figure2}
+\end{figure}
+
+\textit{Alt text}: An illustration of how an original image from the “B03” set is divided into smaller pieces to help detect ants.
+
+\subsection{Objective 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant-Foraging Behaviors}
+
+In the object detection format, the precise location and size of each ant in an image are tracked, allowing the CV system to provide more detailed insights into ant foraging behavior than manual counting, which only captures the number of ants in an image. This study utilizes this data format and a Gaussian inference approach to generate an ant activity heatmap, visualizing the spatial distribution of ant activity across images taken over hours to days.
+
+The first step involves converting each detection's bounding box into a circle, which contains the $(x_0, y_0)$ coordinates and their width and height. The center of the circle is at $(x_0, y_0)$, and the radius ($r$) is the average width and height. An all-zero grid with a resolution of $1000 \times 1000$ pixels, which are arbitrarily selected, is then initialized as a placeholder matrix for the heatmap. For each ant detection, the Euclidean distance ($d$) from the center of the circle to each pixel in the grid is calculated (Equation \ref{eq1}):
+
+\begin{equation}
+d(x, y) = \sqrt{(x - x_0)^2 + (y - y_0)^2}
+\label{eq1}
+\end{equation}
+
+The squared distance, $d^2$, is then divided by the squared radius, $r^2$, to determine an inverse intensity value. Greater distances correspond to lower intensities. The inverse intensity values are exponentiated to ensure a smooth gradient representation for each ant (Equation \ref{eq2}). These values $G(x, y)$ are accumulated on the grid for all ant detections across all images, producing a heatmap that visually represents areas of higher ant activity.
+
+\begin{equation}
+G(x, y) = e^{- \left( \frac{d(x, y)^2}{r^2} \right)}
+\label{eq2}
+\end{equation}
+
+In addition to spatial data, temporal changes in ant presence were analyzed to examine the relationship between the number of ants and time during the study period. For example, in subset “B02,” where two bait types, sucrose (labeled ‘S’) and peptone (labeled ‘P’), were placed in the same image, the aim was to understand the ants’ foraging preferences. If the sucrose bait was positioned in the upper-right and the peptone in the lower-left of the image, a simple linear function (Equation \ref{eq3}) was used to separate the ants based on their attraction to the respective baits:
+
+\begin{equation}
+\mathcal{L}(x, y) = y - a x - b
+\label{eq3}
+\end{equation}
+
+Where $a$ is the slope, $b$ is the intercept, and $(x, y)$ represents the center of the ant detection. If the result of $\mathcal{L}(x, y)$ is positive, the ant is located on the upper (and right when the slope is positive) side of the line and is attracted to the sucrose; if negative, the ant is on the lower (and left when the slope is positive) side of the line and is attracted to the peptone.
+
+\subsection{Model Calibration and Evaluation}
+
+The CV detection system is based on the YOLOv8 architecture \cite{Jocher2023YOLO}. Given that ant detection is relatively simple compared to general object detection tasks involving over 50 object classes \cite{Everingham2010Pascal,Lin2014Microsoft}, the smallest model version, YOLOv8n, with 3.2 million parameters, was chosen to balance detection accuracy and computational efficiency. This model version is suitable for deployment on most personal computers due to its minimal hardware requirements (e.g., GPU or high memory), without compromising detection performance, particularly for simple tasks focusing on one specific object \cite{Das2024Model}.
+
+The model was calibrated using the designated number of images and subsets from Studies 1 and 2. Data augmentation was applied during the calibration process to mitigate imaging biases caused by inconsistent camera angles, lighting conditions, and ant distribution. This augmentation involved introducing random noise, rotation, scaling, and cropping to the original images, enhancing the model’s robustness to such variations. The model was calibrated with the Adam optimizer \cite{Kingma2017Adam}, using a learning rate scheduler that started at 0.001 and decreased by 10\% every 10 epochs. The batch size was set to 16, and the calibration was conducted for a total of 100 epochs. Twenty percent of the calibration dataset was randomly selected as the validation set to monitor performance during calibration. The model achieving the best performance on the validation set was chosen for subsequent evaluation. Calibration was conducted using the Ultralytics framework \cite{Jocher2023YOLO} on NVIDIA A100 GPUs.
+
+Model evaluation was performed on the designated subsets from Studies 1 and 2, using metrics such as recall, precision, correlation $r^2$, and Root Mean Square Error (RMSE). Precision and recall were calculated based on the number of true positive (TP), false positive (FP), and false negative (FN) detections:
+
+\begin{equation}
+\text{Precision} = \frac{TP}{TP + FP}
+\end{equation}
+
+\begin{equation}
+\text{Recall} = \frac{TP}{TP + FN}
+\end{equation}
+
+A high recall indicates that the model successfully detected most ants in the images, while a high precision indicates that the detections were mostly correct with few false positives. Two additional criteria were considered when calculating precision and recall: Intersection over Union (IoU) and confidence threshold. IoU measures the overlap ratio between the detected bounding box and the actual area occupied by the ant, while the confidence threshold is the minimum confidence score required for a detection to be included in the results. This study set the IoU and confidence threshold at 0.6 and 0.25, respectively. In addition to evaluating detection performance, $r^2$ and RMSE were calculated to compare the automated counting results with the manual counts when all 954 available calibration images were used:
+
+\begin{equation}
+r^2 = \left( \frac{\text{cov}(\hat{y}, y)}{\sigma_{\hat{y}} \sigma_y} \right)^2
+\end{equation}
+
+\begin{equation}
+\text{RMSE} = \sqrt{ \frac{ \sum_{i=1}^{n} (\hat{y}_i - y_i)^2 }{ n } }
+\end{equation}
+
+Where $y$ and $\hat{y}$ are the manual and automated counts, respectively, and $n$ is the total number of images. $\text{cov}(\hat{y}, y)$ is the covariance between $\hat{y}$ and $y$, and $\sigma$ represents the standard deviations of the terms. The $r^2$ assesses the agreement between automated and manual counting results, while RMSE measures their absolute difference. Depending on different needs of model accuracy, such as focusing on precise localization or counting, these metrics provide a comprehensive evaluation of the model’s effectiveness and reliability for automated ant detection and counting.
+
