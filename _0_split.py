@@ -7,6 +7,8 @@ prerequisite: YOLO annotation from Roboflow. The train path must be modified by 
 """
 
 import os
+import shutil
+from pathlib import Path 
 import numpy as np
 from dotenv import load_dotenv
 import tqdm
@@ -14,6 +16,16 @@ load_dotenv(".env")
 DIR_SRC = os.getenv('DIR_SRC')
 DIR_DATA_RAW  = os.getenv('DIR_DATA_RAW')
 DIR_DATA_ROBO = os.getenv('DIR_DATA_ROBO')
+
+def main():
+    path_yaml = os.path.join(DIR_DATA_ROBO, "data.yaml")
+    data = YOLO_ROBOFLOW_API(path_yaml)
+    dir_root = os.path.dirname(DIR_DATA_ROBO)
+    for i in [1, 2]:
+        dir_out = os.path.join(dir_root, "study%d" % i)
+        data.filter_low_train("s%d_train" % i) # s1 (2066 -> 954 (46.18*)), s2 (3992->1597 (40.01%)), 
+        keys_new = [k for k in data.ids.keys() if "s%d_" % i in k]
+        write_dataset(data, keys_new, dir_out)
 
 
 class YOLO_ROBOFLOW_API:
@@ -97,7 +109,7 @@ class YOLO_ROBOFLOW_API:
     def keys(self):
         return self.ids.keys()
         
-    def filter_low_train(self, splitname):
+    def filter_low_train(self, splitname, min_n=3):
         """
         Remove the images with low number of labels
         """
@@ -112,7 +124,7 @@ class YOLO_ROBOFLOW_API:
                     n_0 += 1
                 ls_n.append(n)
         # from 1591 to 698 (43.87%)
-        idx_keep = [i for i, n in enumerate(ls_n) if n > 3]
+        idx_keep = [i for i, n in enumerate(ls_n) if n > min_n]
         print("From %d to %d (%.2f%%)" % (len(ls_n), len(idx_keep), 100 * len(idx_keep) / len(ls_n)))
         self.ids[splitname] = list(np.array(self.ids[splitname])[idx_keep])
 
@@ -159,9 +171,9 @@ def assign_new_split(ids):
     ids["s1_test_a02"] = [f for f in ids["b04"] if "t7-" in f or "t8-" in f]
     ids["s1_test_a03"] = ids["b05"]
     # different
-    ids["s1_test_b01"] = ids["b06"]
-    ids["s1_test_b02"] = ids["a03"]
-    ids["s1_test_b03"] = ids["b01"] # dense fire ant
+    ids["s1_test_b01"] = [f for f in ids["b06"] if "t1-" in f]
+    ids["s1_test_b02"] = [f for f in ids["b06"] if "t2-" in f or "t3-" in f]
+    ids["s1_test_b03"] = ids["a03"]
     # pseudo test split for pyniche YOLO_API
     ids["s1_test"] = ids["b01"]
     
@@ -175,23 +187,25 @@ def assign_new_split(ids):
     return ids
 
 def check_split_dir(dir_out):
-    if not os.path.exists(dir_out):
-        os.makedirs(dir_out)
-    if not os.path.exists(os.path.join(dir_out, "images")):
-        os.makedirs(os.path.join(dir_out, "images"))
-    if not os.path.exists(os.path.join(dir_out, "labels")):
-        os.makedirs(os.path.join(dir_out, "labels"))
+    dir_out = Path(dir_out)
+    if dir_out.exists():
+        shutil.rmtree(dir_out) 
+    
+    # create the directory
+    os.makedirs(dir_out, exist_ok=True)
+    os.makedirs(dir_out / "images", exist_ok=True)
+    os.makedirs(dir_out / "labels", exist_ok=True)
 
 def write_dataset(data, keys_new, dir_out):
-    write_images_labels(data.ids, keys_new, dir_out)
+    write_images_labels(data, keys_new, dir_out)
     write_yaml(data, keys_new, dir_out)
 
-def write_images_labels(ids, keys, dir_out):
+def write_images_labels(data, keys, dir_out):
     for key in keys:
         subname = key[3:] # skip s1_ or s2_
         dir_key = os.path.join(dir_out, subname)
         check_split_dir(dir_key)
-        for id in tqdm.tqdm(ids[key], desc="Writing %s" % subname):
+        for id in tqdm.tqdm(data.ids[key], desc="Writing %s" % subname):
             # images
             img_src = data.id_to_images(id, "train")
             img_dst = os.path.join(dir_key, "images", id + ".jpg")
@@ -211,15 +225,7 @@ def write_yaml(data, keys_new, dir_out):
             f.write("%s: %s/images\n" % (key, key))
 
 if __name__ == "__main__":
-    path_yaml = os.path.join(DIR_DATA_ROBO, "data.yaml")
-    data = YOLO_ROBOFLOW_API(path_yaml)
-    dir_root = os.path.dirname(DIR_DATA_ROBO)
-    for i in [1, 2]:
-        dir_out = os.path.join(dir_root, "study%d" % i)
-        data.filter_low_train("s%d_train" % i) # s1 (2066 -> 954 (46.18*)), s2 (3992->1597 (40.01%)), 
-        keys_new = [k for k in data.ids.keys() if "s%d_" % i in k]
-        write_dataset(data, keys_new, dir_out)
-
+    main()
 
 
 # a01 
