@@ -1,12 +1,16 @@
 import os
-from dotenv import load_dotenv
+import sys
 import pandas as pd
+
+# local imports
+from paths import PathFinder
+PATHS = PathFinder()
+sys.path.insert(0, PATHS["LIB_PYNICHE"].as_posix())
 from pyniche.data.yolo.API import YOLO_API
 
-load_dotenv('.env')
-DIR_SRC = os.getenv('DIR_SRC')
-DIR_DATA_STUDY1 = os.getenv('DIR_DATA_STUDY1')
-DIR_DATA_STUDY2 = os.getenv('DIR_DATA_STUDY2')
+DIR_SRC = PATHS["DIR_SRC"]
+DIR_DATA_STUDY1 = PATHS["DIR_DATA"] / "study1"
+DIR_DATA_STUDY2 = PATHS["DIR_DATA"] / "study2"
 
 def main():
     columns=["study", "split", "prefix", "yyyymmdd", "HHMM", "datetime", "count", 
@@ -15,8 +19,6 @@ def main():
     api_s1 = YOLO_API(DIR_DATA_STUDY1)
     api_s2 = YOLO_API(DIR_DATA_STUDY2)
     data = dict({"study1": api_s1, "study2": api_s2})
-    ls_imgs = data["study1"].splits["test"]["images"]
-    ls_imgs = [os.path.splitext(f)[0] for f in ls_imgs]
     
     for study in ["study1", "study2"]:
         if study == "study1":
@@ -24,22 +26,19 @@ def main():
         else:
             os.chdir(DIR_DATA_STUDY2)
         for split in data[study].splits:
-            # rm extension and basename
-            ls_imgs = data[study].splits[split]["images"]
-            filenames = [os.path.splitext(f)[0] for f in ls_imgs]
-            filenames = [os.path.basename(f) for f in filenames]
+            # rm extension and and only keep the basename
+            filenames = [f.stem for f in data[study][split].images]
             filenames.sort()
             
             for filename in filenames:
                 # filename example: 
-                # test_b01: t1-A1_7_JPEG.rf.c37d2e0aba1538efc44d759dda81a5c2.txt
-                # others: t1-20221109-1347_jpg.rf.f881f682ca1ac5809ef25.txt
+                # test_b01: t1-A1_7_JPEG.rf.c37d2e0aba1538efc44d759dda81a5c2
+                # others: t1-20221109-1347_jpg.rf.f881f682ca1ac5809ef25
                 
                 # get datetime
                 if (study == "study2" and split != "train") or\
-                    (study == "study1" and split == "test") or\
-                    (study == "study1" and split == "test_b03"):
-                    # a special case for dense fire ant
+                    (study == "study1" and split == "test"):
+                    # put pseudo prefix for test split (dense ant images)
                     prefix = filename[:2]
                     yyyymmdd = '19991231'
                     HHMM = '2359'
@@ -60,6 +59,8 @@ def main():
                                         columns=columns)])
             
     df.to_csv(os.path.join(DIR_SRC, "metadata.csv"), index=False)
+    print("Successfully saved metadata to %s" % os.path.join(DIR_SRC, "metadata.csv"))
+    print("Number of rows in metadata: %d" % len(df))
     # make summary
     df_agg = df.\
         groupby(["study", "split"]).\
@@ -67,6 +68,9 @@ def main():
             reset_index()
     df_agg.columns = ["study", "split", "mean", "std", "count", "median", "min", "max", "sum"]
     df_agg.to_csv(os.path.join(DIR_SRC, "summary.csv"), index=False)
+    print("Successfully saved summary to %s" % os.path.join(DIR_SRC, "summary.csv"))
+    print("Number of rows in summary: %d" % len(df_agg))
+    print("Done.")
     
 if __name__ == "__main__":
     main()

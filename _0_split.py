@@ -7,15 +7,19 @@ prerequisite: YOLO annotation from Roboflow. The train path must be modified by 
 """
 
 import os
+import sys
 import shutil
 from pathlib import Path 
 import numpy as np
 from dotenv import load_dotenv
 import tqdm
-load_dotenv(".env")
-DIR_SRC = os.getenv('DIR_SRC')
-DIR_DATA_RAW  = os.getenv('DIR_DATA_RAW')
-DIR_DATA_ROBO = os.getenv('DIR_DATA_ROBO')
+
+
+from paths import PathFinder
+PATHS = PathFinder()
+DIR_SRC = PATHS["DIR_SRC"]
+DIR_DATA_RAW = PATHS["DIR_DATA_RAW"]
+DIR_DATA_ROBO = PATHS["DIR_DATA_ROBO"]
 
 def main():
     path_yaml = os.path.join(DIR_DATA_ROBO, "data.yaml")
@@ -26,7 +30,6 @@ def main():
         data.filter_low_train("s%d_train" % i) # s1 (2066 -> 954 (46.18*)), s2 (3992->1597 (40.01%)), 
         keys_new = [k for k in data.ids.keys() if "s%d_" % i in k]
         write_dataset(data, keys_new, dir_out)
-
 
 class YOLO_ROBOFLOW_API:
     def __init__(self, path_yaml):
