@@ -17,7 +17,7 @@ source activate pyniche
 
 THREAD=${SLURM_ARRAY_TASK_ID}
 # Define models, configs, and sample sizes
-MODELS=("yolo11x" "yolo11n" "rtdetr-l" "rtdetr-x")
+MODELS=("yolo11n" "yolo11m" "rtdetr-l")
 N_SAMPLES=(64 256 1024)
 
 # Run the script with different configurations

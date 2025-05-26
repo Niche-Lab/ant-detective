@@ -65,7 +65,7 @@ def main(args):
     data.shuffle_train_val(split_src="train", n=int(n_samples), suffix=thread)
     for split in LS_TEST:
         data.make_split(split_src=split, suffix=thread)
-    path_yaml = data.save_yaml(classes=["cow"], suffix=thread)
+    path_yaml = data.save_yaml(classes=["ant"], suffix=thread)
 
     # model ------------------------
     if "detr" in modelname:
@@ -79,7 +79,9 @@ def main(args):
         # data
         data=path_yaml,
         batch=BATCH,
-        scale=0.9, # [1 - scale, 1 + scale]
+        # check ultralytics/data/augment.py line 1153
+        # s = random.uniform(1, 1 + self.scale)
+        scale=0.9, # [1, 1 + scale]
         flipud=0.5, fliplr=0.5, # horizontal and vertical flip
         # training
         epochs=epochs,
@@ -133,5 +135,5 @@ if __name__ == "__main__":
         with open(path_log, "w") as file:
             file.write(errors)
         # prevent early-termination of the job
-        # time.sleep(180)
+        time.sleep(180)
         print(e)
