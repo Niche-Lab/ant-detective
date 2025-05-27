@@ -1,6 +1,7 @@
 # native
 import os
 import sys
+import time
 import random
 import argparse
 import hashlib
@@ -8,6 +9,7 @@ import shutil
 
 # 3-party
 from ultralytics import YOLO, RTDETR
+import torch
 
 # local imports
 from paths import PathFinder
@@ -55,6 +57,7 @@ def main(args):
             
     DIR_DATA = PATHS["DIR_DATA"] / STUDY_ID
     FILE_OUT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"results_{thread}.csv"
+    MEM_OUT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"memory_{thread}.txt"
     DIR_PROJECT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"thread_{thread}" / f"{modelname}_{n_samples}"
 
     # data ------------------------
@@ -75,6 +78,7 @@ def main(args):
         
     # training ------------------------
     epochs, patience = get_config(BATCH, int(n_samples), total_steps=total_steps)
+    time_start = time.time()
     model.train(
         # data
         data=path_yaml,
@@ -91,6 +95,23 @@ def main(args):
         project=DIR_PROJECT,
         name=f"iter_{iters}",
     )
+    time_passed = time.time() - time_start
+    # get number of epochs has elapsed
+    n_epoch = model.trainer.epochs
+    n_steps_per_epoch = int(n_samples) // BATCH
+    sec_per_step = time_passed / (n_epoch * n_steps_per_epoch)
+    sec_per_step = round(sec_per_step, 3)
+    max_mem = torch.cuda.max_memory_allocated() / (1024 ** 2)  # convert to MB
+    max_mem = round(max_mem, 3)
+    
+    line = f"{modelname},{n_params},{n_samples},{thread},{iters},{max_mem},{sec_per_step}\n"
+    if os.path.exists(MEM_OUT):
+        with open(MEM_OUT, "a") as file:
+            f.write(line)
+    else:
+        with open(MEM_OUT, "w") as file:
+            file.write("model,n_params,n_samples,thread,iters,max_mem_MB,sec_per_step\n")
+            file.write(line)
     print("✅ Training completed!")
     # evaluation ------------------------
     for split in LS_TEST:
@@ -111,9 +132,11 @@ def main(args):
         else:
             with open(FILE_OUT, "w") as file:
                 file.write("model,n_params,n_samples,thread,iters,split," + ",".join(metrics.keys()) + "\n")
-                file.write(line + "\n")
-        shutil.rmtree(DIR_PROJECT / f"iter_{iters}" / "weights", ignore_errors=True)
+                file.write(line + "\n")                
         print(f"✅ Evaluation {split} completed!")
+    
+    if iters != "0":
+        shutil.rmtree(DIR_PROJECT / f"iter_{iters}" / "weights", ignore_errors=True)
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -129,7 +152,7 @@ if __name__ == "__main__":
     except Exception as e:
         taskid = f"{STUDY_ID}_{args.modelname}_{args.n_samples}_{args.thread}_{args.iters}"
         errors = str(e)
-        path_log = PATHS["DIR_SRC"] / "log" / "errors" / f"{taskid}.txt"
+        path_log = PATHS["DIR_SRC"] / "logs" / "errors" / f"{taskid}.txt"
         # create directory if not exists
         os.makedirs(path_log.parent, exist_ok=True)
         with open(path_log, "w") as file:
