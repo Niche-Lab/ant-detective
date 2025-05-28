@@ -1,4 +1,6 @@
 import os, sys
+import time
+import numpy as np
 import pandas as pd
 from PIL import Image
 
@@ -11,7 +13,7 @@ PATHS = PathFinder()
 sys.path.insert(0, PATHS["LIB_PYNICHE"].as_posix())
 
 from pyniche.data import supervision
-from pyniche.evaluate import from_sv
+from pyniche import evaluate
 
 PBOUNDS = {
     'divider': (1, 8),  # factor
@@ -23,17 +25,21 @@ GRID_SEARCH = {
 }
 ACQ_FUNC = acquisition.ProbabilityOfImprovement
 
+CONF_THRED = 0.25  # default confidence threshold for detections
+CONF_OPT = 0.5  # default confidence threshold for counting-based optimization
+
 class SAHIOptimizer:
-    def __init__(self, model_path, conf_thred=0.5):
+    def __init__(self, model_path, conf_thred=CONF_THRED):
         self.model = AutoDetectionModel.from_pretrained(
             model_type='ultralytics',
             model_path=model_path,
             confidence_threshold=conf_thred,
             device="cuda:0",  # or 'cuda:0' if GPU is available
         )
+        self.results = dict()
     
     def bo_optimize(self, obj_func="count", obs=None, pils=None,
-                    init_points=3, n_iter=10, xi=1):
+                    init_points=3, n_iter=3, xi=1):
         """
         obj_func: "count" for number of high-confidence detections, 
                    "map" for mAP@0.5:0.95
@@ -50,7 +56,9 @@ class SAHIOptimizer:
             func = obj_func_count
         elif obj_func == "map":
             func = obj_func_map
-                
+        
+        # step 1: optimization
+        time_start = time.time()
         optimizer = BayesianOptimization(
             f=lambda divider, overlap: func(
                 divider, overlap, 
@@ -63,6 +71,9 @@ class SAHIOptimizer:
             init_points=init_points,
             n_iter=n_iter,
         )
+        time_passed = np.float64(time.time() - time_start).round(2)
+
+        # step 2: convert results to DataFrame
         ls_target = [r["target"] for r in optimizer.res]
         map_x = [r["params"] for r in optimizer.res]
         df_y = pd.Series(ls_target, name="target")
@@ -73,11 +84,12 @@ class SAHIOptimizer:
         best_idx = df_merged["target"].idxmax()
         df_merged["divider"] = df_merged["divider"].astype(int)
         df_merged["overlap"] = df_merged["overlap"].round(2)
-        return {
-            "out": df_merged,
-            "best_params": df_merged.iloc[best_idx].drop("target").to_dict(),
-            "best_target": df_merged.iloc[best_idx]["target"],
-        }
+
+        # step 3: update results
+        self.results["out"] = df_merged
+        self.results["best_params"] = df_merged.iloc[best_idx].drop("target").to_dict()
+        self.results["best_target"] = df_merged.iloc[best_idx]["target"]
+        self.results["time_hptuning"] = time_passed
     
     def grid_optimize(self, obj_func="count", obs=None, pils=None):
         """
@@ -96,6 +108,8 @@ class SAHIOptimizer:
         elif obj_func == "map":
             func = obj_func_map
         
+        # step 1: optimization
+        time_start = time.time()
         ls_target = []
         ls_params = []
         for divider in GRID_SEARCH["divider"]:
@@ -105,20 +119,46 @@ class SAHIOptimizer:
                               model=self.model,)
                 ls_target.append(target)
                 ls_params.append({"divider": divider, "overlap": overlap})
+        time_passed = np.float64(time.time() - time_start).round(2)
 
+        # step 2: convert results to DataFrame
         df = pd.DataFrame(ls_params)
         df["target"] = ls_target
         best_idx = df["target"].idxmax()
-        # make target and first parame integer, the 2nd to 2 decimal places
         df["divider"] = df["divider"].astype(int)
         df["overlap"] = df["overlap"].round(2)
-        return {
-            "out": df,
-            "best_params": df.iloc[best_idx].drop("target").to_dict(),
-            "best_target": df.iloc[best_idx]["target"],
-        }
 
+        # step 3: update results
+        self.results["out"] = df
+        self.results["best_params"] = df.iloc[best_idx].drop("target").to_dict()
+        self.results["best_target"] = df.iloc[best_idx]["target"]
+        self.results["time_hptuning"] = time_passed
+    
+    def inference(self, pils, obs, no_slices=False):
+        # step 1: predict with best parameters
+        time_start = time.time()
+        if no_slices:
+            preds = predict_sahi(pils, self.model, no_slice=True)
+            self.results["best_params"] = {"divider": 0, "overlap": 0.0}
+            self.results["time_hptuning"] = 0.0
+        else:
+            preds = predict_sahi(pils, self.model, **self.results["best_params"])
+        time_passed = np.float64(time.time() - time_start).round(2)
+        self.results["time_inference"] = time_passed
+        self.results["predictions"] = preds
 
+        # step 2: evaluate predictions
+        metrics = evaluate.from_sv(preds, obs)
+
+        return dict({
+            "time_hptuning": self.results["time_hptuning"],
+            "time_inference": self.results["time_inference"],
+            "divider": self.results["best_params"]["divider"],
+            "overlap": self.results["best_params"]["overlap"],
+            **metrics,
+        })
+    
+    
 def obj_func_map(
     divider, overlap, # search parameters
     obs, pils, # ground truth and input images
@@ -127,7 +167,7 @@ def obj_func_map(
     **kwargs
 ):
     preds = predict_sahi(pils, model, divider, overlap, no_slice=no_slice)
-    return from_sv(preds, obs)["map5095"]
+    return evaluate.from_sv(preds, obs)["map5095"]
 
 def obj_func_count(
     divider, overlap, # search parameters 
@@ -139,7 +179,7 @@ def obj_func_count(
     preds = predict_sahi(pils, model, divider, overlap, no_slice=no_slice)
     return count_det(preds)
 
-def count_det(preds, conf_thred=0.6):
+def count_det(preds, conf_thred=CONF_OPT):
     count = 0
     for pred in preds:
         count += (pred.confidence > conf_thred).sum()

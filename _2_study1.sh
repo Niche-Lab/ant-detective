@@ -4,27 +4,29 @@
 #SBATCH --partition=l40s_normal_q
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=4
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
-#SBATCH --mem=64G
+#SBATCH --gres-flags=enforce-binding
+#SBATCH --mem=128G
 #SBATCH --account=niche_squad
-#SBATCH --array=0-4 # Job array
+#SBATCH --array=0-9 # Job array
 #SBATCH --output=logs/study1_%A_%a.out
 #SBATCH --error=logs/study1_%A_%a.out
 
 # Load necessary modules (if required)
+module load Miniconda3/24.7.1-0
 source activate pyniche
 
 THREAD=${SLURM_ARRAY_TASK_ID}
 # Define models, configs, and sample sizes
-MODELS=("rtdetr-l" "yolo11n" "yolo11m")
+MODELS=("yolo11n" "yolo11m" "rtdetr-l")
 N_SAMPLES=(64 256 1024)
 
 # Run the script with different configurations
 for ITER in {1..100}; do
     for MODEL in "${MODELS[@]}"; do
             for N_SAMPLE in "${N_SAMPLES[@]}"; do
-                python study1.py \
+                /home/niche/.conda/envs/pyniche/bin/python study1.py \
                     --thread $THREAD \
                     --iters $ITER \
                     --modelname $MODEL \
@@ -33,12 +35,3 @@ for ITER in {1..100}; do
         done
     done
 done
-
-
-# python study1.py\
-#     --iters 0\
-#     --thread 1\
-#     --n_samples 64\
-#     --modelname yolo11n\
-#     --test
-

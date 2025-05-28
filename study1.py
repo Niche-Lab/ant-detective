@@ -11,6 +11,7 @@ import numpy as np
 # 3-party
 from ultralytics import YOLO, RTDETR
 import torch
+from ultralytics.models.nas import val
 
 # local imports
 from paths import PathFinder
@@ -58,8 +59,17 @@ def main(args):
             
     DIR_DATA = PATHS["DIR_DATA"] / STUDY_ID
     FILE_OUT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"results_{thread}.csv"
-    MEM_OUT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"memory_{thread}.txt"
+    MEM_OUT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"memory_{thread}.csv"
     DIR_PROJECT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"thread_{thread}" / f"{modelname}_{n_samples}"
+
+    # log ---------------------------
+    line_shared = dict({
+        "model": modelname,
+        "n_params": n_params,
+        "n_samples": n_samples,
+        "thread": thread,
+        "iters": iters,
+    })
 
     # data ------------------------
     seed = string_to_seed(f"{iters}_{thread}")
@@ -105,95 +115,77 @@ def main(args):
     max_mem = torch.cuda.max_memory_allocated() / (1024 ** 2)  # convert to MB
     max_mem = round(max_mem, 3)
     
-    line = f"{modelname},{n_params},{n_samples},{thread},{iters},{max_mem},{sec_per_step}\n"
+    line = ",".join([str(value) for value in line_shared.values()])
+    line += f",{max_mem},{sec_per_step}\n"
+
     if os.path.exists(MEM_OUT):
         with open(MEM_OUT, "a") as file:
             file.write(line)
     else:
         with open(MEM_OUT, "w") as file:
-            file.write("model,n_params,n_samples,thread,iters,max_mem_MB,sec_per_step\n")
+            file.write(",".join(line_shared.keys()) + ",max_mem_MB,sec_per_step\n")
             file.write(line)
     print("✅ Training completed!")
 
     # evaluation ------------------------
-    optimizer = SAHIOptimizer(model_path=model.trainer.best)
-    
     for split in LS_TEST:
         test_split = data[split + f"_{thread}"]
-        idx_rdm = random.sample(range(len(test_split)), 20)
+        idx_rdm = random.sample(range(len(test_split)), 10)
         obs = test_split.get_detections()
         pils = test_split.get_PILs()
         pils_batch = [pils[i] for i in idx_rdm]
         
-        # hyperparameter optimization
-        hparams = dict()
-        hparams["bo_exploitation"] = optimizer.bo_optimize(
-            obj_func="count", pils=pils_batch,
-            init_points=3, n_iter=3, xi=2,) # avg: 5, sum: 5 * 20 = 100, 2% = 2
-        hparams["grid_search"] = optimizer.grid_optimize(
-            obj_func="count", pils=pils_batch,)
-        
         # 1. single image prediction
-        time_start = time.time()
-        preds = predict_sahi(pils=pils, model=optimizer.model, no_slice=True) 
-        time_passed = np.float64(time.time() - time_start).round(2)
-        write_eval(
-            modelname, n_params, n_samples, thread, iters, split, time_passed,
-            preds, obs, file_out=FILE_OUT, strategy="baseline",
-        )
+        optimizer = SAHIOptimizer(model_path=model.trainer.best)
+        line_results = optimizer.inference(pils=pils, obs=obs, no_slices=True)
+        write_eval(line_shared, line_results, 
+                   splitname=split, strategy="baseline", file_out=FILE_OUT)
+
         # 2. Bayesian optimization - exploration
-        time_start = time.time()
-        hparams["bo_exploration"] = optimizer.bo_optimize(
-            obj_func="count", pils=pils_batch,
-            init_points=3, n_iter=3, xi=10,) # avg: 5, sum: 5 * 20 = 100, 10% = 10
-        preds = predict_sahi(
-            pils=pils, model=optimizer.model,
-            **hparams["bo_exploration"]["best_params"])
-        time_passed = np.float64(time.time() - time_start).round(2)
-        write_eval(
-            modelname, n_params, n_samples, thread, iters, split, time_passed, 
-            preds, obs, file_out=FILE_OUT, strategy="bo_exploration",
-        )
+        optimizer = SAHIOptimizer(model_path=model.trainer.best)
+        optimizer.bo_optimize("count", pils=pils_batch, xi=5)
+        line_results = optimizer.inference(pils=pils, obs=obs)
+        write_eval(line_shared, line_results, 
+                   splitname=split, strategy="bo_exploration", file_out=FILE_OUT)
+
         # 3. Bayesian optimization - exploitation
-        time_start = time.time()
-        preds = predict_sahi(
-            pils=pils, model=optimizer.model,
-            **hparams["bo_exploitation"]["best_params"])
-        time_passed = np.float64(time.time() - time_start).round(2)
-        write_eval(
-            modelname, n_params, n_samples, thread, iters, split, time_passed,
-            preds, obs, file_out=FILE_OUT, strategy="bo_exploitation",
-        )
+        optimizer = SAHIOptimizer(model_path=model.trainer.best)
+        optimizer.bo_optimize("count", pils=pils_batch, xi=1)
+        line_results = optimizer.inference(pils=pils, obs=obs)
+        write_eval(line_shared, line_results, 
+                   splitname=split, strategy="bo_exploitation", file_out=FILE_OUT)
+
         # 4. grid search
-        time_start = time.time()
-        preds = predict_sahi(
-            pils=pils, model=optimizer.model,
-            **hparams["grid_search"]["best_params"])
-        time_passed = np.float64(time.time() - time_start).round(2)
-        write_eval(
-            modelname, n_params, n_samples, thread, iters, split, time_passed,
-            preds, obs, file_out=FILE_OUT, strategy="grid_search",
-        )        
+        optimizer = SAHIOptimizer(model_path=model.trainer.best)
+        optimizer.grid_optimize("count", pils=pils_batch)
+        line_results = optimizer.inference(pils=pils, obs=obs)
+        write_eval(line_shared, line_results,
+                     splitname=split, strategy="grid_search", file_out=FILE_OUT)
+
         print(f"✅ Evaluation {split} completed!")
     
     if iters != "0":
         shutil.rmtree(DIR_PROJECT / f"iter_{iters}" / "weights", ignore_errors=True)
 
 def write_eval(
-    modelname, n_params, n_samples, thread, iters, split, time_passed,
-    preds, obs, file_out, strategy,
+    line_shared,
+    line_results,
+    splitname,
+    strategy,
+    file_out,
 ):
-    metrics = evaluate.from_sv(preds, obs)
-    str_profile = f"{modelname},{n_params},{n_samples},{thread},{iters},{split},{strategy},{time_passed},"
-    str_metrics = ",".join([str(value) for value in metrics.values()])
-    line = str_profile + str_metrics
+    line_out = line_shared.copy()
+    line_out["split"] = splitname
+    line_out["strategy"] = strategy
+    line_out.update(line_results) # add model-specific results
+
     if os.path.exists(file_out):
         with open(file_out, "a") as file:
-            file.write(line + "\n")
+            file.write(",".join([str(value) for value in line_out.values()]) + "\n")
     else:
         with open(file_out, "w") as file:
-            file.write("model,n_params,n_samples,thread,iters,split,strategy,time_passed," + ",".join(metrics.keys()) + "\n")
-            file.write(line + "\n")
+            file.write(",".join(line_out.keys()) + "\n")
+            file.write(",".join([str(value) for value in line_out.values()]) + "\n")
   
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -204,6 +196,7 @@ if __name__ == "__main__":
     parser.add_argument("--test", action="store_true", help="use small number of samples for testing")
     args = parser.parse_args()
     
+    # main(args)
     try:
         main(args)
     except Exception as e:
@@ -215,5 +208,5 @@ if __name__ == "__main__":
         with open(path_log, "w") as file:
             file.write(errors)
         # prevent early-termination of the job
-        # time.sleep(180)
+        time.sleep(180)
         print(e)
