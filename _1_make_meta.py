@@ -58,7 +58,7 @@ def main():
                                 pd.DataFrame([[study, split, prefix, yyyymmdd, HHMM, datetime, count, filename, path_img, path_txt]], 
                                         columns=columns)])
             
-    df.to_csv(os.path.join(DIR_SRC, "metadata.csv"), index=False)
+    df.to_csv(os.path.join(DIR_SRC, "out", "metadata.csv"), index=False)
     print("Successfully saved metadata to %s" % os.path.join(DIR_SRC, "metadata.csv"))
     print("Number of rows in metadata: %d" % len(df))
     # make summary
@@ -67,7 +67,7 @@ def main():
             agg({"count": ["mean", "std", "count", "median", "min", "max", "sum"]}).\
             reset_index()
     df_agg.columns = ["study", "split", "mean", "std", "count", "median", "min", "max", "sum"]
-    df_agg.to_csv(os.path.join(DIR_SRC, "summary.csv"), index=False)
+    df_agg.to_csv(os.path.join(DIR_SRC, "out", "summary.csv"), index=False)
     print("Successfully saved summary to %s" % os.path.join(DIR_SRC, "summary.csv"))
     print("Number of rows in summary: %d" % len(df_agg))
     print("Done.")

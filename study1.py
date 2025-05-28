@@ -6,6 +6,7 @@ import random
 import argparse
 import hashlib
 import shutil
+import numpy as np
 
 # 3-party
 from ultralytics import YOLO, RTDETR
@@ -13,10 +14,11 @@ import torch
 
 # local imports
 from paths import PathFinder
-from evaluate import eval_metrics
 PATHS = PathFinder()
 sys.path.insert(0, PATHS["LIB_PYNICHE"].as_posix())
 from pyniche.data.yolo.API import YOLO_API
+from pyniche import evaluate
+from utils.optimizer import SAHIOptimizer, predict_sahi
 
 # constants and functions -------------------------
 STUDY_ID = "study1"
@@ -30,8 +32,7 @@ DICT_PARAMS = dict({
     "yolo11m": 20.1,
     "yolo11x": 56.9, # 54.7
 })
-LS_TEST = ["test_a01", "test_a02", "test_a03", 
-           "test_b01", "test_b02", "test_b03"]
+LS_TEST = ["test_a01", "test_a02", "test_a03"]
 BATCH = 16  # default batch size for training
 N_STEPS = 8192  # total number of training steps. use "4" for testing purposes
 
@@ -107,37 +108,93 @@ def main(args):
     line = f"{modelname},{n_params},{n_samples},{thread},{iters},{max_mem},{sec_per_step}\n"
     if os.path.exists(MEM_OUT):
         with open(MEM_OUT, "a") as file:
-            f.write(line)
+            file.write(line)
     else:
         with open(MEM_OUT, "w") as file:
             file.write("model,n_params,n_samples,thread,iters,max_mem_MB,sec_per_step\n")
             file.write(line)
     print("✅ Training completed!")
+
     # evaluation ------------------------
+    optimizer = SAHIOptimizer(model_path=model.trainer.best)
+    
     for split in LS_TEST:
-        out = model.val(
-            data=path_yaml,
-            split=split,
-            conf=0.25,
-            project=DIR_PROJECT.as_posix() + f"-{split}",
-            name=f"iter_{iters}",
+        test_split = data[split + f"_{thread}"]
+        idx_rdm = random.sample(range(len(test_split)), 20)
+        obs = test_split.get_detections()
+        pils = test_split.get_PILs()
+        pils_batch = [pils[i] for i in idx_rdm]
+        
+        # hyperparameter optimization
+        hparams = dict()
+        hparams["bo_exploitation"] = optimizer.bo_optimize(
+            obj_func="count", pils=pils_batch,
+            init_points=3, n_iter=3, xi=2,) # avg: 5, sum: 5 * 20 = 100, 2% = 2
+        hparams["grid_search"] = optimizer.grid_optimize(
+            obj_func="count", pils=pils_batch,)
+        
+        # 1. single image prediction
+        time_start = time.time()
+        preds = predict_sahi(pils=pils, model=optimizer.model, no_slice=True) 
+        time_passed = np.float64(time.time() - time_start).round(2)
+        write_eval(
+            modelname, n_params, n_samples, thread, iters, split, time_passed,
+            preds, obs, file_out=FILE_OUT, strategy="baseline",
         )
-        metrics = eval_metrics(out)
-        str_profile = f"{modelname},{n_params},{n_samples},{thread},{iters},{split},"
-        str_metrics = ",".join([str(value) for value in metrics.values()])
-        line = str_profile + str_metrics
-        if os.path.exists(FILE_OUT):
-            with open(FILE_OUT, "a") as file:
-                file.write(line + "\n")
-        else:
-            with open(FILE_OUT, "w") as file:
-                file.write("model,n_params,n_samples,thread,iters,split," + ",".join(metrics.keys()) + "\n")
-                file.write(line + "\n")                
+        # 2. Bayesian optimization - exploration
+        time_start = time.time()
+        hparams["bo_exploration"] = optimizer.bo_optimize(
+            obj_func="count", pils=pils_batch,
+            init_points=3, n_iter=3, xi=10,) # avg: 5, sum: 5 * 20 = 100, 10% = 10
+        preds = predict_sahi(
+            pils=pils, model=optimizer.model,
+            **hparams["bo_exploration"]["best_params"])
+        time_passed = np.float64(time.time() - time_start).round(2)
+        write_eval(
+            modelname, n_params, n_samples, thread, iters, split, time_passed, 
+            preds, obs, file_out=FILE_OUT, strategy="bo_exploration",
+        )
+        # 3. Bayesian optimization - exploitation
+        time_start = time.time()
+        preds = predict_sahi(
+            pils=pils, model=optimizer.model,
+            **hparams["bo_exploitation"]["best_params"])
+        time_passed = np.float64(time.time() - time_start).round(2)
+        write_eval(
+            modelname, n_params, n_samples, thread, iters, split, time_passed,
+            preds, obs, file_out=FILE_OUT, strategy="bo_exploitation",
+        )
+        # 4. grid search
+        time_start = time.time()
+        preds = predict_sahi(
+            pils=pils, model=optimizer.model,
+            **hparams["grid_search"]["best_params"])
+        time_passed = np.float64(time.time() - time_start).round(2)
+        write_eval(
+            modelname, n_params, n_samples, thread, iters, split, time_passed,
+            preds, obs, file_out=FILE_OUT, strategy="grid_search",
+        )        
         print(f"✅ Evaluation {split} completed!")
     
     if iters != "0":
         shutil.rmtree(DIR_PROJECT / f"iter_{iters}" / "weights", ignore_errors=True)
-        
+
+def write_eval(
+    modelname, n_params, n_samples, thread, iters, split, time_passed,
+    preds, obs, file_out, strategy,
+):
+    metrics = evaluate.from_sv(preds, obs)
+    str_profile = f"{modelname},{n_params},{n_samples},{thread},{iters},{split},{strategy},{time_passed},"
+    str_metrics = ",".join([str(value) for value in metrics.values()])
+    line = str_profile + str_metrics
+    if os.path.exists(file_out):
+        with open(file_out, "a") as file:
+            file.write(line + "\n")
+    else:
+        with open(file_out, "w") as file:
+            file.write("model,n_params,n_samples,thread,iters,split,strategy,time_passed," + ",".join(metrics.keys()) + "\n")
+            file.write(line + "\n")
+  
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--iters", type=str, default="0")
@@ -158,5 +215,5 @@ if __name__ == "__main__":
         with open(path_log, "w") as file:
             file.write(errors)
         # prevent early-termination of the job
-        time.sleep(180)
+        # time.sleep(180)
         print(e)
