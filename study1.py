@@ -33,7 +33,8 @@ DICT_PARAMS = dict({
     "yolo11m": 20.1,
     "yolo11x": 56.9, # 54.7
 })
-LS_TEST = ["test_a01", "test_a02", "test_a03"]
+LS_TEST = ["test_a01", "test_a02", "test_a03",
+           "test_b01", "test_b02", "test_b03",]
 BATCH = 16  # default batch size for training
 N_STEPS = 8192  # total number of training steps. use "4" for testing purposes
 
@@ -62,6 +63,9 @@ def main(args):
     MEM_OUT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"memory_{thread}.csv"
     DIR_PROJECT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"thread_{thread}" / f"{modelname}_{n_samples}"
 
+    # reset torch memory
+    torch.cuda.empty_cache()
+    torch.cuda.reset_peak_memory_stats()
     # log ---------------------------
     line_shared = dict({
         "model": modelname,
@@ -128,6 +132,7 @@ def main(args):
     print("✅ Training completed!")
 
     # evaluation ------------------------
+    data.update_splits()
     for split in LS_TEST:
         test_split = data[split + f"_{thread}"]
         idx_rdm = random.sample(range(len(test_split)), 10)
