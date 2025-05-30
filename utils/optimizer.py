@@ -180,15 +180,15 @@ def obj_func_count(
     return count_det(preds)
 
 def count_det(preds, conf_thred=CONF_OPT):
+    preds = handle_single(preds)
     count = 0
     for pred in preds:
         count += (pred.confidence > conf_thred).sum()
     return int(count)
 
 
-def predict_sahi(pils, model, divider=1, overlap=0, no_slice=False):
-    if isinstance(pils, Image.Image):
-        pils = [pils]
+def predict_sahi(pils, model, divider=1, overlap=0, no_slice=False, swsh=None):
+    pils = handle_single(pils)
 
     divider = int(divider)
     overlap = float(overlap)
@@ -199,6 +199,9 @@ def predict_sahi(pils, model, divider=1, overlap=0, no_slice=False):
         if no_slice:
             sh = imgH
             sw = imgW
+        elif swsh is not None:
+            sw = swsh[0]
+            sh = swsh[1]
         else:
             short_side = imgW if imgW < imgH else imgH
             sh = short_side // divider
@@ -218,6 +221,12 @@ def predict_sahi(pils, model, divider=1, overlap=0, no_slice=False):
         return preds[0]
     return preds  # return list of predictions if multiple images are provided
 
+def handle_single(obj):
+    """if the obje is a single object, convert it to a list"""
+    if isinstance(obj, list):
+        return obj
+    else:
+        return [obj]
 
 
 # # example --------------------------

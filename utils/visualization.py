@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
 
 from paths import PathFinder
 PATHS = PathFinder()
@@ -9,26 +10,48 @@ sys.path.insert(0, PATHS["LIB_PYNICHE"].as_posix())
 from pyniche.visualization.supervision import annotate_detection
 import supervision as sv
 
-def vis_preds(preds, obs, pils):
+def vis_preds(pils, preds, obs=None, text=True, conf=0.5):
+    # handling single PIL image or list of PIL images
+    if isinstance(pils, Image.Image):
+        pils = [pils]
+        preds = [preds]
+        if obs is not None:
+            obs = [obs]
+    # filter low-confidence detections
+    new_preds = []
+    for pred in preds:
+        new_preds += [pred[pred.confidence >= conf]]
+    preds = new_preds
+
     vis_pred = []
     for det, pil in zip(preds, pils):
         if det is None:
             continue
-        out = annotate_detection(pil, det, 
-                           [f"ant: {conf:.3f}" for conf in det.confidence], 
-                           box_color=sv.Color.BLUE, 
-                           text_color=sv.Color.WHITE,)
+        if text:
+            out = annotate_detection(pil, det,
+                [f"ant: {conf:.3f}" for conf in det.confidence], 
+                box_color=sv.Color.BLUE, 
+                box_thickness=1,
+                text_color=sv.Color.WHITE,)
+        else:
+            out = annotate_detection(pil, det, 
+                box_color=sv.Color.BLUE, 
+                box_thickness=1, 
+                text_color=sv.Color.WHITE,)
         vis_pred.append(out)
-    vis_obs = []
-    for det, pil in zip(obs, vis_pred):
-        if det is None:
-            continue
-        out = annotate_detection(pil, det, 
-                           box_color=sv.Color.RED, 
-                           text_color=sv.Color.WHITE,)
-        vis_obs.append(out)
-    return vis_obs
-
+    
+    if obs is not None:
+        vis_obs = []
+        for det, pil in zip(obs, vis_pred):
+            if det is None:
+                continue
+            out = annotate_detection(pil, det, 
+                box_color=sv.Color.RED, 
+                box_thickness=1,
+                text_color=sv.Color.WHITE,)
+            vis_obs.append(out)
+        return vis_obs
+    return vis_pred
 
 def plot_unconstrained_opt(pbounds, object_func, optimizer, obs, pils, model):
     """
