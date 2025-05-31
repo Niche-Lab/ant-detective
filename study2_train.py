@@ -87,7 +87,7 @@ def main(args):
   
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--modelname", type=str, default="yol1o12n")
+    parser.add_argument("-m", "--modelname", type=str, default="yolo11n")
     parser.add_argument("-t", "--thread", type=str, default="0")
     parser.add_argument("--test", action="store_true", help="use small number of samples for testing")
     args = parser.parse_args()

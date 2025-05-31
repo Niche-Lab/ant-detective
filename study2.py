@@ -6,7 +6,6 @@ import random
 import argparse
 import hashlib
 import shutil
-import numpy as np
 
 # 3-party
 from ultralytics import YOLO, RTDETR
@@ -47,11 +46,10 @@ def main(args):
     thread = args.thread
     modelname = args.modelname
     n_params = DICT_PARAMS[modelname]
-    is_finetune = "FT" if args.finetune else "WOFT"
+    is_finetune = "2_FT" if args.finetune else "1_NOFT"
             
     DIR_DATA = PATHS["DIR_DATA"] / STUDY_ID
     FILE_OUT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"results_{thread}.csv"
-    MEM_OUT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"memory_{thread}.csv"
     DIR_PROJECT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"thread_{thread}" / f"{modelname}_{is_finetune}"
     # log ---------------------------
     line_shared = dict({
@@ -72,77 +70,70 @@ def main(args):
     idx_train = random.sample(range(n_dense), 1)
     idx_test = set(range(n_dense)) - set(idx_train)
 
-    if is_finetune:
+    if args.finetune:
         data.slice_split(
             split_src="test_dense", 
-            split_dst="train_dense", 
+            split_dst=f"val_dense_{thread}", 
             n_slices=N_SLICES,
             ls_idx=idx_train,)
+        data.make_split(
+            split_src="train",
+            suffix=f"{thread}",            
+        )
+        data.make_split(
+            split_src=f"val_dense_{thread}",
+            split_dst="val",
+            suffix=f"{thread}",
+        )
+    else:
         data.shuffle_train_val(
-            split_src=f"train_dense",
+            split_src="train",
             k=10,
             suffix=f"{thread}")
     data.make_split(
         split_src="test_dense", 
         split_dst="test", 
         ls_idx=idx_test,
-        suffix=f"{thread}")
+        suffix=f"{thread}")   
     path_yaml = data.save_yaml(classes=["ant"], suffix=thread)
 
     # model ------------------------
-    path_model = PATHS["DIR_SRC"] / "models" / f"s2_{modelname}.pt"
     if "detr" in modelname:
-        model = RTDETR(path_model)
+        model = RTDETR(modelname)
     else:
-        model = YOLO(path_model)
+        model = YOLO(modelname)
     
     # training ------------------------
-    if is_finetune:
-        epochs = 1 if args.test else 300  # set epochs to 1 for testing
-        patience = 1 if args.test else 100  # set patience to 1 for testing
-        model.train(
-            # data
-            data=path_yaml,
-            batch=BATCH,
-            # check ultralytics/data/augment.py line 1153
-            # s = random.uniform(1, 1 + self.scale)
-            scale=0.9, # [1, 1 + scale]
-            flipud=0.5, fliplr=0.5, # horizontal and vertical flip
-            # training
-            epochs=epochs,
-            patience=patience,
-            workers=4,
-            # output: DIR_PROJECT/iter_{iters}/
-            project=DIR_PROJECT,
-            name=f"iter_{iters}",
-        )
-        
-        line = ",".join([str(value) for value in line_shared.values()])
-        line += "\n"
-
-        if os.path.exists(MEM_OUT):
-            with open(MEM_OUT, "a") as file:
-                file.write(line)
-        else:
-            with open(MEM_OUT, "w") as file:
-                file.write(",".join(line_shared.keys()) + "\n")
-                file.write(line)
-        print("✅ Training completed!")
+    epochs = 1 if args.test else 300  # set epochs to 1 for testing
+    patience = 1 if args.test else 100  # set patience to 1 for testing
+    model.train(
+        # data
+        data=path_yaml,
+        batch=BATCH,
+        # check ultralytics/data/augment.py line 1153
+        # s = random.uniform(1, 1 + self.scale)
+        scale=0.9, # [1, 1 + scale]
+        flipud=0.5, fliplr=0.5, # horizontal and vertical flip
+        # training
+        epochs=epochs,
+        patience=patience,
+        workers=4,
+        # output: DIR_PROJECT/iter_{iters}/
+        project=DIR_PROJECT,
+        name=f"iter_{iters}",
+    )
+    print("✅ Training completed!")
 
     # evaluation ------------------------
-    if args.finetune:
-        # load the best model from finetuning
-        path_model_eval = model.trainer.best
-    else:
-        # if not finetuning, use the initial model
-        path_model_eval = path_model
-    
+    path_model_eval = model.trainer.best
+
+    data.update_splits()
     split_test = data[f"test_{thread}"]
     obs = split_test.get_detections()
     pils = split_test.get_PILs()
 
-    obs_hptune  = split_dense.get_detections()[idx_train]
-    pils_hptune = split_dense.get_PILs()[idx_train]
+    obs_hptune  = split_dense.get_detections()[idx_train[0]]
+    pils_hptune = split_dense.get_PILs()[idx_train[0]]
     
     # 1. single image prediction
     optimizer = SAHIOptimizer(model_path=path_model_eval)
@@ -159,7 +150,7 @@ def main(args):
 
     # 3. Bayesian optimization - exploitation
     optimizer = SAHIOptimizer(model_path=path_model_eval)
-    optimizer.bo_optimize("count", pils=pils_hptune, xi=5)
+    optimizer.bo_optimize("count", pils=pils_hptune, xi=7)
     line_results = optimizer.inference(pils=pils, obs=obs)
     write_eval(line_shared, line_results, 
                 metric="count", strategy="bo_exploitation", file_out=FILE_OUT)
@@ -177,19 +168,19 @@ def main(args):
         optimizer.bo_optimize("map", obs=obs_hptune, pils=pils_hptune, xi=0.1)
         line_results = optimizer.inference(pils=pils, obs=obs)
         write_eval(line_shared, line_results,
-                    metric="map", strategy="bo_exploration_finetune", file_out=FILE_OUT)
+                    metric="map", strategy="bo_exploration", file_out=FILE_OUT)
         # 3b. Bayesian optimization - exploitation with finetuning
         optimizer = SAHIOptimizer(model_path=path_model_eval)
         optimizer.bo_optimize("map", obs=obs_hptune, pils=pils_hptune, xi=0.01)
         line_results = optimizer.inference(pils=pils, obs=obs)
         write_eval(line_shared, line_results,
-                    metric="map", strategy="bo_exploitation_finetune", file_out=FILE_OUT)
+                    metric="map", strategy="bo_exploitation", file_out=FILE_OUT)
         # 4b. grid search with finetuning
         optimizer = SAHIOptimizer(model_path=path_model_eval)
         optimizer.grid_optimize("map", obs=obs_hptune, pils=pils_hptune)
         line_results = optimizer.inference(pils=pils, obs=obs)
         write_eval(line_shared, line_results,
-                    metric="map", strategy="grid_search_finetune", file_out=FILE_OUT)
+                    metric="map", strategy="grid_search", file_out=FILE_OUT)
         
     print("✅ Evaluation completed!")
     
@@ -231,7 +222,8 @@ if __name__ == "__main__":
         try:
             main(args)
         except Exception as e:
-            taskid = f"{STUDY_ID}_{args.modelname}_{args.n_samples}_{args.thread}_{args.iters}"
+            print(e)
+            taskid = f"{STUDY_ID}_{args.modelname}_{args.finetune}_{args.thread}_{args.iters}"
             errors = str(e)
             path_log = PATHS["DIR_SRC"] / "logs" / "errors" / f"{taskid}.txt"
             # create directory if not exists
@@ -240,4 +232,3 @@ if __name__ == "__main__":
                 file.write(errors)
             # prevent early-termination of the job
             time.sleep(180)
-            print(e)

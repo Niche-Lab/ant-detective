@@ -16,11 +16,11 @@ from pyniche.data import supervision
 from pyniche import evaluate
 
 PBOUNDS = {
-    'divider': (1, 8),  # factor
+    'divider': (1, 4),  # factor
     'overlap': (0, 0.5),  # ratio
 }
 GRID_SEARCH = {
-    'divider': [1, 2, 4, 8],  # factor
+    'divider': [1, 2, 4],  # factor
     'overlap': [0, 0.25, 0.5],  # ratio
 }
 ACQ_FUNC = acquisition.ProbabilityOfImprovement
@@ -39,7 +39,7 @@ class SAHIOptimizer:
         self.results = dict()
     
     def bo_optimize(self, obj_func="count", obs=None, pils=None,
-                    init_points=3, n_iter=3, xi=1):
+                    init_points=2, n_iter=3, xi=1):
         """
         obj_func: "count" for number of high-confidence detections, 
                    "map" for mAP@0.5:0.95
