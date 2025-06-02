@@ -9,25 +9,31 @@ sys.path.insert(0, PATHS["LIB_PYNICHE"].as_posix())
 from pyniche.data.yolo.API import YOLO_API
 
 DIR_SRC = PATHS["DIR_SRC"]
+
 DIR_DATA_STUDY1 = PATHS["DIR_DATA"] / "study1"
 DIR_DATA_STUDY2 = PATHS["DIR_DATA"] / "study2"
+SPLITS_S1 = ["train", "test_a01", "test_a02", "test_a03",
+             "test_b01", "test_b02", "test_b03"]
+SPLITS_S2 = ["train", "test_dense", "test_inat"]
+
+WD = dict({"study1": DIR_DATA_STUDY1,
+            "study2": DIR_DATA_STUDY2})
+DATA = dict({"study1": YOLO_API(DIR_DATA_STUDY1), 
+             "study2": YOLO_API(DIR_DATA_STUDY2)})
+SPLITS = dict({"study1": SPLITS_S1,
+               "study2": SPLITS_S2})
 
 def main():
     columns=["study", "split", "prefix", "yyyymmdd", "HHMM", "datetime", "count", 
             "filename", "path_img", "path_txt"]
     df = pd.DataFrame(columns=columns)
-    api_s1 = YOLO_API(DIR_DATA_STUDY1)
-    api_s2 = YOLO_API(DIR_DATA_STUDY2)
-    data = dict({"study1": api_s1, "study2": api_s2})
     
     for study in ["study1", "study2"]:
-        if study == "study1":
-            os.chdir(DIR_DATA_STUDY1)
-        else:
-            os.chdir(DIR_DATA_STUDY2)
-        for split in data[study].splits:
+        os.chdir(WD[study])
+
+        for split in SPLITS[study]:
             # rm extension and and only keep the basename
-            filenames = [f.stem for f in data[study][split].images]
+            filenames = [f.stem for f in DATA[study][split].images]
             filenames.sort()
             
             for filename in filenames:
@@ -57,17 +63,36 @@ def main():
                 df = pd.concat([df, 
                                 pd.DataFrame([[study, split, prefix, yyyymmdd, HHMM, datetime, count, filename, path_img, path_txt]], 
                                         columns=columns)])
-            
+                
     df.to_csv(os.path.join(DIR_SRC, "out", "metadata.csv"), index=False)
     print("Successfully saved metadata to %s" % os.path.join(DIR_SRC, "metadata.csv"))
     print("Number of rows in metadata: %d" % len(df))
+    
     # make summary
     df_agg = df.\
         groupby(["study", "split"]).\
             agg({"count": ["mean", "std", "count", "median", "min", "max", "sum"]}).\
             reset_index()
     df_agg.columns = ["study", "split", "mean", "std", "count", "median", "min", "max", "sum"]
-    df_agg.to_csv(os.path.join(DIR_SRC, "out", "summary.csv"), index=False)
+    
+    # check ratio of the w/h, w, h, 
+    df_wh = pd.DataFrame(columns=["study", "split", "width", "height", "ratio_wh"])
+    for study in ["study1", "study2"]:
+        for split in SPLITS[study]:
+            api = DATA[study][split]
+            ls_wh = []
+            for i in range(len(api)):
+                ls_wh += [(float(a[3]), float(a[4].replace("\n", "")))\
+                    for a in api.get_annotation(i)]
+            df_wh_tmp = pd.DataFrame(ls_wh, columns=["width", "height"])
+            df_wh_tmp["ratio_wh"] = df_wh_tmp["width"] / df_wh_tmp["height"]
+            df_wh_tmp["study"] = study
+            df_wh_tmp["split"] = split
+            # get mean of each column
+            df_wh_tmp = df_wh_tmp.groupby(["study", "split"]).mean().reset_index()
+            df_wh = pd.concat([df_wh, df_wh_tmp], ignore_index=True)            
+    df_out = pd.merge(df_agg, df_wh, on=["study", "split"], how="left")
+    df_out.to_csv(os.path.join(DIR_SRC, "out", "summary.csv"), index=False)
     print("Successfully saved summary to %s" % os.path.join(DIR_SRC, "summary.csv"))
     print("Number of rows in summary: %d" % len(df_agg))
     print("Done.")

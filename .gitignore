@@ -57,3 +57,6 @@ modules/
 !app/ant_detective.pt
 !packages.txt
 report.md
+
+!out/s1_*
+!out/s2_*
