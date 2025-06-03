@@ -51,6 +51,11 @@ def main(args):
     DIR_DATA = PATHS["DIR_DATA"] / STUDY_ID
     FILE_OUT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"results_{thread}.csv"
     DIR_PROJECT = PATHS["DIR_SRC"] / "out" / STUDY_ID / f"thread_{thread}" / f"{modelname}_{is_finetune}"
+
+    # reset torch memory
+    torch.cuda.empty_cache()
+    torch.cuda.reset_peak_memory_stats()
+    
     # log ---------------------------
     line_shared = dict({
         "model": modelname,
@@ -106,6 +111,7 @@ def main(args):
     # training ------------------------
     epochs = 1 if args.test else 300  # set epochs to 1 for testing
     patience = 1 if args.test else 100  # set patience to 1 for testing
+    time_start = time.time()
     model.train(
         # data
         data=path_yaml,
@@ -122,6 +128,14 @@ def main(args):
         project=DIR_PROJECT,
         name=f"iter_{iters}",
     )
+    time_passed = time.time() - time_start
+    time_per_epoch = round(time_passed / 300, 3)
+    max_mem = torch.cuda.max_memory_allocated() / (1024 ** 2)  # convert to MB
+    max_mem = round(max_mem, 3)
+    line_shared.update({
+        "time_per_epoch": time_per_epoch,
+        "max_mem": max_mem,
+    })    
     print("✅ Training completed!")
 
     # evaluation ------------------------

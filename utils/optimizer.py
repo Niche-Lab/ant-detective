@@ -16,8 +16,8 @@ from pyniche.data import supervision
 from pyniche import evaluate
 
 PBOUNDS = {
-    'divider': (1, 4),  # factor
-    'overlap': (0, 0.5),  # ratio
+    'divider': (0.5, 4.5),  # factor
+    'overlap': (-0.125, 0.625),  # ratio
 }
 GRID_SEARCH = {
     'divider': [1, 2, 4],  # factor
@@ -90,7 +90,7 @@ class SAHIOptimizer:
         self.results["best_params"] = df_merged.iloc[best_idx].drop("target").to_dict()
         self.results["best_target"] = df_merged.iloc[best_idx]["target"]
         self.results["time_hptuning"] = time_passed
-    
+
     def grid_optimize(self, obj_func="count", obs=None, pils=None):
         """
         obj_func: "count" for number of high-confidence detections, 
@@ -190,8 +190,13 @@ def count_det(preds, conf_thred=CONF_OPT):
 def predict_sahi(pils, model, divider=1, overlap=0, no_slice=False, swsh=None):
     pils = handle_single(pils)
 
-    divider = int(divider)
-    overlap = float(overlap)
+    divider = round(divider)
+    if overlap >= -0.125 and overlap < 0.125:
+        overlap = 0.0
+    elif overlap >= 0.125 and overlap < 0.375:
+        overlap = 0.25
+    elif overlap >= 0.375 and overlap < 0.625:
+        overlap = 0.5
 
     preds = []
     for pil in pils:
