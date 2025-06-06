@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=study2_eval
+#SBATCH --job-name=study2
 #SBATCH -t 143:59:59
-#SBATCH --partition=a100_normal_q
+#SBATCH --partition=l40s_normal_q
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=8
@@ -19,8 +19,8 @@ source activate pyniche
 
 THREAD=${SLURM_ARRAY_TASK_ID}
 # Define models, configs, and sample sizes
-MODELS=("rtdetr-l")
-# MODELS=("yolo11n" "yolo11m")
+# MODELS=("rtdetr-l")
+MODELS=("yolo11n" "yolo11m" "rtdetr-l")
 
 # Run the script with different configurations
 for ITER in {1..100}; do

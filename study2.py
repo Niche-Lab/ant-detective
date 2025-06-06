@@ -116,6 +116,7 @@ def main(args):
         # data
         data=path_yaml,
         batch=BATCH,
+        amp=False if "detr" in modelname else True,  # use amp for YOLO models
         # check ultralytics/data/augment.py line 1153
         # s = random.uniform(1, 1 + self.scale)
         scale=0.9, # [1, 1 + scale]
