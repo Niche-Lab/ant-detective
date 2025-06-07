@@ -199,8 +199,8 @@ def main(args):
         
     print("✅ Evaluation completed!")
     
-    if iters != "0":
-        shutil.rmtree(DIR_PROJECT / f"iter_{iters}" / "weights", ignore_errors=True)
+    # if iters != "0":
+    #     shutil.rmtree(DIR_PROJECT / f"iter_{iters}" / "weights", ignore_errors=True)
 
 def write_eval(
     line_shared,

@@ -9,7 +9,7 @@
 #SBATCH --gres-flags=enforce-binding
 #SBATCH --mem=128G
 #SBATCH --account=niche_squad
-#SBATCH --array=0-9 # Job array for different models
+#SBATCH --array=0 # Job array for different models
 #SBATCH --output=logs/study2_%A_%a.out
 #SBATCH --error=logs/study2_%A_%a.out
 
@@ -21,9 +21,11 @@ THREAD=${SLURM_ARRAY_TASK_ID}
 # Define models, configs, and sample sizes
 # MODELS=("rtdetr-l")
 MODELS=("yolo11n" "yolo11m" "rtdetr-l")
+MODELS=("yolo11n")
 
 # Run the script with different configurations
-for ITER in {1..100}; do
+# for ITER in {1..100}; do
+for ITER in {98..99}; do
     for MODEL in "${MODELS[@]}"; do
             /home/niche/.conda/envs/pyniche/bin/python study2.py \
                 --thread $THREAD \
