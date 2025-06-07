@@ -9,7 +9,7 @@
 #SBATCH --gres-flags=enforce-binding
 #SBATCH --mem=128G
 #SBATCH --account=niche_squad
-#SBATCH --array=0-9 # Job array
+#SBATCH --array=0 # Job array
 #SBATCH --output=logs/study1_%A_%a.out
 #SBATCH --error=logs/study1_%A_%a.out
 
@@ -17,22 +17,28 @@
 module load Miniconda3/24.7.1-0
 source activate pyniche
 
-THREAD=${SLURM_ARRAY_TASK_ID}
+# THREAD=${SLURM_ARRAY_TASK_ID}
 # Define models, configs, and sample sizes
-MODELS=("rtdetr-l")
+# MODELS=("rtdetr-l")
 # MODELS=("yolo11n" "yolo11m")
-N_SAMPLES=(64 256 1024)
+# N_SAMPLES=(64 256 1024)
 
-# Run the script with different configurations
-for ITER in {1..100}; do
-    for MODEL in "${MODELS[@]}"; do
-            for N_SAMPLE in "${N_SAMPLES[@]}"; do
-                /home/niche/.conda/envs/pyniche/bin/python study1.py \
-                    --thread $THREAD \
-                    --iters $ITER \
-                    --modelname $MODEL \
-                    --n_samples $N_SAMPLE
-            done
-        done
-    done
-done
+# # Run the script with different configurations
+# for ITER in {1..100}; do
+#     for MODEL in "${MODELS[@]}"; do
+#             for N_SAMPLE in "${N_SAMPLES[@]}"; do
+#                 /home/niche/.conda/envs/pyniche/bin/python study1.py \
+#                     --thread $THREAD \
+#                     --iters $ITER \
+#                     --modelname $MODEL \
+#                     --n_samples $N_SAMPLE
+#             done
+#         done
+#     done
+# done
+
+/home/niche/.conda/envs/pyniche/bin/python study1.py \
+                    --thread 0 \
+                    --iters 98 \
+                    --modelname "rtdetr-l" \
+                    --n_samples 1024
