@@ -1,0 +1,26 @@
+\subsection{Study 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant-Foraging Behaviors}
+
+In the object detection format, the precise location and size of each ant in an image are tracked, allowing the CV system to provide more detailed insights into ant foraging behavior than manual counting, which only captures the number of ants in an image. This study utilizes this data format and a Gaussian inference approach to generate an ant activity heatmap, visualizing the spatial distribution of ant activity across images taken over hours to days.
+
+The first step involves converting each detection's bounding box into a circle, which contains the $(x_0, y_0)$ coordinates and their width and height. The center of the circle is at $(x_0, y_0)$, and the radius ($r$) is the average width and height. An all-zero grid with a resolution of $1000 \times 1000$ pixels, which are arbitrarily selected, is then initialized as a placeholder matrix for the heatmap. For each ant detection, the Euclidean distance ($d$) from the center of the circle to each pixel in the grid is calculated (Equation \ref{eq1}):
+
+\begin{equation}
+d(x, y) = \sqrt{(x - x_0)^2 + (y - y_0)^2}
+\label{eq1}
+\end{equation}
+
+The squared distance, $d^2$, is then divided by the squared radius, $r^2$, to determine an inverse intensity value. Greater distances correspond to lower intensities. The inverse intensity values are exponentiated to ensure a smooth gradient representation for each ant (Equation \ref{eq2}). These values $G(x, y)$ are accumulated on the grid for all ant detections across all images, producing a heatmap that visually represents areas of higher ant activity.
+
+\begin{equation}
+G(x, y) = e^{- \left( \frac{d(x, y)^2}{r^2} \right)}
+\label{eq2}
+\end{equation}
+
+In addition to spatial data, temporal changes in ant presence were analyzed to examine the relationship between the number of ants and time during the study period. For example, in subset “B02,” where two bait types, sucrose (labeled ‘S’) and peptone (labeled ‘P’), were placed in the same image, the aim was to understand the ants’ foraging preferences. If the sucrose bait was positioned in the upper-right and the peptone in the lower-left of the image, a simple linear function (Equation \ref{eq3}) was used to separate the ants based on their attraction to the respective baits:
+
+\begin{equation}
+\mathcal{L}(x, y) = y - a x - b
+\label{eq3}
+\end{equation}
+
+Where $a$ is the slope, $b$ is the intercept, and $(x, y)$ represents the center of the ant detection. If the result of $\mathcal{L}(x, y)$ is positive, the ant is located on the upper (and right when the slope is positive) side of the line and is attracted to the sucrose; if negative, the ant is on the lower (and left when the slope is positive) side of the line and is attracted to the peptone.

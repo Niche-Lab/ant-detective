@@ -1,0 +1,136 @@
+\subsection{Slicing Dense-Populated Images Significantly Improves Model Performance}
+
+The CV system achieved a substantial accuracy improvement by slicing densely populated images into smaller patches (Figure \ref{fig:s2_results}, Table \ref{tab:s2_results}). Peak performance was observed when the original images were divided into 4 x 10 patches, resulting in a precision of 77.97\% and a recall of 71.36\%. This represents a significant enhancement compared to the performance on the original images (precision: 9.92\%, recall: 1.60\%).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure_6.jpg}
+    \caption{(a) Model performance on original and sliced images with different patch ratios. Precision and recall values are represented by blue and orange lines, respectively. (b) Example images resized to $640 \times 640$ pixels, with subtitles indicating the patch ratio and height-to-width ratio in parentheses.}
+    \label{fig:s2_results}
+\end{figure}
+
+\textit{Alt text}: 5a A line graph displaying the model's precision (blue line) and recall (orange line) when using original and sliced images with different patch sizes. 5b Examples of images resized to $640 \times 640$ pixels, each labeled with its patch size and aspect ratio.
+
+\begin{table}[H]
+\centering
+\caption{Model Performance Comparison Across Different Strategies and Categories}
+\label{tab:s2_performance}
+\small
+    \begin{tabular}{llllllll}
+    \toprule
+    \textbf{Model} & \textbf{Search Algo.} & \textbf{Strategy} & \textbf{mAP@0.5} & \textbf{F1 score} & \textbf{Precision} & \textbf{Recall} \\
+    \midrule
+    \multirow{9}{*}{YOLO11n)} & \multirow{3}{*}{Exploitation BO} & A. no FT + unsup. & $63.4\% \pm 20.6\% $ & $63.7\% \pm 20.9\% $ & $71.7\% \pm 21.9\% $ & $57.5\% \pm 19.6\% $ \\ 
+    &  & B. FT + unsup. & $65.2\% \pm 22.3\% $ & $63.6\% \pm 23.0\% $ & $74.6\% \pm 23.3\% $ & $56.3\% \pm 21.6\% $ \\ 
+    &  & C. FT + sup. & $75.0\% \pm 6.0\% $ & $73.6\% \pm 6.3\% $ & $83.6\% \pm 3.1\% $ & $66.0\% \pm 8.1\% $ \\ 
+    \cmidrule{2-7}
+    & \multirow{3}{*}{Exploration BO} & A. no FT + unsup. & $69.6\% \pm 12.1\% $ & $70.0\% \pm 12.4\% $ & $77.9\% \pm 11.5\% $ & $63.9\% \pm 12.5\% $ \\ 
+    &  & B. FT + unsup. & $71.6\% \pm 15.8\% $ & $70.4\% \pm 16.0\% $ & $79.7\% \pm 16.3\% $ & $63.4\% \pm 15.5\% $ \\ 
+    &  & C. FT + sup. & $71.3\% \pm 19.4\% $ & $69.7\% \pm 19.9\% $ & $78.6\% \pm 19.5\% $ & $63.2\% \pm 18.9\% $ \\ 
+    \cmidrule{2-7}
+    & \multirow{3}{*}{Grid search} & A. no FT + unsup. & $74.6\% \pm 3.4\% $ & $75.3\% \pm 2.0\% $ & $81.7\% \pm 2.7\% $ & $69.9\% \pm 2.0\% $ \\ 
+    &  & B. FT + unsup. & $78.5\% \pm 1.8\% $ & $77.5\% \pm 1.1\% $ & $84.4\% \pm 1.1\% $ & $71.7\% \pm 1.2\% $ \\ 
+    &  & C. FT + sup. & $81.1\% \pm 1.4\% $ & $79.3\% \pm 1.0\% $ & $85.8\% \pm 1.3\% $ & $73.8\% \pm 1.0\% $ \\ 
+    \midrule
+    \multirow{9}{*}{YOLO11m} & \multirow{3}{*}{Exploitation BO} & A. no FT + unsup. & $59.9\% \pm 19.1\% $ & $61.8\% \pm 19.8\% $ & $68.6\% \pm 20.8\% $ & $56.6\% \pm 18.6\% $ \\ 
+    &  & B. FT + unsup. & $59.0\% \pm 23.8\% $ & $60.0\% \pm 24.7\% $ & $67.7\% \pm 26.0\% $ & $54.3\% \pm 23.1\% $ \\ 
+    &  & C. FT + sup. & $65.7\% \pm 14.7\% $ & $66.6\% \pm 15.3\% $ & $74.8\% \pm 15.4\% $ & $60.5\% \pm 15.2\% $ \\ 
+    \cmidrule{2-7}
+    & \multirow{3}{*}{Exploration BO} & A. no FT + unsup. & $64.5\% \pm 11.4\% $ & $66.8\% \pm 11.3\% $ & $73.2\% \pm 11.4\% $ & $61.5\% \pm 11.0\% $ \\ 
+    &  & B. FT + unsup. & $63.0\% \pm 18.7\% $ & $64.2\% \pm 19.5\% $ & $72.1\% \pm 20.1\% $ & $58.3\% \pm 18.4\% $ \\ 
+    &  & C. FT + sup. & $67.7\% \pm 11.3\% $ & $68.8\% \pm 11.6\% $ & $76.3\% \pm 11.3\% $ & $63.0\% \pm 11.8\% $ \\ 
+    \cmidrule{2-7}
+    & \multirow{3}{*}{Grid search} & A. no FT + unsup. & $68.4\% \pm 4.5\% $ & $71.1\% \pm 2.7\% $ & $76.9\% \pm 3.4\% $ & $66.2\% \pm 2.6\% $ \\ 
+    &  & B. FT + unsup. & $71.8\% \pm 1.1\% $ & $73.3\% \pm 0.8\% $ & $79.8\% \pm 0.9\% $ & $67.7\% \pm 0.7\% $ \\ 
+    &  & C. FT + sup. & $73.7\% \pm 1.1\% $ & $74.4\% \pm 0.8\% $ & $80.4\% \pm 0.9\% $ & $69.3\% \pm 0.8\% $ \\ 
+    \midrule
+    \multirow{9}{*}{RT-DETR-L} & \multirow{3}{*}{Exploitation BO} & A. no FT + unsup. & $53.2\% \pm 18.1\% $ & $57.1\% \pm 19.4\% $ & $64.9\% \pm 20.8\% $ & $51.2\% \pm 18.3\% $ \\ 
+    &  & B. FT + unsup. & $53.4\% \pm 22.3\% $ & $56.2\% \pm 23.1\% $ & $63.9\% \pm 24.8\% $ & $50.5\% \pm 21.6\% $ \\ 
+    &  & C. FT + sup. & $59.7\% \pm 15.7\% $ & $62.6\% \pm 15.9\% $ & $70.5\% \pm 16.2\% $ & $56.6\% \pm 15.3\% $ \\ 
+    \cmidrule{2-7}
+    & \multirow{3}{*}{Exploration BO} & A. no FT + unsup. & $55.3\% \pm 18.4\% $ & $59.6\% \pm 19.7\% $ & $66.2\% \pm 21.1\% $ & $54.3\% \pm 18.4\% $ \\ 
+    &  & B. FT + unsup. & $59.3\% \pm 18.0\% $ & $62.5\% \pm 18.2\% $ & $69.8\% \pm 19.4\% $ & $56.7\% \pm 17.1\% $ \\ 
+    &  & C. FT + sup. & $62.5\% \pm 12.7\% $ & $65.7\% \pm 12.3\% $ & $72.9\% \pm 12.8\% $ & $59.9\% \pm 11.9\% $ \\ 
+    \cmidrule{2-7}
+    & \multirow{3}{*}{Grid search} & A. no FT + unsup. & $64.2\% \pm 3.7\% $ & $69.4\% \pm 2.4\% $ & $75.4\% \pm 3.0\% $ & $64.3\% \pm 2.0\% $ \\ 
+    &  & B. FT + unsup. & $66.8\% \pm 6.8\% $ & $71.0\% \pm 4.4\% $ & $77.2\% \pm 5.0\% $ & $65.6\% \pm 4.1\% $ \\ 
+    &  & C. FT + sup. & $67.2\% \pm 6.9\% $ & $70.6\% \pm 4.5\% $ & $77.2\% \pm 5.2\% $ & $65.0\% \pm 4.0\% $ \\ 
+    \midrule
+    \end{tabular}%
+
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Hyperparameter Tuning Time Comparison Across Different Models, Metrics, and Strategies}
+\label{tab:hptuning_time}
+\small
+    \begin{tabular}{lllll}
+    \toprule
+    \textbf{Model} & \textbf{VRAM Peak Usage}&\textbf{Maximized Variable} & \textbf{Search Algo.} & \textbf{Time (seconds)} \\
+    \midrule
+    \multirow{6}{*}{YOLO11n} & \multirow{6}{*}{7.45 GB $\pm$ 1.21 GB} & \multirow{3}{*}{$n$ detections (unsup.)} & Exploitation BO & $3.35 \pm 1.22$ \\
+                            &                                         &                                          & Exploration BO & $3.64 \pm 1.26$ \\
+                            &                                         &                                          & Grid search & $3.96 \pm 0.65$ \\
+    \cmidrule{3-5}
+                            &                                         & \multirow{3}{*}{mAP@0.5 (sup.)}          & Exploitation BO & $10.03 \pm 5.24$ \\
+                            &                                         &                                          & Exploration BO & $9.81 \pm 5.09$ \\
+                            &                                         &                                          & Grid search & $12.77 \pm 5.82$ \\
+    \midrule
+    \multirow{6}{*}{YOLO11m} & \multirow{6}{*}{19.6 GB $\pm$ 2.41 GB} & \multirow{3}{*}{$n$ detections (unsup.)} & Exploitation BO & $3.31 \pm 1.16$ \\
+                            &                                       &                                            & Exploration BO & $3.63 \pm 1.23$ \\
+                            &                                       &                                            & Grid search & $4.22 \pm 0.62$ \\
+    \cmidrule{3-5}
+                            &                                       &    \multirow{3}{*}{mAP@0.5 (sup.)}         & Exploitation BO & $10.12 \pm 4.87$ \\
+                            &                                       &                                            & Exploration BO & $9.95 \pm 4.64$ \\
+                            &                                       &                                            & Grid search & $13.58 \pm 5.87$ \\
+    \midrule
+    \multirow{6}{*}{RT-DETR-L} & \multirow{6}{*}{20.01 $\pm$ 0.7 GB} & \multirow{3}{*}{$n$ detections (unsup.)} & Exploitation BO & $4.74 \pm 1.99$ \\
+                            &                                       &                                           & Exploration BO & $5.21 \pm 1.88$ \\
+                            &                                       &                                           & Grid search & $6.00 \pm 0.53$ \\
+    \cmidrule{3-5}
+                            &                                       & \multirow{3}{*}{mAP@0.5 (sup.)}           & Exploitation BO & $13.58 \pm 6.24$ \\
+                            &                                       &                                           & Exploration BO & $13.23 \pm 6.55$ \\
+                            &                                       &                                           & Grid search & $17.62 \pm 6.47$ \\
+    \bottomrule
+    \end{tabular}
+
+\end{table}
+
+
+
+
+Additionally, since the YOLOv8n model architecture requires the input image to be in a $640 \times 640$ matrix, the slicing ratio plays a crucial role in preventing image distortion, especially when the height/width ratio of the input image deviates from 1. For instance, in this study, the original image size was $1636 \times 2180$ pixels. Directly resizing this image to $640 \times 640$ results in a height-axis distortion of 1.34 times (calculated from the width/height ratio of $1636/2180$). The study also examined whether such height-axis distortion, ideally close to 1, would affect detection performance. Surprisingly, the 4 x 10 patched images, which exhibited the most distorted ratio of 0.53, achieved the best performance, while the 8 x 10 patched images, which were the least distorted at 1.06 times, performed the worst among the sliced images. This indicates that height-axis distortion has no significant correlation with detection performance. Figure \ref{fig:figure6} provides an example of detection results between the original image and the 4 x 10 patches. Most missed detections in the original image occurred where ants were densely populated, such as on the edges of the nest and the water feeder. This example demonstrates the effectiveness of the slicing strategy, as only a few ants were missed in the 4 x 10 patched images.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure_7.jpg}
+    \caption{(a) Comparison of detection results between the original image and 10 x 4 patched images. The original image (left) and the 10 x 4 patched images (right) are displayed with blue detection bounding boxes. (b) Three examples in rows showing zoomed-in views of the original image (left) and the 10 x 4 patched images (right), each with blue detection bounding boxes.}
+    \label{fig:s2_bo}
+\end{figure}
+
+\textit{Alt text}: 6a Side-by-side images showing ant detection results: the original image with blue boxes around ants on the left, and the same image divided into 10 x 4 patches with detections on the right. 6b Three sets of close-up views comparing the original image (left) and the patched images (right), both with ants highlighted by blue boxes.
+
+The automated counting results for the 4 x 10 patched images were compared with manual counts, showing a high correlation with an $R^2$ of 0.938 and an RMSE of 465.05 (Figure \ref{fig:figure7}a, left). The high RMSE value is attributed to overlooked ants in the manual counts, while the CV system was able to capture these missing ants, maintaining strong agreement with the manual counts. The experiment in B03 was to test whether SINV-3 infection alters foraging behaviors in fire ants. The automated counting results effectively captured the ant foraging dynamics in the presence of SINV-3 infection (Figure \ref{fig:figure7}a, right). Moreover, when propagating the automated counts to the entire image set collected over the 14-day experiment, a temporal trend of ant population dynamics was observed, which closely matched the manual counts (Figure \ref{fig:figure7}b). Both counting methods revealed a similar trend in ant foraging dynamics, with SINV-3 infected ants consistently showing higher levels of foraging behavior than the uninfected group. This result demonstrates the potential of the CV system to accurately capture ant foraging dynamics in a high-throughput manner, which is crucial for studying the effects of pathogens on foraging patterns and potentially other complex social behaviors.
+
+\begin{table}[H]
+    \centering
+    \caption{Experiment Results for Different Divider and Overlap Configurations}
+    \label{tab:s2_hpmap}
+    \begin{tabular}{ccccccc}
+        \midrule
+    \textbf{Param. 1:} & \textbf{Param. 2:} & \textbf{Grid Search} & \textbf{Exploration BO} & \textbf{Exploitation BO} & \textbf{Exp.} & \textbf{Exp.} \\
+    \textbf{Divider} & \textbf{Overlap} & \textbf{Freq.} & \textbf{Freq.} & \textbf{Freq.} & \textbf{mAP@0.5} & \textbf{Time (sec.)} \\
+    \midrule
+        4 & 0 & 100.0\% & 41.7\% & 30.0\% & \textbf{81.8\%} & 26.6 \\
+        3 & 0 & 0.0\% & 25.0\% & 30.0\% & 74.8\% & 24.5 \\
+        3 & 0.25 & 0.0\% & 12.5\% & 20.0\% & 75.5\% & 30.2 \\
+        3 & 0.5 & 0.0\% & 8.3\% & 4.0\% & 75.2\% & 47.6 \\
+        2 & 0.25 & 0.0\% & 4.2\% & 4.0\% & 60.4\% & 28.4 \\
+        4 & 0.5 & 0.0\% & 4.2\% & 4.0\% & 79.3\% & 66.3 \\
+        1 & 0.25 & 0.0\% & 4.2\% & 0.0\% & 4.7\% & \textbf{5.1} \\
+        2 & 0 & 0.0\% & 0.0\% & 4.0\% & 57.1\% & 17.3 \\
+        4 & 0.25 & 0.0\% & 0.0\% & 4.0\% & 77.5\% & 40.0 \\
+        \midrule
+    \end{tabular}
+\end{table}

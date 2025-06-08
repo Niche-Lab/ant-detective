@@ -1,46 +1,50 @@
-This is BibTeX, Version 0.99d (TeX Live 2022)
+This is BibTeX, Version 0.99d (TeX Live 2024)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
-The style file: unsrt.bst
+The style file: plainnat.bst
 Database file #1: references.bib
-You've used 22 entries,
-            1791 wiz_defined-function locations,
-            606 strings with 8669 characters,
-and the built_in function-call counts, 5796 in all, are:
-= -- 480
-> -- 338
-< -- 3
-+ -- 120
-- -- 98
-* -- 456
-:= -- 949
-add.period$ -- 71
-call.type$ -- 22
-change.case$ -- 22
-chr.to.int$ -- 0
-cite$ -- 22
-duplicate$ -- 227
-empty$ -- 520
-format.name$ -- 98
-if$ -- 1255
-int.to.chr$ -- 0
-int.to.str$ -- 22
-missing$ -- 21
-newline$ -- 118
-num.names$ -- 22
-pop$ -- 44
+Warning--I didn't find a database entry for "Akyon2022Slicing"
+Warning--empty journal in rocha_two_2024
+Warning--empty year in ultralytics_rt-detr_nodate
+You've used 41 entries,
+            2773 wiz_defined-function locations,
+            943 strings with 18256 characters,
+and the built_in function-call counts, 24863 in all, are:
+= -- 2279
+> -- 1816
+< -- 17
++ -- 608
+- -- 567
+* -- 2332
+:= -- 3951
+add.period$ -- 229
+call.type$ -- 41
+change.case$ -- 312
+chr.to.int$ -- 41
+cite$ -- 84
+duplicate$ -- 864
+empty$ -- 1636
+format.name$ -- 626
+if$ -- 5103
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 34
+newline$ -- 317
+num.names$ -- 164
+pop$ -- 507
 preamble$ -- 1
-purify$ -- 0
+purify$ -- 271
 quote$ -- 0
-skip$ -- 108
+skip$ -- 721
 stack$ -- 0
-substring$ -- 397
-swap$ -- 52
-text.length$ -- 3
+substring$ -- 850
+swap$ -- 111
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 0
-warning$ -- 0
-while$ -- 53
-width$ -- 24
-write$ -- 250
+type$ -- 451
+warning$ -- 2
+while$ -- 181
+width$ -- 0
+write$ -- 741
+(There were 3 warnings)

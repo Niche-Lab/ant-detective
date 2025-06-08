@@ -1,0 +1,23 @@
+\subsection{Study 2: Strategies for Handling Dense Imaging Scenarios}
+Detecting ants in a dense population, such as in subset "B03", is challenging despite an abundance of image data, due to the limitations of the model architecture described in the introduction. Inspired by the Slicing Aided Hyper Inference technique \cite{Akyon2022Slicing}, which improves detection accuracy by dividing input images into smaller patches for separate object detection, this study explores an optimized patch size for subset "B03". To avoid bias from varied sampling, all available images—excluding the "B03" subset—were used for model calibration. The system was calibrated using 1,597 images containing 16,368 total ant instances.
+
+During the calibration process, multiple candidate model weights were generated, and the model with the best performance on two randomly selected images from the "B03" subset was selected for further evaluation. These two images were excluded from subsequent evaluation steps. Finally, the model was evaluated on the "B03" subset with different slicing sizes. The original images, with a resolution of $1636 \times 2180$ pixels, were divided into different patch sizes: $818 \times 1090$ (2 x 2 patches), $818 \times 545$ (2 x 4 patches), $409 \times 545$ (4 x 4 patches), $409 \times 218$ (4 x 10 patches), and $204 \times 218$ (8 x 10 patches), as shown in Figure \ref{fig:s2_slicing}. The evaluation aimed to identify the optimal patch size for this dense imaging scenario.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figure_2.jpg}
+    \caption{Illustration of the image slicing process for the "Dense" subset in Study 2. The original image is divided into patches of different sizes for object detection.}
+    \label{fig:s2_slicing}
+\end{figure}
+
+\textit{Alt text}: An illustration of how an original image from the “B03” set is divided into smaller pieces to help detect ants.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{figure_3.jpg}
+    \caption{An illustration of three different model calibration strategies for Study 2.}
+    \label{fig:s2_strategies}
+\end{figure}
+
+\textit{Alt text}: An illustration of how an original image from the “B03” set is divided into smaller pieces to help detect ants.
+

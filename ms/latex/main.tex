@@ -15,6 +15,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{natbib}
+\usepackage{multirow}
 \usepackage{doi}
 \usepackage{setspace} % double spacing
 \usepackage{lineno} % line numbering
@@ -55,10 +56,11 @@
 \begin{document}
 \maketitle
 
-\input{_0_abstract.tex}
-\input{_1_introduction.tex}
-\input{_2_Materials and Methods }
+\input{_0_abstract}
+\input{_1_introduction}
+\input{_2_mm}
 \input{_3_results}
+\input{_4_discussion}
 \input{_conclusion_}
 
 
@@ -70,7 +72,7 @@ This project received partial funding from an internal competitive grant from th
 \newpage
 
 %Bibliography
-\bibliographystyle{unsrt}
+\bibliographystyle{plainnat}
 \bibliography{references}
 
 
