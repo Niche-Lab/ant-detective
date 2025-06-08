@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1749375361.2896 "main.aux" "main.bbl" "main" 1749375363.97465 0
-  "./references.bib" 1749363368.97606 108892 505812f9fb81d697c856778588ff1584 ""
+["bibtex main"] 1749404933.65595 "main.aux" "main.bbl" "main" 1749404958.968 0
+  "./references.bib" 1749402103.87843 110893 9ba79bd6ad06762b18e21ef4d33986e3 ""
   "/usr/local/texlive/2024/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "main.aux" 1749375363.54309 19383 fa9603f0bb08165b21b4e2c5e6f44e56 "pdflatex"
+  "main.aux" 1749404958.66024 19591 9cf67863c4cfa8fbdd572e1a5bd51b2e "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1749375361.46495 "/Users/niche/Library/CloudStorage/SynologyDrive-Cloud/03_papers/ant-detective/ms/latex/main.tex" "main.pdf" "main" 1749375363.97523 0
+["pdflatex"] 1749404956.78729 "/Users/niche/Library/CloudStorage/SynologyDrive-Cloud/03_papers/ant-detective/ms/latex/main.tex" "main.pdf" "main" 1749404958.9682 0
   "/Users/niche/Library/CloudStorage/SynologyDrive-Cloud/03_papers/ant-detective/ms/latex/main.tex" 1749363037.3968 3136 fe4e5b5df2c86e7cc53794f32a202a9a ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
@@ -151,9 +151,9 @@
   "_0_abstract.tex" 1745890254.56314 2005 8f9e33f5a578ff9fad4ccadba0d485c3 ""
   "_1_introduction.tex" 1749363482.79416 12266 b42bfbc9fbd38951c77ba61215117d1a ""
   "_2_mm.tex" 1749362769.01946 145 df499a42e3009c98d3d8632f0c31c0f9 ""
-  "_2a_mm_exp.tex" 1749374104.63726 10051 15b6bb9d26ff028840d7170725159813 ""
+  "_2a_mm_exp.tex" 1749404061.04724 10113 25912ea8886850aac05d612edc99da8d ""
   "_2b_mm_s1.tex" 1749375357.43667 3912 90dbae1724ba406f9d9e77421fe0f61b ""
-  "_2c_mm_s2.tex" 1749362762.1831 2301 6a498f4aab0e9461a461a6187d838c54 ""
+  "_2c_mm_s2.tex" 1749404956.66722 4535 b2b4f82b212cf54c3f1a8f3ec690890c ""
   "_2d_mm_s3.tex" 1749362771.76169 2841 1828992f4738cadae2b735b67711d7eb ""
   "_2e_mm_imp.tex" 1749370892.34279 6662 f5b993ceec8d6971fccd9105ea6dc416 ""
   "_3_results.tex" 1749337283.91619 96 4d027e9fbf968df4877b4b874f496b5f ""
@@ -175,9 +175,9 @@
   "figure_7.jpg" 1749324238.67502 682584 4c6184c8c6938186528d1e3b87735a88 ""
   "figure_8.jpg" 1749324737.30107 4744559 9b74ccc10d3d4a1145e91d6ac4f89c18 ""
   "figure_9.jpg" 1749324751.94188 987790 739e25731b06046b1f051694b505dd4e ""
-  "main.aux" 1749375363.54309 19383 fa9603f0bb08165b21b4e2c5e6f44e56 "pdflatex"
-  "main.bbl" 1749375361.46038 20246 a950b1debcf1300766d53d69d421619b "bibtex main"
-  "main.out" 1749375363.54498 4663 e05d9623bc6af6116919257dcb014498 "pdflatex"
+  "main.aux" 1749404958.66024 19591 9cf67863c4cfa8fbdd572e1a5bd51b2e "pdflatex"
+  "main.bbl" 1749404933.77993 20958 55247152fda91150c1492631f55706b8 "bibtex main"
+  "main.out" 1749404958.66173 4663 e05d9623bc6af6116919257dcb014498 "pdflatex"
   "main.tex" 1749363037.3968 3136 fe4e5b5df2c86e7cc53794f32a202a9a ""
   (generated)
   "main.aux"

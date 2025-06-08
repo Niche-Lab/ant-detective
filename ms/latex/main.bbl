@@ -1,4 +1,4 @@
-\begin{thebibliography}{41}
+\begin{thebibliography}{43}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -144,6 +144,14 @@ Diederik~P. Kingma and Jimmy Ba.
 \newblock URL \url{http://arxiv.org/abs/1412.6980}.
 \newblock arXiv:1412.6980 [cs].
 
+\bibitem[Kushner(1964)]{kushner_new_1964}
+H.~J. Kushner.
+\newblock A {New} {Method} of {Locating} the {Maximum} {Point} of an {Arbitrary} {Multipeak} {Curve} in the {Presence} of {Noise}.
+\newblock \emph{Journal of Basic Engineering}, 86\penalty0 (1):\penalty0 97--106, March 1964.
+\newblock ISSN 0021-9223.
+\newblock \doi{10.1115/1.3653121}.
+\newblock URL \url{https://doi.org/10.1115/1.3653121}.
+
 \bibitem[Lei et~al.(2019)Lei, Zhou, Lü, and He]{lei_rhythms_2019}
 Yanyuan Lei, Yangyang Zhou, Lihua Lü, and Yurong He.
 \newblock Rhythms in {Foraging} {Behavior} and {Expression} {Patterns} of the {Foraging} {Gene} in {Solenopsis} invicta ({Hymenoptera}: {Formicidae}) in relation to {Photoperiod}.
@@ -271,6 +279,12 @@ Brandon Smythe, David Boxler, Gary Brewer, Eric Psota, and D~Wes Watson.
 \newblock ISSN 1536-2442.
 \newblock \doi{10.1093/jisesa/ieaa110}.
 \newblock URL \url{https://doi.org/10.1093/jisesa/ieaa110}.
+
+\bibitem[Snoek et~al.(2012)Snoek, Larochelle, and Adams]{snoek_practical_2012}
+Jasper Snoek, Hugo Larochelle, and Ryan~P. Adams.
+\newblock Practical {Bayesian} {Optimization} of {Machine} {Learning} {Algorithms}, August 2012.
+\newblock URL \url{http://arxiv.org/abs/1206.2944}.
+\newblock arXiv:1206.2944 [stat].
 
 \bibitem[Sola and Josens(2016)]{sola_feeding_2016}
 F.~J. Sola and R.~Josens.
