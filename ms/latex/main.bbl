@@ -1,4 +1,4 @@
-\begin{thebibliography}{43}
+\begin{thebibliography}{46}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -138,11 +138,28 @@ Glenn Jocher, Ayush Chaurasia, and Jing Qiu.
 \newblock URL \url{https://github.com/ultralytics/ultralytics}.
 \newblock original-date: 2022-09-11T16:39:45Z.
 
+\bibitem[Keselman and Rogan(1977)]{keselman_tukey_1977}
+H.~J. Keselman and Joanne~C. Rogan.
+\newblock The {Tukey} multiple comparison test: 1953–1976.
+\newblock \emph{Psychological Bulletin}, 84\penalty0 (5):\penalty0 1050--1056, 1977.
+\newblock ISSN 1939-1455.
+\newblock \doi{10.1037/0033-2909.84.5.1050}.
+\newblock Place: US Publisher: American Psychological Association.
+
 \bibitem[Kingma and Ba(2017)]{kingma_adam_2017}
 Diederik~P. Kingma and Jimmy Ba.
 \newblock Adam: {A} {Method} for {Stochastic} {Optimization}, January 2017.
 \newblock URL \url{http://arxiv.org/abs/1412.6980}.
 \newblock arXiv:1412.6980 [cs].
+
+\bibitem[Kooij et~al.(2014)Kooij, Liberti, Giampoudakis, Schiøtt, and Boomsma]{kooij_differences_2014}
+Pepijn~W. Kooij, Joanito Liberti, Konstantinos Giampoudakis, Morten Schiøtt, and Jacobus~J. Boomsma.
+\newblock Differences in {Forage}-{Acquisition} and {Fungal} {Enzyme} {Activity} {Contribute} to {Niche} {Segregation} in {Panamanian} {Leaf}-{Cutting} {Ants}.
+\newblock \emph{PLOS ONE}, 9\penalty0 (4):\penalty0 e94284, April 2014.
+\newblock ISSN 1932-6203.
+\newblock \doi{10.1371/journal.pone.0094284}.
+\newblock URL \url{https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0094284}.
+\newblock Publisher: Public Library of Science.
 
 \bibitem[Kushner(1964)]{kushner_new_1964}
 H.~J. Kushner.
@@ -315,6 +332,15 @@ Sarina Thiel and Heinz-R. Köhler.
 Ultralytics.
 \newblock {RT}-{DETR} ({Realtime} {Detection} {Transformer}).
 \newblock URL \url{https://docs.ultralytics.com/models/rtdetr}.
+
+\bibitem[Virtanen et~al.(2020)Virtanen, Gommers, Oliphant, Haberland, Reddy, Cournapeau, Burovski, Peterson, Weckesser, Bright, van~der Walt, Brett, Wilson, Millman, Mayorov, Nelson, Jones, Kern, Larson, Carey, Polat, Feng, Moore, VanderPlas, Laxalde, Perktold, Cimrman, Henriksen, Quintero, Harris, Archibald, Ribeiro, Pedregosa, and van Mulbregt]{virtanen_scipy_2020}
+Pauli Virtanen, Ralf Gommers, Travis~E. Oliphant, Matt Haberland, Tyler Reddy, David Cournapeau, Evgeni Burovski, Pearu Peterson, Warren Weckesser, Jonathan Bright, Stéfan~J. van~der Walt, Matthew Brett, Joshua Wilson, K.~Jarrod Millman, Nikolay Mayorov, Andrew R.~J. Nelson, Eric Jones, Robert Kern, Eric Larson, C.~J. Carey, İlhan Polat, Yu~Feng, Eric~W. Moore, Jake VanderPlas, Denis Laxalde, Josef Perktold, Robert Cimrman, Ian Henriksen, E.~A. Quintero, Charles~R. Harris, Anne~M. Archibald, Antônio~H. Ribeiro, Fabian Pedregosa, and Paul van Mulbregt.
+\newblock {SciPy} 1.0: fundamental algorithms for scientific computing in {Python}.
+\newblock \emph{Nature Methods}, 17\penalty0 (3):\penalty0 261--272, March 2020.
+\newblock ISSN 1548-7105.
+\newblock \doi{10.1038/s41592-019-0686-2}.
+\newblock URL \url{https://www.nature.com/articles/s41592-019-0686-2}.
+\newblock Number: 3 Publisher: Nature Publishing Group.
 
 \bibitem[Wang et~al.(2022)Wang, Bochkovskiy, and Liao]{wang_yolov7_2022}
 Chien-Yao Wang, Alexey Bochkovskiy, and Hong-Yuan~Mark Liao.

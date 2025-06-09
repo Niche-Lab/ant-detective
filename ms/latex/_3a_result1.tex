@@ -3,7 +3,7 @@
 Model performance metrics (mAP@0.5, F1 score, precision, and recall) are presented in Table \ref{tab:s1_results} and Figure \ref{fig:s1_results}. The results demonstrate that models perform better on subsets with backgrounds similar to the calibration set. With only 64 calibration images, the averaged mAP@0.5 performance on similar background subsets (A01, A02, A03) reached 88.2\%, 73.5\%, and 73.8\%, respectively, while performance on complex background subsets (B01, B02, B03) dropped to 59.9\%, 62.7\%, and 50.6\%, respectively. When the calibration set increased to 256 images, all A subsets achieved over 80\% mAP@0.5, while B03 remained relatively low at 63.6\%.
 
 These findings suggest that with limited calibration images, models can achieve good performance on similar backgrounds, but require larger datasets for complex backgrounds, though performance may still lag behind that of similar background subsets. Notably, increasing calibration set size does not consistently improve performance. In subset A03, quadrupling the calibration size from 64 to 256 images improved mAP@0.5 by 8.5\%, but further increasing to 1024 images yielded only an additional 3.2\% improvement despite adding 768 more images. This indicates a saturation point in model performance, particularly for straightforward detection tasks with consistent backgrounds.
-Conversely, subset B03 showed consistent improvement: mAP@0.5 increased from 50.6\% (64 images) to 63.6\% (256 images) to 72.2\% (1024 images), suggesting that marginal performance gains correlate with background complexity.
+Conversely, subset B03 showed consistent improvement: averaged mAP@0.5 increased from 50.6\% (64 images) to 63.6\% (256 images) to 72.2\% (1024 images), suggesting that marginal performance gains correlate with background complexity.
 
 Regarding model architecture, RT-DETR-L performed equally or better than YOLO11n and YOLO11m across all subsets, with particularly notable advantages in challenging subsets B02 and B03, where RT-DETR-L achieved 78.6\% and 78.9\% mAP@0.5—gaps of 7.3\% and 7.7\% over YOLO11m, respectively. The performance gap was smaller in A subsets, indicating that model complexity advantages are more pronounced with complex backgrounds.
 
@@ -16,7 +16,7 @@ Finally, the SAHI method consistently significantly degraded performance across 
     \label{fig:s1_results}
 \end{figure}
 
-\textit{Alt text}: A graph showing how well the model performs on different data sets (indicated by different colors) using various numbers of calibration images. 
+\textit{Alt text}: A graph showing how well the model performs on different data sets (indicated by column facets) and different models (indicated by row facets) using various numbers of calibration images.
 
 \begin{table}[H]
     \centering

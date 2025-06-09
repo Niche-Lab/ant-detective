@@ -4,23 +4,23 @@ The image dataset used in this work was divided into seven distinct subsets, as 
 
 \begin{table}[H]
     \centering
-    \caption{Summary information of each image subset}
+    \caption{Summary information of each image subset. Std. refers to standard deviation. The number of ants per image is presented as mean $\pm$ standard deviation.}
     \label{tab:dataset_overview}
     \small % Reduce font size for the table
     \begin{tabular}{llll}
         \toprule
         \textbf{Subset names} & \textbf{Number of Images} & \textbf{Ants per Image} & \textbf{Note} \\
-        & & \textbf{(Mean $\pm$ Standard Deviation)} & \\
+        & & \textbf{(Mean $\pm$ Std. )} & \\
         \midrule
         \textbf{Study 1} & & & \\
         \midrule
-        Calibration & 954 & $9.20 \pm 7.37$ & Similar to the subsets A1, A2, and A3 \\
+        Calibration & 954 & $9.20 \pm 7.37$ & Same imaging setup as subsets A01–A03\\ & & & but collected at different time points. \\
         Test A01 & 378 & $4.59 \pm 3.83$ & Single bait source \\
         Test A02 & 289 & $4.38 \pm 4.30$ & Two bait sources \\
         Test A03 & 56 & $6.11 \pm 6.15$ & Tube feeder \\
         Test B01 & 49 & $29.98 \pm 12.23$ & Tube feeder with black stains \\
         Test B02 & 102 & $5.96 \pm 5.35$ & Tube feeder with blue marks on tubes\\
-        Test B03 & 206 & $0.69 \pm 1.26$ & Outdoor and sparse ant distribution \\
+        Test B03 & 206 & $0.69 \pm 1.26$ & Similar to A02 but includes more background clutter \\
         \midrule
         \textbf{Study 2} & & & \\
         \midrule
@@ -30,9 +30,11 @@ The image dataset used in this work was divided into seven distinct subsets, as 
     \end{tabular}
 \end{table}
 
-\textbf{Table \ref{tab:dataset_overview}} summarizes the properties of each subset, including the number of images and the average number of ants per image. The dataset was captured using an automated recording system comprising a GoPro camera mounted with a 15X macro lens, which was clamped on the desk edge via a gooseneck mount, allowing the camera to be approximately 10 cm above the ant's foraging arena where foragers were feeding. All images were taken under consistent lighting conditions to ensure uniform image quality and maintained a minimum resolution of $1920 \times 1080$ pixels.
+\textbf{Table \ref{tab:dataset_overview}} summarizes the properties of each subset, including the number of images and the average number of ants per image. The dataset was captured using an automated recording system comprising a GoPro camera mounted with a 15X macro lens, which was clamped on the desk edge via a gooseneck mount, allowing the camera to be approximately 10 cm above the ant's foraging arena where foragers were feeding. All images were taken under consistent lighting conditions to ensure uniform image quality and were captured at a high resolution of $1920 \times 1080$ pixels.
 
-The "Calibration" subset in Study 1 shares a similar imaging background with the subsets labeled "A" (i.e., "A01", "A02", and "A03"). In contrast, the "B" subsets exhibit more complex imaging conditions. "B01" and "B02" includes images with debris and parts of insect prey resembling ants, "B03" contains images with non-uniform backgrounds. The "Calibration" subset in Study 2 combines all images from Study 1 and exclude those with zero ants, resulting in a total of 1,597 images with an average of 10.25 ants per image. The "Dense" subset contains images of the red imported fire ant (\emph{Solenopsis invicta}) with an average of 1,390.3 ants per image, representing a dense population scenario.
+The “Calibration” subset in Study 1 shares a similar imaging background with subsets labeled “A” (i.e., “A01”, “A02”, and “A03”). The primary difference is that the Calibration subset was collected at multiple different time points spanning several weeks, though under consistent imaging conditions and bait setups. Whereas the subset "A01", "A02", and "A03" were collected at a single time point. This approach simulates scenarios where researchers conduct repeated foraging observations over an extended period in the same environment.
+
+In contrast, the "B" subsets exhibit more complex imaging conditions. "B01" and "B02" includes images with debris and parts of insect prey resembling ants, "B03" contains images with non-uniform backgrounds. The "Calibration" subset in Study 2 combines all images from Study 1 and exclude those with zero ants, resulting in a total of 1,597 images with an average of 10.25 ants per image. The "Dense" subset contains images of the red imported fire ant (\emph{Solenopsis invicta}) with an average of 1,390.3 ants per image, representing a dense population scenario.
 
 The manual counting was achieved by annotating the images using the YOLO object detection format \cite{jocher_yolo_2023}, which is also a data format for calibrating the CV system to recognize ants. As depicted in Figure \ref{fig:dataset_overview}b, in this format, each ant is marked with a bounding box, defined by four parameters: the $x$ and $y$ coordinates of the box's center, along with its width and height. These values are normalized to the range [0, 1] by dividing the $x$ and $y$ coordinates by the image's width and height, respectively. For instance, in a $1920 \times 1080$ image, a bounding box with a center at (960, 540) and dimensions of $100 \times 100$ pixels would be represented as $(0.5, 0.5, 0.0521, 0.0926)$, where 0.0521 and 0.0926 are the normalized width and height. Each ant was assigned a class ID. Since the study focuses exclusively on detecting ants without differentiating between species, all ants were assigned a class ID of 0.
 
@@ -54,7 +56,8 @@ Previous studies have demonstrated that viral infections, such as Solenopsis inv
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figure_1.jpg}
-    \caption{(a) Overview of the dataset subsets used in this study. (b) Example of ant annotation in the YOLO object detection format.}
+    \caption{(a) Overview of the dataset subsets used in this study. The number of ants per image is represented as mean (standard deviation) of each subset.
+    (b) Example of ant annotation in the YOLO object detection format. Where x and y are the coordinates of the center of the bounding box, $w_b$ and $h_b$ are the width and height of the bounding box, respectively. And W and H are the width and height of the image, respectively.}
     \label{fig:dataset_overview}
 \end{figure}
 

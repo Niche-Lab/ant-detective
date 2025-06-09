@@ -5,45 +5,45 @@ The style file: plainnat.bst
 Database file #1: references.bib
 Warning--empty journal in rocha_two_2024
 Warning--empty year in ultralytics_rt-detr_nodate
-You've used 43 entries,
+You've used 46 entries,
             2773 wiz_defined-function locations,
-            958 strings with 18698 characters,
-and the built_in function-call counts, 25711 in all, are:
-= -- 2361
-> -- 1856
-< -- 18
-+ -- 622
-- -- 579
-* -- 2403
-:= -- 4083
-add.period$ -- 239
-call.type$ -- 43
-change.case$ -- 322
-chr.to.int$ -- 43
-cite$ -- 88
-duplicate$ -- 900
-empty$ -- 1708
-format.name$ -- 640
-if$ -- 5280
+            989 strings with 20309 characters,
+and the built_in function-call counts, 28965 in all, are:
+= -- 2623
+> -- 2234
+< -- 19
++ -- 748
+- -- 702
+* -- 2751
+:= -- 4632
+add.period$ -- 259
+call.type$ -- 46
+change.case$ -- 372
+chr.to.int$ -- 46
+cite$ -- 94
+duplicate$ -- 962
+empty$ -- 1831
+format.name$ -- 768
+if$ -- 5911
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 35
-newline$ -- 331
-num.names$ -- 172
-pop$ -- 526
+missing$ -- 38
+newline$ -- 357
+num.names$ -- 184
+pop$ -- 609
 preamble$ -- 1
-purify$ -- 279
+purify$ -- 326
 quote$ -- 0
-skip$ -- 747
+skip$ -- 824
 stack$ -- 0
-substring$ -- 876
-swap$ -- 115
+substring$ -- 956
+swap$ -- 120
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 473
+type$ -- 506
 warning$ -- 2
-while$ -- 189
+while$ -- 203
 width$ -- 0
-write$ -- 774
+write$ -- 835
 (There were 2 warnings)
