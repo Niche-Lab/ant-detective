@@ -81,7 +81,6 @@ def predict():
             for det in preds[i]:
                 str_det = " ".join([str(d) for d in det[0]])
                 label_file.write(f"0 {str_det}\n")
-
     
 
 def predict_sahi(pils, model, divider=1, overlap=0, no_slice=False, swsh=None):
@@ -119,8 +118,7 @@ def predict_sahi(pils, model, divider=1, overlap=0, no_slice=False, swsh=None):
         )
         pred = from_sahi_to_dets(result)
         preds.append(pred)
-    if len(preds) == 1:
-        return preds[0]
+
     return preds  # return list of predictions if multiple images are provided
 
 
