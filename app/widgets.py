@@ -39,7 +39,7 @@ def module_sahi():
 
     
     st.markdown("### SAHI Parameters")
-    st.success("Only use it when you believe the objects are small")
+    st.success("Use this option only if you believe the objects are small.")
 
     st.markdown(
         "[SAHI (Slicing Aided Hyper Inference)](https://github.com/obss/sahi) is a technique to improve the detection accuracy when the target objects are small or densely packed. "

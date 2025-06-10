@@ -59,5 +59,5 @@ def show_about():
 
     st.divider()
     # today = datetime.date.today().strftime("%B %d, %Y")
-    st.write("Source code: [Click here](https://github.com/Niche-Lab/ant-detective)")
+    st.write("Source code: [Click here](https://github.com/Niche-Lab/ant-detective/tree/main/app)")
     st.write("Last updated:", "June 2025")
