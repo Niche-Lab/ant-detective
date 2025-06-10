@@ -23,7 +23,7 @@ def show_download(name_zip="ant-detective.zip"):
 
 def module_sahi():
     if st.session_state.enable_sahi is None:
-        st.session_state.enable_sahi = True
+        st.session_state.enable_sahi = False
     if st.session_state.divider is None:
         st.session_state.divider = 2
     if st.session_state.overlap is None:
@@ -39,46 +39,55 @@ def module_sahi():
 
     
     st.markdown("### SAHI Parameters")
+    st.success("Only use it when you believe the objects are small")
+
     st.markdown(
-        "[SAHI (Slicing Aided Hyper Inference)](https://github.com/obss/sahi) is a technique to improve the detection accuracy by slicing the image into smaller parts. "
+        "[SAHI (Slicing Aided Hyper Inference)](https://github.com/obss/sahi) is a technique to improve the detection accuracy when the target objects are small or densely packed. "
         "You can adjust the parameters below to control the slicing behavior. "
     )
-    st.markdown(
-        "`Slice Divider` is the number of slices in each dimension (e.g., 2 means 2x2 slices, 4 means 4x4 slices). "
-    )
-    st.markdown(
-        "`Slice Overlap` is the percentage of overlap between the slices. "
-        "For example, a value of 0.25 means that each slice will overlap with the next slice by 25% of its width/height."
-    )
-    st.divider()
     st.checkbox(
-        "Enable SAHI",
+        "Enable SAHI (will be slower)",
         value=st.session_state.enable_sahi,
         on_change=on_sahi_change,
         key="checkbox_sahi",
     )
-    col1, col2 = st.columns(2)
-    with col1:
-        st.number_input(
-            "Slice Divider",
-            min_value=1,
-            max_value=4,
-            step=1,
-            value=st.session_state.divider,
-            on_change=on_sahi_change,
-            key="slider_divider",
-        )
-    with col2:
-        st.number_input(
-            "Slice Overlap",
-            min_value=0.0,
-            max_value=1.0,
-            value=float(st.session_state.overlap),
-            step=0.25,
-            on_change=on_sahi_change,
-            key="slider_overlap",
-        )
+    
     st.divider()
+        
+    st.markdown(
+        "`Slice Divider` is the number of slices in each dimension (e.g., 2 means 2x2 slices, 4 means 4x4 slices). "
+    )
+    st.number_input(
+        "",
+        min_value=1,
+        max_value=4,
+        step=1,
+        value=st.session_state.divider,
+        on_change=on_sahi_change,
+        key="slider_divider",
+        label_visibility="collapsed",
+    )
+    
+    st.markdown(
+        "`Slice Overlap` is the percentage of overlap between the slices. "
+        "For example, a value of 0.25 means that each slice will overlap with the next slice by 25% of its width/height."
+    )
+    st.number_input(
+        "",
+        min_value=0.0,
+        max_value=1.0,
+        value=float(st.session_state.overlap),
+        step=0.25,
+        on_change=on_sahi_change,
+        key="slider_overlap",
+        label_visibility="collapsed",
+    )
+    
+    st.divider()
+    
+    # col1, col2 = st.columns(2)
+    # with col1:    
+    # with col2:
 
     
 def show_width_lines():

@@ -62,6 +62,8 @@ def inspect_results():
 
 
 def is_img(f):
+    # to regular string
+    f = str(f)
     return f.upper().endswith(".JPG") or\
            f.upper().endswith(".JPEG") or\
            f.upper().endswith(".PNG")
