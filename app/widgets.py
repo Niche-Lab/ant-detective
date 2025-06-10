@@ -58,7 +58,7 @@ def module_sahi():
         "`Slice Divider` is the number of slices in each dimension (e.g., 2 means 2x2 slices, 4 means 4x4 slices). "
     )
     st.number_input(
-        "",
+        " ",
         min_value=1,
         max_value=4,
         step=1,
@@ -73,7 +73,7 @@ def module_sahi():
         "For example, a value of 0.25 means that each slice will overlap with the next slice by 25% of its width/height."
     )
     st.number_input(
-        "",
+        " ",
         min_value=0.0,
         max_value=1.0,
         value=float(st.session_state.overlap),
@@ -100,7 +100,7 @@ def show_width_lines():
         st.session_state.width_lines = 1
     st.markdown("### Line Width for Bounding Boxes")
     st.number_input(
-        "",
+        " ",
         min_value=1,
         max_value=3,
         value=st.session_state.width_lines,
