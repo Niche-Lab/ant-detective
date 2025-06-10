@@ -1,0 +1,64 @@
+\subsection{Data Collection and Image Annotation}
+
+The image dataset used in this work was divided into seven distinct subsets, as illustrated in \textbf{Figure \ref{fig:dataset_overview}a, \ref{fig:s2_slicing}}, and \textbf{Table \ref{tab:dataset_overview}}. The Study 1 and Study 2 subsets were designed to address the first two objectives of this study, respectively.
+
+\begin{table}[H]
+    \centering
+    \caption{Summary information of each image subset. Std. refers to standard deviation. The number of ants per image is presented as mean $\pm$ standard deviation.}
+    \label{tab:dataset_overview}
+    \small % Reduce font size for the table
+    \begin{tabular}{llll}
+        \toprule
+        \textbf{Subset names} & \textbf{Number of Images} & \textbf{Ants per Image} & \textbf{Note} \\
+        & & \textbf{(Mean $\pm$ Std. )} & \\
+        \midrule
+        \textbf{Study 1} & & & \\
+        \midrule
+        Calibration & 954 & $9.20 \pm 7.37$ & Same imaging setup as subsets A01–A03\\ & & & but collected at different time points. \\
+        Test A01 & 378 & $4.59 \pm 3.83$ & Single bait source \\
+        Test A02 & 289 & $4.38 \pm 4.30$ & Two bait sources \\
+        Test A03 & 56 & $6.11 \pm 6.15$ & Tube feeder \\
+        Test B01 & 49 & $29.98 \pm 12.23$ & Tube feeder with black stains \\
+        Test B02 & 102 & $5.96 \pm 5.35$ & Tube feeder with blue marks on tubes\\
+        Test B03 & 206 & $0.69 \pm 1.26$ & Similar to A02 but includes more background clutter \\
+        \midrule
+        \textbf{Study 2} & & & \\
+        \midrule
+        Calibration & 1597 & $10.25 \pm 8.81$ & Combining all images from Study 1\\
+        Test Dense & 60 & $1390.3 \pm 496.88$ & Dense-populated ants with their colony\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\textbf{Table \ref{tab:dataset_overview}} summarizes the properties of each subset, including the number of images and the average number of ants per image. The dataset was captured using an automated recording system comprising a GoPro camera mounted with a 15X macro lens, which was clamped on the desk edge via a gooseneck mount, allowing the camera to be approximately 10 cm above the ant's foraging arena where foragers were feeding. All images were taken under consistent lighting conditions to ensure uniform image quality and were captured at a high resolution of $1920 \times 1080$ pixels.
+
+The “Calibration” subset in Study 1 shares a similar imaging background with subsets labeled “A” (i.e., “A01”, “A02”, and “A03”). The primary difference is that the Calibration subset was collected at multiple different time points spanning several weeks, though under consistent imaging conditions and bait setups. Whereas the subset "A01", "A02", and "A03" were collected at a single time point. This approach simulates scenarios where researchers conduct repeated foraging observations over an extended period in the same environment.
+
+In contrast, the "B" subsets exhibit more complex imaging conditions. "B01" and "B02" includes images with debris and parts of insect prey resembling ants, "B03" contains images with non-uniform backgrounds. The "Calibration" subset in Study 2 combines all images from Study 1 and exclude those with zero ants, resulting in a total of 1,597 images with an average of 10.25 ants per image. The "Dense" subset contains images of the red imported fire ant (\emph{Solenopsis invicta}) with an average of 1,390.3 ants per image, representing a dense population scenario.
+
+The manual counting was achieved by annotating the images using the YOLO object detection format \cite{jocher_yolo_2023}, which is also a data format for calibrating the CV system to recognize ants. As depicted in Figure \ref{fig:dataset_overview}b, in this format, each ant is marked with a bounding box, defined by four parameters: the $x$ and $y$ coordinates of the box's center, along with its width and height. These values are normalized to the range [0, 1] by dividing the $x$ and $y$ coordinates by the image's width and height, respectively. For instance, in a $1920 \times 1080$ image, a bounding box with a center at (960, 540) and dimensions of $100 \times 100$ pixels would be represented as $(0.5, 0.5, 0.0521, 0.0926)$, where 0.0521 and 0.0926 are the normalized width and height. Each ant was assigned a class ID. Since the study focuses exclusively on detecting ants without differentiating between species, all ants were assigned a class ID of 0.
+
+\subsection{Experimental Setup and Rationale}
+
+\emph{Tapinoma sessile} workers were allowed to feed on sucrose and/or peptone solutions using different setups (Figure \ref{fig:dataset_overview}). 
+
+\textit{A01} set consisted of a capped 5-cm Petri dish containing 5 mL of 10\% sucrose solution. A cotton thread, with one end submerged in the sucrose solution and the other end resting on the Petri dish lid, allowed the ants to feed while minimizing evaporation. In \textit{A02}, worker ants were provided with two liquid food dispensing devices identical to those in \textit{A01}. One contained 10\% sucrose solution, while the other contained 5\% peptone solution. These represent two of the most commonly studied macronutrients in ant macronutrient preference studies \cite{madsen_sugar_2017}. \textit{A03} consisted of a 5-cm Petri dish with an upside-down 5 mL vial filled with 10\% sucrose solution, with three cotton threads extending from the vial mouth to the Petri dish lid to provide ants with access to the food.
+
+All \textit{A01} - \textit{A03} setups were placed inside a clean, 15-cm-diameter cylindrical foraging arena connected to the ant colony via a plastic tube. These arenas were carefully cleaned to ensure there were no residual debris or insect remains, resulting in a simple background for image capture. 
+To evaluate model performance in more complex environments, we established \textit{B01} – \textit{B03} settings: \textit{B01} and \textit{B02} were similar to \textit{A03} in its food-dispensing device. But in \textit{B01}, it used a triangular-shaped filter paper instead of cotton threads to dispense the sucrose solution. The device was placed in a foraging arena and left undisturbed for three days, during which ants were allowed to forage. As expected, ants exhibited burying behavior, a known phenomenon where they frequently deposit debris or discarded prey parts at food sources they perceive to be nutritionally unvaluable or in surplus \cite{qin_food-burying_2019}. This behavior naturally introduced substantial background clutter, including parts of insect prey, which increased image complexity. 
+
+In \textit{B03}, we used a similar setup to \textit{A02} (i.e., two 5-cm Petri dishes containing 10\% sucrose and 5\% peptone solutions, respectively), but included both virus-infected (odorous house ant virus 1, OHAV-1) and uninfected T. sessile workers. To simulate a complex background, we artificially introduced a piece of filter paper beneath the two Petri dishes and placed two metal staplers to serve as bridges for easier access to the food sources. The inclusion of these bridges represents a common practice in ant behavioral studies to prevent foraging inhibition due to challenging physical terrain \cite{czaczkes_ant_2013}, especially for ant species with limited climbing abilities \cite{billen_pretarsus_2017}. Compared to B01 and B02, the complexity in B03 was mostly artificial, though ants still deposited some debris during foraging. 
+
+In the \textit{Dense} dataset (\textbf{Figure \ref{fig:s2_slicing}}), virus-infected (Solenopsis invicta virus 3, SINV-3) and uninfected lab colonies of the red imported fire ant (Solenopsis invicta) were used to generate images. Colonies were housed individually in a fluon-coated plastic tray (40 x 33 x 12cm), each containing a 15-cm Petri dish painted red as a nest cell, along with two tubes with water trapped inside as water feeders. To capture the number of workers that forage outside (e.g., foraging arena), a photo of the entire tray was taken at 5 pm each day using an automated recording system (see below for detailed system setup). The choice of 5pm derived from the species’ known daily foraging rhythm: S. invicta tends to reach peak foraging activity before or around sunset, a behavioral adaptation to avoid heat stress and dehydration during hotter periods of the day \cite{lei_rhythms_2019, das_biological_2023}. Capturing daily images at a fixed timepoint allowed us to photo-derived metrics as proxies for foraging activity while minimizing variation from time-of-day effects.
+
+Previous studies have demonstrated that viral infections, such as Solenopsis invicta virus 1 (SINV-1), can alter food preferences and reduce foraging activity in fire ants \cite{hsu_viral_2018}. Thus, we included both \textit{B03} and \textit{Dense} to explore whether viral infections could similarly influence foraging dynamics in other systems, namely, Odorous house ant virus 1 (OHAV-1) in T. sessile and Solenopsis invicta virus 3 (SINV-3) in S. invicta. This comparison allowed us to identify behavioral alterations associated with virus infection via estimating changes in foraging preference on macronutrient preference (i.e., carbohydrate vs. protein) or intensity (e.g., number of total foragers). To control for colony-level variation in foraging behavior, we collected multiple colonies of both species and used virus-specific molecular assays \citep{liu_fire_2025} to verify colony infection status for subsequent artificial inoculation. Each uninfected colony was then selected and divided into two sub-colonies of similar size with equivalent worker numbers and brood volume. One sub-colony remained uninfected, while the other was inoculated with either OHAV-1 or SINV-3, respectively. Virus inoculation was achieved by feeding ants a homogenate of infected workers mixed with 10\% sucrose solution ($10^9$ genome equivalents/mL) over a three-day period. This concentration has previously been shown to yield intra-colony infection rates of 90–100\% in fire ants \cite{hsu_viral_2018, hsu_apoptosis_2019}. Inoculated colonies were tested seven days post-inoculation using the same molecular assay \citep{liu_fire_2025} to confirm successful infection.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figure_1.jpg}
+    \caption{(a) Overview of the dataset subsets used in this study. The number of ants per image is represented as mean (standard deviation) of each subset.
+    (b) Example of ant annotation in the YOLO object detection format. Where x and y are the coordinates of the center of the bounding box, $w_b$ and $h_b$ are the width and height of the bounding box, respectively. And W and H are the width and height of the image, respectively.}
+    \label{fig:dataset_overview}
+\end{figure}
+
+\textit{Alt text}: (a) Visual summary of the different data sets used in the study. (b) An image showing ants marked with bounding boxes as a way for the computer to localize them in images.

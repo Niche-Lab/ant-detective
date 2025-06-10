@@ -1,0 +1,357 @@
+\begin{thebibliography}{46}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Akyon et~al.(2022)Akyon, Onur~Altinuc, and Temizel]{akyon_slicing_2022}
+Fatih~Cagatay Akyon, Sinan Onur~Altinuc, and Alptekin Temizel.
+\newblock Slicing {Aided} {Hyper} {Inference} and {Fine}-{Tuning} for {Small} {Object} {Detection}.
+\newblock In \emph{2022 {IEEE} {International} {Conference} on {Image} {Processing} ({ICIP})}, pages 966--970, October 2022.
+\newblock \doi{10.1109/ICIP46576.2022.9897990}.
+\newblock URL \url{https://ieeexplore.ieee.org/document/9897990}.
+\newblock ISSN: 2381-8549.
+
+\bibitem[Alciatore et~al.(2021)Alciatore, Ugelvig, Frank, Bidaux, Gal, Schmitt, Kronauer, and Ulrich]{alciatore_immune_2021}
+Giacomo Alciatore, Line~V. Ugelvig, Erik Frank, Jérémie Bidaux, Asaf Gal, Thomas Schmitt, Daniel J.~C. Kronauer, and Yuko Ulrich.
+\newblock Immune challenges increase network centrality in a queenless ant.
+\newblock \emph{Proceedings of the Royal Society B: Biological Sciences}, 288\penalty0 (1958):\penalty0 20211456, September 2021.
+\newblock \doi{10.1098/rspb.2021.1456}.
+\newblock URL \url{https://royalsocietypublishing.org/doi/10.1098/rspb.2021.1456}.
+\newblock Publisher: Royal Society.
+
+\bibitem[Bereciartua-Pérez et~al.(2023)Bereciartua-Pérez, Gómez, Picón, Navarra-Mestre, Klukas, and Eggers]{bereciartua-perez_multiclass_2023}
+Arantza Bereciartua-Pérez, Laura Gómez, Artzai Picón, Ramón Navarra-Mestre, Christian Klukas, and Till Eggers.
+\newblock Multiclass insect counting through deep learning-based density maps estimation.
+\newblock \emph{Smart Agricultural Technology}, 3:\penalty0 100125, February 2023.
+\newblock ISSN 2772-3755.
+\newblock \doi{10.1016/j.atech.2022.100125}.
+\newblock URL \url{https://www.sciencedirect.com/science/article/pii/S2772375522000909}.
+
+\bibitem[Billen et~al.(2017)Billen, Al-Khalifa, and Silva]{billen_pretarsus_2017}
+Johan Billen, Mohammed~S. Al-Khalifa, and Rogério~R. Silva.
+\newblock Pretarsus structure in relation to climbing ability in the ants \textit{{Brachyponera} sennaarensis} and \textit{{Daceton} armigerum}.
+\newblock \emph{Saudi Journal of Biological Sciences}, 24\penalty0 (4):\penalty0 830--836, May 2017.
+\newblock ISSN 1319-562X.
+\newblock \doi{10.1016/j.sjbs.2016.06.007}.
+\newblock URL \url{https://www.sciencedirect.com/science/article/pii/S1319562X16300626}.
+
+\bibitem[Chiara and Kim(2023)]{chiara_animalta_2023}
+Violette Chiara and Sin-Yeon Kim.
+\newblock {AnimalTA}: {A} highly flexible and easy-to-use program for tracking and analysing animal movement in different environments.
+\newblock \emph{Methods in Ecology and Evolution}, 14\penalty0 (7):\penalty0 1699--1707, 2023.
+\newblock ISSN 2041-210X.
+\newblock \doi{10.1111/2041-210X.14115}.
+\newblock URL \url{https://onlinelibrary.wiley.com/doi/abs/10.1111/2041-210X.14115}.
+\newblock \_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/2041-210X.14115.
+
+\bibitem[Czaczkes et~al.(2013)Czaczkes, Grüter, Ellis, Wood, and Ratnieks]{czaczkes_ant_2013}
+Tomer~J. Czaczkes, Christoph Grüter, Laura Ellis, Elizabeth Wood, and Francis L.~W. Ratnieks.
+\newblock Ant foraging on complex trails: route learning and the role of trail pheromones in {Lasius} niger.
+\newblock \emph{The Journal of Experimental Biology}, 216\penalty0 (Pt 2):\penalty0 188--197, January 2013.
+\newblock ISSN 1477-9145.
+\newblock \doi{10.1242/jeb.076570}.
+
+\bibitem[Das and Gordon(2023)]{das_biological_2023}
+Biplabendu Das and Deborah~M. Gordon.
+\newblock Biological rhythms and task allocation in ant colonies.
+\newblock \emph{Current Opinion in Insect Science}, 58:\penalty0 101062, August 2023.
+\newblock ISSN 2214-5753.
+\newblock \doi{10.1016/j.cois.2023.101062}.
+
+\bibitem[Das et~al.(2025)Das, Ferreira, and Chen]{das_evaluating_2025}
+Mautushi Das, Gonzalo Ferreira, and C.~P.~James Chen.
+\newblock Evaluating model generalization for cow detection in free-stall barn settings: {Insights} from the {COw} {LOcalization} ({COLO}) dataset.
+\newblock \emph{Smart Agricultural Technology}, 11:\penalty0 101054, August 2025.
+\newblock ISSN 2772-3755.
+\newblock \doi{10.1016/j.atech.2025.101054}.
+\newblock URL \url{https://www.sciencedirect.com/science/article/pii/S2772375525002874}.
+
+\bibitem[Deng et~al.(2009)Deng, Dong, Socher, Li, Li, and Fei-Fei]{deng_imagenet_2009}
+Jia Deng, Wei Dong, Richard Socher, Li-Jia Li, Kai Li, and Li~Fei-Fei.
+\newblock {ImageNet}: {A} large-scale hierarchical image database.
+\newblock In \emph{2009 {IEEE} {Conference} on {Computer} {Vision} and {Pattern} {Recognition}}, pages 248--255, June 2009.
+\newblock \doi{10.1109/CVPR.2009.5206848}.
+\newblock ISSN: 1063-6919.
+
+\bibitem[Du et~al.(2023)Du, Lyu, Wang, Mao, Li, Yang, and Wang]{du_foraging_2023}
+Chengju Du, Hailong Lyu, Lanfeng Wang, Lei Mao, Lin Li, Xinya Yang, and Cai Wang.
+\newblock Foraging {Behaviors} of {Red} {Imported} {Fire} {Ants} ({Hymenoptera} {Formicidae}) in {Response} to {Bait} {Containing} {Different} {Concentrations} of {Fipronil}, {Abamectin}, or {Indoxacarb}.
+\newblock \emph{Insects}, 14\penalty0 (11):\penalty0 852, November 2023.
+\newblock ISSN 2075-4450.
+\newblock \doi{10.3390/insects14110852}.
+\newblock URL \url{https://www.mdpi.com/2075-4450/14/11/852}.
+\newblock Number: 11 Publisher: Multidisciplinary Digital Publishing Institute.
+
+\bibitem[Everingham et~al.(2010)Everingham, Van~Gool, Williams, Winn, and Zisserman]{everingham_pascal_2010}
+Mark Everingham, Luc Van~Gool, Christopher K.~I. Williams, John Winn, and Andrew Zisserman.
+\newblock The {Pascal} {Visual} {Object} {Classes} ({VOC}) {Challenge}.
+\newblock \emph{International Journal of Computer Vision}, 88\penalty0 (2):\penalty0 303--338, June 2010.
+\newblock ISSN 1573-1405.
+\newblock \doi{10.1007/s11263-009-0275-4}.
+\newblock URL \url{https://doi.org/10.1007/s11263-009-0275-4}.
+
+\bibitem[Galante et~al.(2024)Galante, De~Agrò, Koch, Kau, and Czaczkes]{galante_acute_2024}
+Henrique Galante, Massimo De~Agrò, Alexandra Koch, Stefanie Kau, and Tomer~J. Czaczkes.
+\newblock Acute exposure to caffeine improves foraging in an invasive ant.
+\newblock \emph{iScience}, 27\penalty0 (6):\penalty0 109935, June 2024.
+\newblock ISSN 2589-0042.
+\newblock \doi{10.1016/j.isci.2024.109935}.
+\newblock URL \url{https://www.sciencedirect.com/science/article/pii/S258900422401157X}.
+
+\bibitem[Hong et~al.(2021)Hong, Nam, Kim, Kim, Lee, Ahn, Park, and Kim]{hong_automatic_2021}
+Suk-Ju Hong, Il~Nam, Sang-Yeon Kim, Eungchan Kim, Chang-Hyup Lee, Sebeom Ahn, Il-Kwon Park, and Ghiseok Kim.
+\newblock Automatic {Pest} {Counting} from {Pheromone} {Trap} {Images} {Using} {Deep} {Learning} {Object} {Detectors} for {Matsucoccus} thunbergianae {Monitoring}.
+\newblock \emph{Insects}, 12\penalty0 (4):\penalty0 342, April 2021.
+\newblock ISSN 2075-4450.
+\newblock \doi{10.3390/insects12040342}.
+\newblock URL \url{https://www.mdpi.com/2075-4450/12/4/342}.
+\newblock Number: 4 Publisher: Multidisciplinary Digital Publishing Institute.
+
+\bibitem[Horn et~al.(2018)Horn, Aodha, Song, Cui, Sun, Shepard, Adam, Perona, and Belongie]{horn_inaturalist_2018}
+Grant~Van Horn, Oisin~Mac Aodha, Yang Song, Yin Cui, Chen Sun, Alex Shepard, Hartwig Adam, Pietro Perona, and Serge Belongie.
+\newblock The {iNaturalist} {Species} {Classification} and {Detection} {Dataset}, April 2018.
+\newblock URL \url{http://arxiv.org/abs/1707.06642}.
+\newblock arXiv:1707.06642 [cs].
+
+\bibitem[Hsu et~al.(2018)Hsu, Chiu, Shoemaker, and Yang]{hsu_viral_2018}
+Hung-Wei Hsu, Ming-Chung Chiu, DeWayne Shoemaker, and Chin-Cheng~Scotty Yang.
+\newblock Viral infections in fire ants lead to reduced foraging activity and dietary changes.
+\newblock \emph{Scientific Reports}, 8\penalty0 (1):\penalty0 13498, September 2018.
+\newblock ISSN 2045-2322.
+\newblock \doi{10.1038/s41598-018-31969-3}.
+\newblock URL \url{https://www.nature.com/articles/s41598-018-31969-3}.
+\newblock Publisher: Nature Publishing Group.
+
+\bibitem[Hsu et~al.(2019)Hsu, Chiu, Shih, Matsuura, and Yang]{hsu_apoptosis_2019}
+Hung-Wei Hsu, Ming-Chung Chiu, Chen-Jen Shih, Kenji Matsuura, and Chin-Cheng~Scotty Yang.
+\newblock Apoptosis as a primary defense mechanism in response to viral infection in invasive fire ant \textit{{Solenopsis} invicta}.
+\newblock \emph{Virology}, 531:\penalty0 255--259, May 2019.
+\newblock ISSN 0042-6822.
+\newblock \doi{10.1016/j.virol.2019.03.015}.
+\newblock URL \url{https://www.sciencedirect.com/science/article/pii/S0042682219300868}.
+
+\bibitem[Jocher et~al.(2023)Jocher, Chaurasia, and Qiu]{jocher_yolo_2023}
+Glenn Jocher, Ayush Chaurasia, and Jing Qiu.
+\newblock {YOLO} by {Ultralytics}, January 2023.
+\newblock URL \url{https://github.com/ultralytics/ultralytics}.
+\newblock original-date: 2022-09-11T16:39:45Z.
+
+\bibitem[Keselman and Rogan(1977)]{keselman_tukey_1977}
+H.~J. Keselman and Joanne~C. Rogan.
+\newblock The {Tukey} multiple comparison test: 1953–1976.
+\newblock \emph{Psychological Bulletin}, 84\penalty0 (5):\penalty0 1050--1056, 1977.
+\newblock ISSN 1939-1455.
+\newblock \doi{10.1037/0033-2909.84.5.1050}.
+\newblock Place: US Publisher: American Psychological Association.
+
+\bibitem[Kingma and Ba(2017)]{kingma_adam_2017}
+Diederik~P. Kingma and Jimmy Ba.
+\newblock Adam: {A} {Method} for {Stochastic} {Optimization}, January 2017.
+\newblock URL \url{http://arxiv.org/abs/1412.6980}.
+\newblock arXiv:1412.6980 [cs].
+
+\bibitem[Kooij et~al.(2014)Kooij, Liberti, Giampoudakis, Schiøtt, and Boomsma]{kooij_differences_2014}
+Pepijn~W. Kooij, Joanito Liberti, Konstantinos Giampoudakis, Morten Schiøtt, and Jacobus~J. Boomsma.
+\newblock Differences in {Forage}-{Acquisition} and {Fungal} {Enzyme} {Activity} {Contribute} to {Niche} {Segregation} in {Panamanian} {Leaf}-{Cutting} {Ants}.
+\newblock \emph{PLOS ONE}, 9\penalty0 (4):\penalty0 e94284, April 2014.
+\newblock ISSN 1932-6203.
+\newblock \doi{10.1371/journal.pone.0094284}.
+\newblock URL \url{https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0094284}.
+\newblock Publisher: Public Library of Science.
+
+\bibitem[Kushner(1964)]{kushner_new_1964}
+H.~J. Kushner.
+\newblock A {New} {Method} of {Locating} the {Maximum} {Point} of an {Arbitrary} {Multipeak} {Curve} in the {Presence} of {Noise}.
+\newblock \emph{Journal of Basic Engineering}, 86\penalty0 (1):\penalty0 97--106, March 1964.
+\newblock ISSN 0021-9223.
+\newblock \doi{10.1115/1.3653121}.
+\newblock URL \url{https://doi.org/10.1115/1.3653121}.
+
+\bibitem[Lei et~al.(2019)Lei, Zhou, Lü, and He]{lei_rhythms_2019}
+Yanyuan Lei, Yangyang Zhou, Lihua Lü, and Yurong He.
+\newblock Rhythms in {Foraging} {Behavior} and {Expression} {Patterns} of the {Foraging} {Gene} in {Solenopsis} invicta ({Hymenoptera}: {Formicidae}) in relation to {Photoperiod}.
+\newblock \emph{Journal of Economic Entomology}, 112\penalty0 (6):\penalty0 2923--2930, December 2019.
+\newblock ISSN 1938-291X.
+\newblock \doi{10.1093/jee/toz175}.
+
+\bibitem[Levene(1960)]{levene_robust_1960}
+Howard Levene.
+\newblock Robust {Tests} for {Equality} of {Variances}.
+\newblock In \emph{Contributions to {Probability} and {Statistics}: {Essays} in {Honor} of {Harold} {Hotelling}}, pages 278--292. Stanford University Press, Palo Alto, 1960.
+
+\bibitem[Lin et~al.(2015)Lin, Maire, Belongie, Bourdev, Girshick, Hays, Perona, Ramanan, Zitnick, and Dollár]{lin_microsoft_2015}
+Tsung-Yi Lin, Michael Maire, Serge Belongie, Lubomir Bourdev, Ross Girshick, James Hays, Pietro Perona, Deva Ramanan, C.~Lawrence Zitnick, and Piotr Dollár.
+\newblock Microsoft {COCO}: {Common} {Objects} in {Context}, February 2015.
+\newblock URL \url{http://arxiv.org/abs/1405.0312}.
+\newblock arXiv:1405.0312 [cs].
+
+\bibitem[Liu et~al.(2025)Liu, Lin, McMillan, and Yang]{liu_fire_2025}
+Fang-Ling~Chloe Liu, Wei-Jiun Lin, Liam McMillan, and Chin-Cheng~Scotty Yang.
+\newblock Fire ants exhibit self-medication but lack preventive behavioral immunity against a viral pathogen.
+\newblock \emph{Journal of Invertebrate Pathology}, 211:\penalty0 108339, July 2025.
+\newblock ISSN 0022-2011.
+\newblock \doi{10.1016/j.jip.2025.108339}.
+\newblock URL \url{https://www.sciencedirect.com/science/article/pii/S0022201125000734}.
+
+\bibitem[Lv et~al.(2024)Lv, Zhao, Chang, Huang, Wang, and Liu]{lv_rtdetrv2_2024}
+Wenyu Lv, Yian Zhao, Qinyao Chang, Kui Huang, Guanzhong Wang, and Yi~Liu.
+\newblock {RTDETRv2}: {All}-in-{One} {Detection} {Transformer} {Beats} {YOLO} and {DINO}, 2024.
+\newblock \_eprint: 2407.17140.
+
+\bibitem[Madsen et~al.(2017)Madsen, Sørensen, and Offenberg]{madsen_sugar_2017}
+Natalia E.~L. Madsen, Peter~B. Sørensen, and Joachim Offenberg.
+\newblock Sugar and amino acid preference in the black garden ant {Lasius} niger ({L}.).
+\newblock \emph{Journal of Insect Physiology}, 100:\penalty0 140--145, July 2017.
+\newblock ISSN 1879-1611.
+\newblock \doi{10.1016/j.jinsphys.2017.05.011}.
+
+\bibitem[Mann and Whitney(1947)]{mann_test_1947}
+H.~B. Mann and D.~R. Whitney.
+\newblock On a {Test} of {Whether} one of {Two} {Random} {Variables} is {Stochastically} {Larger} than the {Other}.
+\newblock \emph{The Annals of Mathematical Statistics}, 18\penalty0 (1):\penalty0 50--60, March 1947.
+\newblock ISSN 0003-4851, 2168-8990.
+\newblock \doi{10.1214/aoms/1177730491}.
+\newblock URL \url{https://projecteuclid.org/journals/annals-of-mathematical-statistics/volume-18/issue-1/On-a-Test-of-Whether-one-of-Two-Random-Variables/10.1214/aoms/1177730491.full}.
+\newblock Publisher: Institute of Mathematical Statistics.
+
+\bibitem[Marchowski(2021)]{marchowski_drones_2021}
+Dominik Marchowski.
+\newblock Drones, automatic counting tools, and artificial neural networks in wildlife population censusing.
+\newblock \emph{Ecology and Evolution}, 11\penalty0 (22):\penalty0 16214--16227, 2021.
+\newblock ISSN 2045-7758.
+\newblock \doi{10.1002/ece3.8302}.
+\newblock URL \url{https://onlinelibrary.wiley.com/doi/abs/10.1002/ece3.8302}.
+\newblock \_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/ece3.8302.
+
+\bibitem[Parker et~al.(2020)Parker, Meador, and Hoover]{parker_using_2020}
+Christine Parker, Morgan Meador, and Jeffrey~P Hoover.
+\newblock Using {Digital} {Image} {Analysis} to {Quantify} {Small} {Arthropod} {Vectors}.
+\newblock \emph{Journal of Medical Entomology}, 57\penalty0 (5):\penalty0 1671--1674, September 2020.
+\newblock ISSN 0022-2585.
+\newblock \doi{10.1093/jme/tjaa072}.
+\newblock URL \url{https://doi.org/10.1093/jme/tjaa072}.
+
+\bibitem[Parr and Bishop(2022)]{parr_response_2022}
+Catherine~L. Parr and Tom~R. Bishop.
+\newblock The response of ants to climate change.
+\newblock \emph{Global Change Biology}, 28\penalty0 (10):\penalty0 3188--3205, 2022.
+\newblock ISSN 1365-2486.
+\newblock \doi{10.1111/gcb.16140}.
+\newblock URL \url{https://onlinelibrary.wiley.com/doi/abs/10.1111/gcb.16140}.
+\newblock \_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/gcb.16140.
+
+\bibitem[Paszke et~al.(2019)Paszke, Gross, Massa, Lerer, Bradbury, Chanan, Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison, Tejani, Chilamkurthy, Steiner, Fang, Bai, and Chintala]{paszke_pytorch_2019}
+Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory Chanan, Trevor Killeen, Zeming Lin, Natalia Gimelshein, Luca Antiga, Alban Desmaison, Andreas Kopf, Edward Yang, Zachary DeVito, Martin Raison, Alykhan Tejani, Sasank Chilamkurthy, Benoit Steiner, Lu~Fang, Junjie Bai, and Soumith Chintala.
+\newblock {PyTorch}: {An} {Imperative} {Style}, {High}-{Performance} {Deep} {Learning} {Library}.
+\newblock In \emph{Advances in {Neural} {Information} {Processing} {Systems} 32}, pages 8024--8035. Curran Associates, Inc., 2019.
+\newblock URL \url{http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}.
+
+\bibitem[Qin et~al.(2019)Qin, Chen, Hooper-Bùi, Cai, Wang, Sun, Wen, and Wang]{qin_food-burying_2019}
+Wenquan Qin, Xuan Chen, Linda~M. Hooper-Bùi, Jiacheng Cai, Lei Wang, Zhaohui Sun, Xiujun Wen, and Cai Wang.
+\newblock Food-burying behavior in red imported fire ants ({Hymenoptera}: {Formicidae}).
+\newblock \emph{PeerJ}, 7:\penalty0 e6349, 2019.
+\newblock ISSN 2167-8359.
+\newblock \doi{10.7717/peerj.6349}.
+
+\bibitem[Reeves and Moreau(2019)]{reeves_evolution_2019}
+Destiny~D. Reeves and Corrie~S. Moreau.
+\newblock The evolution of foraging behavior in ants ({Hymenoptera}: {Formicidae}).
+\newblock \emph{Arthropod Systematics \& Phylogeny}, 77\penalty0 (2):\penalty0 351--363, 2019.
+\newblock \doi{10.26049/ASP77-2-2019-10}.
+\newblock URL \url{https://www.senckenberg.de/de/wissenschaft/publikationen/wissenschaftliche-zeitschriften/arthropod-systematics-phylogeny/alle-ausgaben/2019-2/asp77-2-2019-10/}.
+\newblock Publisher: Senckenberg Gesellschaft für Naturforschung.
+
+\bibitem[Rocha et~al.(2024)Rocha, Bogar, Ibañez~Weemaels, Hu, Liang, Park, Lee, Khan, Han, Ng, and Guénard]{rocha_two_2024}
+Felipe~P. Rocha, Taylor~A. Bogar, Andre Ibañez~Weemaels, Jiaxin Hu, Mingrong Liang, Clara Park, Roger~H. Lee, Shahmshad~Ahmed Khan, Shaolin Han, Yuen~Lam Ng, and Benoit Guénard.
+\newblock Two sides of the same coin? {Ants} are ecosystem engineers and providers of ecosystem services.
+\newblock 2024.
+\newblock \doi{10.25849/MYRMECOL.NEWS_034:129}.
+\newblock URL \url{https://myrmecologicalnews.org/cms/index.php?option=com_content&view=category&id=1636&Itemid=444}.
+\newblock Publisher: Austrian Society of Entomofaunistics.
+
+\bibitem[Saradopoulos et~al.(2023)Saradopoulos, Potamitis, Konstantaras, Eliopoulos, Ntalampiras, and Rigakis]{saradopoulos_image-based_2023}
+Ioannis Saradopoulos, Ilyas Potamitis, Antonios~I. Konstantaras, Panagiotis Eliopoulos, Stavros Ntalampiras, and Iraklis Rigakis.
+\newblock Image-{Based} {Insect} {Counting} {Embedded} in {E}-{Traps} {That} {Learn} without {Manual} {Image} {Annotation} and {Self}-{Dispose} {Captured} {Insects}.
+\newblock \emph{Information}, 14\penalty0 (5):\penalty0 267, May 2023.
+\newblock ISSN 2078-2489.
+\newblock \doi{10.3390/info14050267}.
+\newblock URL \url{https://www.mdpi.com/2078-2489/14/5/267}.
+\newblock Number: 5 Publisher: Multidisciplinary Digital Publishing Institute.
+
+\bibitem[SHAPIRO and WILK(1965)]{shapiro_analysis_1965}
+S.~S. SHAPIRO and M.~B. WILK.
+\newblock An analysis of variance test for normality (complete samples)†.
+\newblock \emph{Biometrika}, 52\penalty0 (3-4):\penalty0 591--611, December 1965.
+\newblock ISSN 0006-3444.
+\newblock \doi{10.1093/biomet/52.3-4.591}.
+\newblock URL \url{https://doi.org/10.1093/biomet/52.3-4.591}.
+\newblock \_eprint: https://academic.oup.com/biomet/article-pdf/52/3-4/591/962907/52-3-4-591.pdf.
+
+\bibitem[Smythe et~al.(2020)Smythe, Boxler, Brewer, Psota, and Watson]{smythe_using_2020}
+Brandon Smythe, David Boxler, Gary Brewer, Eric Psota, and D~Wes Watson.
+\newblock Using {Visual} and {Digital} {Imagery} to {Quantify} {Horn} {Fly} ({Diptera}: {Muscidae}) {Densities}.
+\newblock \emph{Journal of Insect Science}, 20\penalty0 (6):\penalty0 16, November 2020.
+\newblock ISSN 1536-2442.
+\newblock \doi{10.1093/jisesa/ieaa110}.
+\newblock URL \url{https://doi.org/10.1093/jisesa/ieaa110}.
+
+\bibitem[Snoek et~al.(2012)Snoek, Larochelle, and Adams]{snoek_practical_2012}
+Jasper Snoek, Hugo Larochelle, and Ryan~P. Adams.
+\newblock Practical {Bayesian} {Optimization} of {Machine} {Learning} {Algorithms}, August 2012.
+\newblock URL \url{http://arxiv.org/abs/1206.2944}.
+\newblock arXiv:1206.2944 [stat].
+
+\bibitem[Sola and Josens(2016)]{sola_feeding_2016}
+F.~J. Sola and R.~Josens.
+\newblock Feeding behavior and social interactions of the {Argentine} ant {Linepithema} humile change with sucrose concentration.
+\newblock \emph{Bulletin of Entomological Research}, 106\penalty0 (4):\penalty0 522--529, August 2016.
+\newblock ISSN 0007-4853, 1475-2670.
+\newblock \doi{10.1017/S0007485316000201}.
+\newblock URL \url{https://www.cambridge.org/core/journals/bulletin-of-entomological-research/article/feeding-behavior-and-social-interactions-of-the-argentine-ant-linepithema-humile-change-with-sucrose-concentration/E1E4C4206520E7D41148FEFED6ED0B29}.
+
+\bibitem[Terven et~al.(2023)Terven, Córdova-Esparza, and Romero-González]{terven_comprehensive_2023}
+Juan Terven, Diana-Margarita Córdova-Esparza, and Julio-Alejandro Romero-González.
+\newblock A {Comprehensive} {Review} of {YOLO} {Architectures} in {Computer} {Vision}: {From} {YOLOv1} to {YOLOv8} and {YOLO}-{NAS}.
+\newblock \emph{Machine Learning and Knowledge Extraction}, 5\penalty0 (4):\penalty0 1680--1716, December 2023.
+\newblock ISSN 2504-4990.
+\newblock \doi{10.3390/make5040083}.
+\newblock URL \url{https://www.mdpi.com/2504-4990/5/4/83}.
+\newblock Number: 4 Publisher: Multidisciplinary Digital Publishing Institute.
+
+\bibitem[Thiel and Köhler(2016)]{thiel_sublethal_2016}
+Sarina Thiel and Heinz-R. Köhler.
+\newblock A sublethal imidacloprid concentration alters foraging and competition behaviour of ants.
+\newblock \emph{Ecotoxicology}, 25\penalty0 (4):\penalty0 814--823, May 2016.
+\newblock ISSN 1573-3017.
+\newblock \doi{10.1007/s10646-016-1638-6}.
+\newblock URL \url{https://doi.org/10.1007/s10646-016-1638-6}.
+
+\bibitem[Ultralytics()]{ultralytics_rt-detr_nodate}
+Ultralytics.
+\newblock {RT}-{DETR} ({Realtime} {Detection} {Transformer}).
+\newblock URL \url{https://docs.ultralytics.com/models/rtdetr}.
+
+\bibitem[Virtanen et~al.(2020)Virtanen, Gommers, Oliphant, Haberland, Reddy, Cournapeau, Burovski, Peterson, Weckesser, Bright, van~der Walt, Brett, Wilson, Millman, Mayorov, Nelson, Jones, Kern, Larson, Carey, Polat, Feng, Moore, VanderPlas, Laxalde, Perktold, Cimrman, Henriksen, Quintero, Harris, Archibald, Ribeiro, Pedregosa, and van Mulbregt]{virtanen_scipy_2020}
+Pauli Virtanen, Ralf Gommers, Travis~E. Oliphant, Matt Haberland, Tyler Reddy, David Cournapeau, Evgeni Burovski, Pearu Peterson, Warren Weckesser, Jonathan Bright, Stéfan~J. van~der Walt, Matthew Brett, Joshua Wilson, K.~Jarrod Millman, Nikolay Mayorov, Andrew R.~J. Nelson, Eric Jones, Robert Kern, Eric Larson, C.~J. Carey, İlhan Polat, Yu~Feng, Eric~W. Moore, Jake VanderPlas, Denis Laxalde, Josef Perktold, Robert Cimrman, Ian Henriksen, E.~A. Quintero, Charles~R. Harris, Anne~M. Archibald, Antônio~H. Ribeiro, Fabian Pedregosa, and Paul van Mulbregt.
+\newblock {SciPy} 1.0: fundamental algorithms for scientific computing in {Python}.
+\newblock \emph{Nature Methods}, 17\penalty0 (3):\penalty0 261--272, March 2020.
+\newblock ISSN 1548-7105.
+\newblock \doi{10.1038/s41592-019-0686-2}.
+\newblock URL \url{https://www.nature.com/articles/s41592-019-0686-2}.
+\newblock Number: 3 Publisher: Nature Publishing Group.
+
+\bibitem[Wang et~al.(2022)Wang, Bochkovskiy, and Liao]{wang_yolov7_2022}
+Chien-Yao Wang, Alexey Bochkovskiy, and Hong-Yuan~Mark Liao.
+\newblock {YOLOv7}: {Trainable} bag-of-freebies sets new state-of-the-art for real-time object detectors, July 2022.
+\newblock URL \url{http://arxiv.org/abs/2207.02696}.
+\newblock arXiv:2207.02696 [cs].
+
+\bibitem[Welch(1947)]{welch_generalization_1947}
+B.~L. Welch.
+\newblock The {Generalization} of `{Student}'s' {Problem} when {Several} {Different} {Population} {Variances} are {Involved}.
+\newblock \emph{Biometrika}, 34\penalty0 (1/2):\penalty0 28--35, January 1947.
+\newblock URL \url{http://www.jstor.org/stable/2332510}.
+
+\end{thebibliography}

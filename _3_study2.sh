@@ -19,13 +19,10 @@ source activate pyniche
 
 THREAD=${SLURM_ARRAY_TASK_ID}
 # Define models, configs, and sample sizes
-# MODELS=("rtdetr-l")
 MODELS=("yolo11n" "yolo11m" "rtdetr-l")
-MODELS=("yolo11n")
 
 # Run the script with different configurations
-# for ITER in {1..100}; do
-for ITER in {98..99}; do
+for ITER in {1..100}; do
     for MODEL in "${MODELS[@]}"; do
             /home/niche/.conda/envs/pyniche/bin/python study2.py \
                 --thread $THREAD \

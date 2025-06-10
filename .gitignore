@@ -8,6 +8,7 @@ ipynb_checkpoints
 .env
 **/node_modules/*
 events.out.tfevents.*
+local/*
 
 # common files
 *.csv

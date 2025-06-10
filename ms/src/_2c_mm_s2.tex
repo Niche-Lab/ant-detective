@@ -1,0 +1,32 @@
+\subsection{Study 2: Strategies for Handling Dense Imaging Scenarios}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figure_2.jpg}
+    \caption{Illustration of the image slicing process for the \textit{Dense} subset in Study 2. The original image is divided into patches of different sizes for object detection. The patch sizes are determined by the parameter divider number.}
+    \label{fig:s2_slicing}
+\end{figure}
+
+\textit{Alt text}: An illustration of how an original image from the \textit{Dense} subset is divided into smaller pieces to help detect ants.
+
+The second study addressed the challenges of detecting ants in dense populations, specifically within the \textit{Dense} subset. Using the same CV models from Study 1, we calibrated all models with the complete dataset of 1,597 ant images. This investigation examined efficient approaches for transferring models from sparse to dense imaging scenarios through three sequential evaluation steps (Figure \ref{fig:s2_strategies}).
+
+\textbf{Step 1: Model Calibration Strategy}: We evaluated whether to incorporate one image from the \textit{Dense} subset during model calibration. This comparison assessed the impact of adding minimal target scenario data on model performance. In the exclusion approach, the 1,597 images were partitioned into ten subsets, with nine used for weight updates (calibration) and one reserved for model selection. When including target scenario data, a single Dense image ($1636 \times 2180$ pixels) was systematically sliced into 106 patches of varying dimensions: 40 patches of $409 \times 218$, 20 patches of $409 \times 436$, 16 patches of $409 \times 545$, 10 patches of $818 \times 436$, 8 patches of $818 \times 545$, 8 patches of $409 \times 1090$, and 4 patches of $818 \times 1090$ pixels. These patches served as the validation set for optimal model weight selection.
+
+\textbf{Step 2: SAHI Parameter Tuning}: Given SAHI's demonstrated effectiveness for small object detection \cite{akyon_slicing_2022}, we systematically optimized two key parameters: the divider number (determining patch size) and overlap ratio between patches. Larger divider numbers generate smaller, more numerous patches (Figure \ref{fig:s2_slicing}), while increased overlap ratios create more patches with greater inter-patch overlap. The parameter space included three divider numbers (2, 3, 4) and three overlap ratios (0, 0.25, 0.5), yielding nine parameter combinations. 
+We compared three hyperparameter tuning approaches: (1) Grid Search: exhaustive evaluation of all combinations, guaranteeing optimal results but requiring maximum computational time; (2) Bayesian Optimization (Exploitation): using Probability of Improvement (PI) \cite{kushner_new_1964} with conservative thresholds, emphasizing rapid convergence over comprehensive exploration; and (3) Bayesian Optimization (Exploration): employing higher thresholds to encourage broader search space exploration, potentially identifying superior combinations at the cost of extended convergence time. The Bayesian optimization framework \cite{snoek_practical_2012} iteratively refines parameter selection based on probabilistic models of previous evaluations.
+
+\textbf{Step 3: Optimization Objective Selection}: Two optimization targets were evaluated: (1) High-confidence detection count: an unsupervised approach counting detections exceeding confidence thresholds (e.g., 0.5), offering computational efficiency without requiring manual annotation of thousand-ant images; and (2) Mean Average Precision (mAP): a supervised approach requiring ground truth annotations, directly optimizing detection accuracy and counting precision but demanding substantial labeling effort.
+
+These three steps yielded three distinct transfer learning strategies: (A) No target finetuning + Unsupervised SAHI tuning, (B) Target finetuning + Unsupervised SAHI tuning, and (C) Target finetuning + Supervised SAHI tuning. Performance assessment utilized mAP@0.5 metrics evaluated over 50 iterations, with statistical comparisons conducted between the three strategies using grid search to establish performance upper bounds.
+Strategy comparisons employed one-way ANOVA to assess overall differences in performance. When statistical significance was detected, Tukey's Honestly Significant Difference (HSD) post-hoc analysis \cite{keselman_tukey_1977} was applied to identify specific pairwise differences between strategies. Search approach performance was evaluated using the same statistical framework, examining both mAP@0.5 accuracy and computational time (elapsed seconds). All statistical analyses were implemented using the Python SciPy library \cite{virtanen_scipy_2020}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{figure_3.jpg}
+    \caption{An illustration of three different model calibration strategies for Study 2. Sup. = Supervised, Unsup. = Unsupervised.}
+    \label{fig:s2_strategies}
+\end{figure}
+
+\textit{Alt text}: An illustration of three different model calibration strategies for Study 2.

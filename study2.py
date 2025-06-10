@@ -16,8 +16,7 @@ from paths import PathFinder
 PATHS = PathFinder()
 sys.path.insert(0, PATHS["LIB_PYNICHE"].as_posix())
 from pyniche.data.yolo.API import YOLO_API
-from pyniche import evaluate
-from utils.optimizer import SAHIOptimizer, predict_sahi
+from utils.optimizer import SAHIOptimizer
 
 # constants and functions -------------------------
 STUDY_ID = "study2"

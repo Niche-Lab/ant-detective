@@ -1,0 +1,105 @@
+\subsection{Study 1: Effects of Sample Size, Background Complexity, and SAHI on Model Performance}
+
+Model performance metrics (mAP@0.5, F1 score, precision, and recall) are presented in Table \ref{tab:s1_results} and Figure \ref{fig:s1_results}. The results demonstrate that models perform better on subsets with backgrounds similar to the calibration set. With only 64 calibration images, the averaged mAP@0.5 performance on similar background subsets (A01, A02, A03) reached 88.2\%, 73.5\%, and 73.8\%, respectively, while performance on complex background subsets (B01, B02, B03) dropped to 59.9\%, 62.7\%, and 50.6\%, respectively. When the calibration set increased to 256 images, all A subsets achieved over 80\% mAP@0.5, while B03 remained relatively low at 63.6\%.
+
+These findings suggest that with limited calibration images, models can achieve good performance on similar backgrounds, but require larger datasets for complex backgrounds, though performance may still lag behind that of similar background subsets. Notably, increasing calibration set size does not consistently improve performance. In subset A03, quadrupling the calibration size from 64 to 256 images improved mAP@0.5 by 8.5\%, but further increasing to 1024 images yielded only an additional 3.2\% improvement despite adding 768 more images. This indicates a saturation point in model performance, particularly for straightforward detection tasks with consistent backgrounds.
+Conversely, subset B03 showed consistent improvement: averaged mAP@0.5 increased from 50.6\% (64 images) to 63.6\% (256 images) to 72.2\% (1024 images), suggesting that marginal performance gains correlate with background complexity.
+
+Regarding model architecture, RT-DETR-L performed equally or better than YOLO11n and YOLO11m across all subsets, with particularly notable advantages in challenging subsets B02 and B03, where RT-DETR-L achieved 78.6\% and 78.9\% mAP@0.5—gaps of 7.3\% and 7.7\% over YOLO11m, respectively. The performance gap was smaller in A subsets, indicating that model complexity advantages are more pronounced with complex backgrounds.
+
+Finally, the SAHI method consistently significantly degraded performance across all subsets, calibration sizes, and models, with only minor exceptions (YOLO11m in A03, and YOLO11m and RT-DETR-L in B02). This suggests SAHI may only benefit scenarios where target objects are smaller than those in calibration images. In this study, forcing images into smaller patches may have enlarged target objects since CV models resize sliced images to expected input dimensions, creating target objects larger than those in the calibration set.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{figure_4.jpg}
+    \caption{Model performance on different evaluation subsets (column facets) and different models (row facets) with varying calibration set sizes ($n$) on x-axis. One standard deviation of the 50 sampling iterations is shown as colored bands of each line. Blue lines represent the baseline performance without Slicing Aided Hyper Inference (SAHI), while orange lines indicate performance with SAHI. Significance levels are shown as asterisks above the lines, with * indicating $p < 0.05$, ** indicating $p < 0.01$, and *** indicating $p < 0.001$.}
+    \label{fig:s1_results}
+\end{figure}
+
+\textit{Alt text}: A graph showing how well the model performs on different data sets (indicated by column facets) and different models (indicated by row facets) using various numbers of calibration images.
+
+\begin{table}[H]
+    \centering
+    \caption{The average performance of the three models, including YOLO11n, YOLO11m, and RT-DETR-L, was evaluated using two inference methods, with and without Slicing Aided Hyper Inference (SAHI), across six test datasets in Study 1. The complete results are presented in the supplementary material.}
+    \label{tab:s1_results}
+    \small
+    \begin{tabular}{lllllllll}
+        \toprule
+        \textbf{$n$} & \textbf{Test Set} & \textbf{SAHI} & \textbf{mAP@0.5} & \textbf{F1 score} & \textbf{Precision} & \textbf{Recall} \\
+
+        \toprule
+
+            \multirow{12}{*}{64} & \multirow{2}{*}{A01} & No (baseline) & 88.2\% $\pm$ 7.2\% & 87.6\% $\pm$ 7.1\% & 88.7\% $\pm$ 7.2\% & 86.7\% $\pm$ 7.2\% \\
+            & & Yes (grid search) & 83.2\% $\pm$ 9.8\% & 81.8\% $\pm$ 9.4\% & 82.0\% $\pm$ 10.9\% & 82.2\% $\pm$ 7.6\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{A02} & No (baseline) & 73.5\% $\pm$ 8.5\% & 75.7\% $\pm$ 8.0\% & 76.8\% $\pm$ 9.0\% & 74.7\% $\pm$ 7.9\% \\
+            & & Yes (grid search) & 60.5\% $\pm$ 12.6\% & 64.4\% $\pm$ 11.1\% & 61.9\% $\pm$ 13.4\% & 68.8\% $\pm$ 9.3\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{A03} & No (baseline) & 73.8\% $\pm$ 9.4\% & 73.9\% $\pm$ 8.7\% & 79.1\% $\pm$ 8.5\% & 69.5\% $\pm$ 9.2\% \\
+            & & Yes (grid search) & 63.6\% $\pm$ 13.5\% & 67.1\% $\pm$ 11.3\% & 68.0\% $\pm$ 13.0\% & 66.9\% $\pm$ 10.4\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{B01} & No (baseline) & 59.9\% $\pm$ 10.2\% & 61.9\% $\pm$ 9.0\% & 65.2\% $\pm$ 10.4\% & 59.5\% $\pm$ 9.2\% \\
+            & & Yes (grid search) & 49.8\% $\pm$ 15.9\% & 56.1\% $\pm$ 13.2\% & 54.7\% $\pm$ 15.1\% & 58.4\% $\pm$ 12.1\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{B02} & No (baseline) & 62.7\% $\pm$ 11.8\% & 63.6\% $\pm$ 9.0\% & 64.1\% $\pm$ 13.0\% & 64.4\% $\pm$ 8.0\% \\
+            & & Yes (grid search) & 58.5\% $\pm$ 13.6\% & 60.6\% $\pm$ 11.2\% & 59.0\% $\pm$ 14.3\% & 64.4\% $\pm$ 9.8\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{B03} & No (baseline) & 50.6\% $\pm$ 14.6\% & 45.9\% $\pm$ 14.6\% & 55.2\% $\pm$ 25.8\% & 45.0\% $\pm$ 12.3\% \\
+            & & Yes (grid search) & 32.9\% $\pm$ 18.3\% & 29.6\% $\pm$ 16.6\% & 29.5\% $\pm$ 22.0\% & 38.6\% $\pm$ 17.2\% \\
+
+        \toprule
+
+            \multirow{12}{*}{256} & \multirow{2}{*}{A01} & No (baseline) & 93.4\% $\pm$ 1.1\% & 92.0\% $\pm$ 1.0\% & 92.3\% $\pm$ 1.3\% & 91.8\% $\pm$ 1.4\% \\
+            & & Yes (grid search) & 91.0\% $\pm$ 2.7\% & 88.5\% $\pm$ 3.2\% & 88.6\% $\pm$ 4.1\% & 88.5\% $\pm$ 3.8\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{A02} & No (baseline) & 81.5\% $\pm$ 3.9\% & 82.4\% $\pm$ 3.0\% & 83.4\% $\pm$ 3.8\% & 81.5\% $\pm$ 3.4\% \\
+            & & Yes (grid search) & 72.1\% $\pm$ 6.4\% & 73.8\% $\pm$ 4.7\% & 72.9\% $\pm$ 8.1\% & 75.7\% $\pm$ 6.2\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{A03} & No (baseline) & 82.3\% $\pm$ 5.8\% & 81.1\% $\pm$ 4.8\% & 84.4\% $\pm$ 4.4\% & 78.1\% $\pm$ 5.8\% \\
+            & & Yes (grid search) & 78.6\% $\pm$ 6.9\% & 79.6\% $\pm$ 5.4\% & 80.5\% $\pm$ 6.0\% & 78.8\% $\pm$ 5.6\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{B01} & No (baseline) & 72.6\% $\pm$ 7.8\% & 72.4\% $\pm$ 6.6\% & 74.4\% $\pm$ 6.9\% & 70.8\% $\pm$ 7.1\% \\
+            & & Yes (grid search) & 63.5\% $\pm$ 13.1\% & 67.2\% $\pm$ 10.1\% & 66.1\% $\pm$ 12.3\% & 69.0\% $\pm$ 8.9\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{B02} & No (baseline) & 71.4\% $\pm$ 10.1\% & 70.8\% $\pm$ 7.5\% & 71.4\% $\pm$ 11.4\% & 71.2\% $\pm$ 5.9\% \\
+            & & Yes (grid search) & 67.5\% $\pm$ 11.5\% & 67.9\% $\pm$ 8.5\% & 66.9\% $\pm$ 12.7\% & 70.6\% $\pm$ 7.5\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{B03} & No (baseline) & 63.6\% $\pm$ 11.2\% & 56.5\% $\pm$ 12.2\% & 64.6\% $\pm$ 21.9\% & 55.0\% $\pm$ 11.6\% \\
+            & & Yes (grid search) & 44.7\% $\pm$ 15.0\% & 39.1\% $\pm$ 12.9\% & 37.4\% $\pm$ 17.5\% & 47.5\% $\pm$ 14.6\% \\
+
+        \toprule
+
+            \multirow{12}{*}{1024} & \multirow{2}{*}{A01} & No (baseline) & 95.4\% $\pm$ 1.0\% & 94.0\% $\pm$ 1.1\% & 94.1\% $\pm$ 1.2\% & 93.9\% $\pm$ 1.3\% \\
+            & & Yes (grid search) & 93.6\% $\pm$ 1.7\% & 90.6\% $\pm$ 2.3\% & 90.6\% $\pm$ 2.9\% & 90.6\% $\pm$ 3.3\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{A02} & No (baseline) & 84.9\% $\pm$ 3.5\% & 85.3\% $\pm$ 2.5\% & 85.8\% $\pm$ 3.2\% & 84.8\% $\pm$ 2.9\% \\
+            & & Yes (grid search) & 77.2\% $\pm$ 6.2\% & 78.3\% $\pm$ 4.9\% & 77.4\% $\pm$ 8.0\% & 80.0\% $\pm$ 5.2\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{A03} & No (baseline) & 85.5\% $\pm$ 6.3\% & 84.2\% $\pm$ 5.3\% & 86.5\% $\pm$ 4.5\% & 82.2\% $\pm$ 6.2\% \\
+            & & Yes (grid search) & 82.6\% $\pm$ 7.5\% & 83.0\% $\pm$ 5.6\% & 84.3\% $\pm$ 5.9\% & 81.8\% $\pm$ 6.0\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{B01} & No (baseline) & 80.2\% $\pm$ 6.4\% & 78.9\% $\pm$ 5.4\% & 79.7\% $\pm$ 5.8\% & 78.2\% $\pm$ 5.8\% \\
+            & & Yes (grid search) & 69.8\% $\pm$ 11.8\% & 71.9\% $\pm$ 8.9\% & 70.9\% $\pm$ 10.3\% & 73.3\% $\pm$ 8.3\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{B02} & No (baseline) & 75.7\% $\pm$ 7.3\% & 73.7\% $\pm$ 6.2\% & 73.9\% $\pm$ 9.9\% & 74.3\% $\pm$ 5.3\% \\
+            & & Yes (grid search) & 73.3\% $\pm$ 7.4\% & 71.7\% $\pm$ 6.9\% & 70.8\% $\pm$ 11.2\% & 73.9\% $\pm$ 6.1\% \\
+            \cmidrule{2-7}
+            & \multirow{2}{*}{B03} & No (baseline) & 72.2\% $\pm$ 9.3\% & 65.3\% $\pm$ 11.8\% & 74.5\% $\pm$ 19.2\% & 61.4\% $\pm$ 11.8\% \\
+            & & Yes (grid search) & 50.7\% $\pm$ 14.7\% & 46.1\% $\pm$ 13.6\% & 42.9\% $\pm$ 17.9\% & 55.2\% $\pm$ 13.9\% \\
+
+        \bottomrule
+
+    \end{tabular}
+\end{table}
+
+
+When comparing manual and automated counting results (Figure \ref{fig:s1_scatter}) using a calibration size of 1024, all subsets except B03 show a high correlation between the automated and manual counts, with a minimum squared correlation ($r^2$) of 0.88. For subsets with similar backgrounds, the RMSE values are 1.39, 2.09, 2.02 for A01, A02, and A03, respectively. In subset B01, where the background includes multiple debris and parts of insect prey resembling ants, the automated counts achieve an $r^2$ of 0.90 but with a higher RMSE of 26.05, indicating an overestimation by approximately 26 ants on average. This overestimation is primarily due to false detections caused by background objects that resemble ants. The poorest performance is observed in subset B03, where the RMSE is 3.26 and $r^2$ drops to 0.21. This suggests that the sparse and small distribution of ants makes the counting results highly sensitive to false detections, significantly affecting the correlation. These findings highlight the importance of background uniformity and ant distribution in ensuring accurate automated counting results.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{figure_5.jpg}
+    \caption{Comparison of manual and automated counting results for subsets A01, A02, A03, B01, B02, and B03. The calibration set size is fixed at 1024 images. Each point represents the count of ants in a single image.}
+    \label{fig:s1_scatter}
+\end{figure}
+
+\textit{Alt text}: A scatter plot comparing the number of ants counted manually versus counted by the computer for several data sets. Each dot represents one image's ant count.

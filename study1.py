@@ -11,15 +11,13 @@ import numpy as np
 # 3-party
 from ultralytics import YOLO, RTDETR
 import torch
-from ultralytics.models.nas import val
 
 # local imports
 from paths import PathFinder
 PATHS = PathFinder()
 sys.path.insert(0, PATHS["LIB_PYNICHE"].as_posix())
 from pyniche.data.yolo.API import YOLO_API
-from pyniche import evaluate
-from utils.optimizer import SAHIOptimizer, predict_sahi
+from utils.optimizer import SAHIOptimizer
 
 # constants and functions -------------------------
 STUDY_ID = "study1"
@@ -146,31 +144,31 @@ def main(args):
         write_eval(line_shared, line_results, 
                    splitname=split, strategy="baseline", file_out=FILE_OUT)
 
-        # # 2. Bayesian optimization - exploration
-        # optimizer = SAHIOptimizer(model_path=model.trainer.best)
-        # optimizer.bo_optimize("count", pils=pils_batch, xi=5)
-        # line_results = optimizer.inference(pils=pils, obs=obs)
-        # write_eval(line_shared, line_results, 
-        #            splitname=split, strategy="bo_exploration", file_out=FILE_OUT)
+        # 2. Bayesian optimization - exploration
+        optimizer = SAHIOptimizer(model_path=model.trainer.best)
+        optimizer.bo_optimize("count", pils=pils_batch, xi=5)
+        line_results = optimizer.inference(pils=pils, obs=obs)
+        write_eval(line_shared, line_results, 
+                   splitname=split, strategy="bo_exploration", file_out=FILE_OUT)
 
-        # # 3. Bayesian optimization - exploitation
-        # optimizer = SAHIOptimizer(model_path=model.trainer.best)
-        # optimizer.bo_optimize("count", pils=pils_batch, xi=1)
-        # line_results = optimizer.inference(pils=pils, obs=obs)
-        # write_eval(line_shared, line_results, 
-        #            splitname=split, strategy="bo_exploitation", file_out=FILE_OUT)
+        # 3. Bayesian optimization - exploitation
+        optimizer = SAHIOptimizer(model_path=model.trainer.best)
+        optimizer.bo_optimize("count", pils=pils_batch, xi=1)
+        line_results = optimizer.inference(pils=pils, obs=obs)
+        write_eval(line_shared, line_results, 
+                   splitname=split, strategy="bo_exploitation", file_out=FILE_OUT)
 
-        # # 4. grid search
-        # optimizer = SAHIOptimizer(model_path=model.trainer.best)
-        # optimizer.grid_optimize("count", pils=pils_batch)
-        # line_results = optimizer.inference(pils=pils, obs=obs)
-        # write_eval(line_shared, line_results,
-        #              splitname=split, strategy="grid_search", file_out=FILE_OUT)
+        # 4. grid search
+        optimizer = SAHIOptimizer(model_path=model.trainer.best)
+        optimizer.grid_optimize("count", pils=pils_batch)
+        line_results = optimizer.inference(pils=pils, obs=obs)
+        write_eval(line_shared, line_results,
+                     splitname=split, strategy="grid_search", file_out=FILE_OUT)
 
         print(f"✅ Evaluation {split} completed!")
     
-    # if iters != "0":
-    #     shutil.rmtree(DIR_PROJECT / f"iter_{iters}" / "weights", ignore_errors=True)
+    if iters != "0":
+        shutil.rmtree(DIR_PROJECT / f"iter_{iters}" / "weights", ignore_errors=True)
 
 def write_eval(
     line_shared,
