@@ -33,18 +33,18 @@ def inspect_results():
 
     # mv detected images from <root> to <root>/counts/ folder
     img_count = 0
-    for f in os.listdir(dir_counts):
-        if is_img(f):     
-            mv_dst = os.path.join(dir_counts, f)
+    for f in dir_counts.iterdir():
+        if is_img(f):
+            mv_dst = dir_counts / f
             st.session_state.file_pred[img_count] = mv_dst
             img_count += 1
 
     # list counts table
     ls_filenames = []
     ls_counts = []
-    for f in os.listdir(dir_labels):
-        f = os.path.splitext(f)[0]
-        path_labels = os.path.join(dir_labels, f + ".txt")
+    for f in dir_labels.iterdir():
+        f = f.stem
+        path_labels = dir_labels / (f + ".txt")
         with open(path_labels, "r") as file:
             lines = file.readlines()
             count = len(lines)
