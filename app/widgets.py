@@ -62,7 +62,7 @@ def image_uploader():
     st.session_state.file_ram = file_ram
     if st.session_state.init is not None and is_change:
         print("new update!")
-        update_globals()
+        update_globals() # trigger model prediction
         st.session_state.detect_count = inspect_results()
 
     #to avoid file_uplaoder to trigger update_globals the first time 

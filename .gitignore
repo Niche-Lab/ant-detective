@@ -10,6 +10,9 @@ ipynb_checkpoints
 events.out.tfevents.*
 local/*
 
+# app
+app/demo/*
+app/cache/*
 # common files
 *.csv
 *.txt
@@ -48,7 +51,6 @@ slides/
 modules/
 
 # exception
-!**/demo/**
 !requirements.txt
 !metadata.csv
 !summary.csv

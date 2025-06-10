@@ -37,7 +37,6 @@ def caching_images(path_cache="cache"):
     bar.empty()
 
 
-
 def avg_rgb(img_pil):
     """
     Assuming the img_pil is in mode "RGBA"

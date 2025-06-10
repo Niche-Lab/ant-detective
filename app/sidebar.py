@@ -1,5 +1,4 @@
 import streamlit as st
-import datetime
 
 # local imports
 from callbacks import slide_seg

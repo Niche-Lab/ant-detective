@@ -1,17 +1,12 @@
 import streamlit as st
-import os
-import shutil
+
 # local imports
-from yolo import predict, live_inference
-from callbacks import enable_hotkeys
-# from outputs import show_ann_count, show_output_df
 from sidebar import show_sidebar
 from widgets import (
     image_uploader,
     show_navigator,
     show_download,
 )
-import datetime
 from globals import init_globals
 
 st.set_page_config(
@@ -21,7 +16,6 @@ st.set_page_config(
     initial_sidebar_state="auto",
     menu_items=None,
 )
-enable_hotkeys()
 
 def main():
     st.title("Ant Detective 🔎 🐜")
@@ -41,8 +35,6 @@ def main():
     else:      
         # initial message
         st.success("Please upload images to get started")
-        # st.write("or live stream from your webcam")
-        # live_inference()
                  
     # left-hand side
     show_sidebar()

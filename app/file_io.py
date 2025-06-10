@@ -29,8 +29,8 @@ def inspect_results(dir_src="cache", dir_dst="yolo"):
         counts.csv - counts table <filename, count>    
     """
     dir_images = os.path.join(dir_dst, "images")
-    dir_labels = os.path.join(dir_dst, "labels")
-    dir_counts = os.path.join(dir_dst, "counts")
+    dir_counts = os.path.join(dir_dst, "counts") 
+    dir_labels = os.path.join(dir_dst, "labels") # yolo created
     path_csv = os.path.join(dir_dst, "counts.csv")
     
     # check folder
@@ -38,7 +38,7 @@ def inspect_results(dir_src="cache", dir_dst="yolo"):
         if not os.path.exists(d):
             os.makedirs(d, exist_ok=True)
 
-    # mv detected images to counts/ folder
+    # mv detected images from <root> to <root>/counts/ folder
     img_count = 0
     for f in os.listdir(dir_dst):
         if is_img(f):     

@@ -1,6 +1,5 @@
 import time
 import streamlit as st
-from streamlit_shortcuts import add_keyboard_shortcuts
 
 
 def change_cur_i(i):
@@ -45,11 +44,3 @@ def prev_img():
         i = n_imgs - 1
     change_cur_i(i)
 
-
-def enable_hotkeys():
-    add_keyboard_shortcuts(
-        {
-            "ArrowRight": "Next Image",  # "button_next
-            "ArrowLeft": "Previous Image",
-        }
-    )
