@@ -2,23 +2,29 @@ import streamlit as st
 
 # local
 from images import caching_images
-from yolo import predict
+from models import predict
 from file_io import clean_up
 
-# attributes
-"""
-file_ram: list of file paths on RAM from uploader
-file_imgs: list of file paths
-file_pred: list of file paths
-n_imgs: number of images
-cur_i: current image index
-init: to avoid file_uplaoder to trigger update_globals the first time 
-"""
+
 
 def init_globals():
-    ls_attr = ["file_ram", "file_imgs", "file_pred", 
-               "n_imgs", "cur_i", "detect_count",
-               "loaded", "init"]
+    ls_attr = [
+        "file_ram", # list: paths (Path()) to the uploaded images (RAM)
+        "file_imgs", # list: paths (str) to the cached images (local)
+        "file_pred", # list: paths (str) to the annotated images
+        "n_imgs",  # number of images
+        "cur_i",  # current image index
+        "detect_count",  # number of detections
+        # system status
+        "loaded", 
+        "init", # bool: check if the app is initialized
+        # SAHI
+        "enable_sahi", # bool: whether to use SAHI
+        "divider", # int: SAHI parameter
+        "overlap", # float: SAHI parameter
+        # visualization
+        "width_lines"
+    ]
     for attr in ls_attr:
         if attr not in st.session_state:
             st.session_state[attr] = None

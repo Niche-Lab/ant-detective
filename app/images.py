@@ -2,6 +2,7 @@ import numpy as np
 import os
 import streamlit as st
 from PIL import Image
+from pathlib import Path
 import cv2
 
 
@@ -24,18 +25,19 @@ def caching_images(path_cache="cache"):
     text_bar = "Caching images..."
     bar = st.progress(0, text=text_bar)
     n_imgs = st.session_state.n_imgs
-    file_imgs = st.session_state.file_imgs
     file_ram = st.session_state.file_ram
+    file_imgs = []
     portion = int(100 / n_imgs)
     for i in range(n_imgs):
         filename = file_ram[i].name
         pil = load_image(file_ram[i])
         filepath = os.path.join(path_cache, filename)
+        file_imgs += [Path(filepath)]
         st.session_state.file_imgs[i] = filepath
         pil.save(filepath)
         bar.progress((i + 1) * portion, text=text_bar)
     bar.empty()
-
+    st.session_state.file_imgs = file_imgs
 
 def avg_rgb(img_pil):
     """

@@ -4,3 +4,7 @@ opencv-python-headless
 ultralytics
 dill
 sahi
+pathlib
+pillow
+numpy
+pandas

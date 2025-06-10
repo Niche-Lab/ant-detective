@@ -2,13 +2,12 @@ import streamlit as st
 
 # local imports
 from callbacks import slide_seg
-
+from widgets import module_sahi, show_width_lines
 
 def show_sidebar():
     with st.sidebar:
-        # if loaded:
-        #     show_cropped_images()
-        #     show_annotations()
+        module_sahi()
+        show_width_lines()
         show_about()
 
 
@@ -41,7 +40,6 @@ def show_annotations():
 
 
 def show_about():
-    st.divider()
     st.subheader("James Chen (<niche@vt.edu>)")
     st.write(
         """
@@ -61,4 +59,5 @@ def show_about():
 
     st.divider()
     # today = datetime.date.today().strftime("%B %d, %Y")
-    st.write("Last updated:", "September 2024")
+    st.write("Source code: [Click here](https://github.com/Niche-Lab/ant-detective)")
+    st.write("Last updated:", "June 2025")

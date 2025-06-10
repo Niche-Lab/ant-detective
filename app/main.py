@@ -6,6 +6,7 @@ from widgets import (
     image_uploader,
     show_navigator,
     show_download,
+    module_sahi
 )
 from globals import init_globals
 
@@ -19,9 +20,15 @@ st.set_page_config(
 
 def main():
     st.title("Ant Detective 🔎 🐜")
+    st.markdown(
+        "Detect ants in your images using a custom-trained YOLOv11n model!"
+    )
+    st.markdown(
+        "Drag and drop one or multiple images to the uploader below. "
+        "You can also adjust SAHI parameters to improve detection accuracy from the **sidebar** (👈)."        
+    )
     init_globals()  
     image_uploader()
-    
     show_download()        
     if st.session_state["loaded"]:
         detect_count = st.session_state["detect_count"]
@@ -38,6 +45,5 @@ def main():
                  
     # left-hand side
     show_sidebar()
-
 
 main()
