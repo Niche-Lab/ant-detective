@@ -79,10 +79,17 @@ def predict():
         # save labels
         with open(DIR_OUT / "labels" / f"{str(f.stem)}.txt", "w") as label_file:
             for det in preds[i]:
-                str_det = " ".join([str(d) for d in det[0]])
-                label_file.write(f"0 {str_det}\n")
+                img_w, img_h = pils[i].size
+                xyxy = det[0]
+                x = xyxy[0] / img_w
+                y = xyxy[1] / img_h
+                w = (xyxy[2] - xyxy[0]) / img_w
+                h = (xyxy[3] - xyxy[1]) / img_h
+                det = [0, x, y, w, h]
+                # convert to string
+                str_det = " ".join([str(d) for d in det])
+                label_file.write(f"{str_det}\n")
     
-
 def predict_sahi(pils, model, divider=1, overlap=0, no_slice=False, swsh=None):
     pils = handle_single(pils)
 
