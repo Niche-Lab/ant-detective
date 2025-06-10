@@ -172,7 +172,7 @@ def annotate_detection(
 
 
     # init annotators
-    box_annotator = sv.BoundingBoxAnnotator(
+    box_annotator = sv.BoxAnnotator(
         color=box_color,
         thickness=box_thickness,
     )

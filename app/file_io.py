@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import shutil
 import streamlit as st
+from pathlib import Path
 import datetime
 import base64
 
@@ -11,7 +12,7 @@ def clean_up(dir_src="cache"):
         if f.endswith(".zip"):
             os.remove(f)            
 
-def inspect_results(dir_dst="output"):
+def inspect_results():
     """
     Move the images and generated labels to the respective folders
     compress the folder and return the image count
@@ -22,10 +23,14 @@ def inspect_results(dir_dst="output"):
         counts/ - vidsualized detections
         counts.csv - counts table <filename, count>    
     """
-    dir_counts = os.path.join(dir_dst, "counts") 
-    dir_labels = os.path.join(dir_dst, "labels") # yolo created
-    path_csv = os.path.join(dir_dst, "counts.csv")
     
+    FILEPATH = __file__
+    DIR_ROOT = Path(os.path.dirname(FILEPATH))
+    dir_out = DIR_ROOT / "output"
+    dir_counts = dir_out / "counts"
+    dir_labels = dir_out / "labels" 
+    path_csv = dir_out / "counts.csv"
+
     # mv detected images from <root> to <root>/counts/ folder
     img_count = 0
     for f in os.listdir(dir_counts):
@@ -51,7 +56,7 @@ def inspect_results(dir_dst="output"):
     data.to_csv(path_csv, index=False)
     # zip it
     # today = datetime.datetime.now().strftime("%Y%m%d-%H%M")
-    shutil.make_archive("ant-detective", 'zip', dir_dst) # ant-detective.zip
+    shutil.make_archive("ant-detective", 'zip', dir_out) # ant-detective.zip
     # return
     return img_count   
 
