@@ -1,6 +1,28 @@
 \subsection{Study 1: Effects of Sample Size, Background Complexity, and SAHI on Model Performance}
 
-Model performance metrics (mAP@0.5, F1 score, precision, and recall) are presented in Table \ref{tab:s1_results} and Figure \ref{fig:s1_results}. The results demonstrate that models perform better on subsets with backgrounds similar to the calibration set. With only 64 calibration images, the averaged mAP@0.5 performance on similar background subsets (A01, A02, A03) reached 88.2\%, 73.5\%, and 73.8\%, respectively, while performance on complex background subsets (B01, B02, B03) dropped to 59.9\%, 62.7\%, and 50.6\%, respectively. When the calibration set increased to 256 images, all A subsets achieved over 80\% mAP@0.5, while B03 remained relatively low at 63.6\%.
+The effects of various modeling factors—such as sample size, background complexity, and the use of Slicing Aided Hyper Inference (SAHI)—on model performance were evaluated in Study 1. Table \ref{tab:ols_results} presents the linear regression results of the Ordinary Least Squares (OLS) model as an overview of these evaluations. The factors analyzed include model architecture (YOLOv11n, YOLOv11m, RT-DETR-L), SAHI usage (enabled or disabled), sample size (64, 256, 1,024 images), and background complexity, specifically focusing on the impact of complex backgrounds (i.e., B-prefixed subsets) on model performance. In general, deploying more complex models led to improved performance, with YOLOv11m and RT-DETR-L achieving increases of approximately 3.8\% and 7.6\% in mAP@0.5, respectively. Increasing the sample size from 64 to 256 images yielded a notable 10.4\% performance gain. However, further increasing the sample size to 1,024 images only resulted in a marginal additional improvement of 4.9\%. Interestingly, the use of SAHI consistently degraded performance by an average of 8.6\%, suggesting that SAHI may not be beneficial when target objects are not significantly smaller than those in the calibration set. Lastly, background complexity had a substantial negative effect, reducing model performance by an average of 19.0\%. This highlights the challenge posed by complex backgrounds, particularly when models are calibrated using simpler scenes.
+
+\begin{table}[H]
+    \centering
+    \caption{Ordinary Least Squares (OLS) regression results for model performance evaluation. The response variable is the mean Average Precision at IoU threshold 0.5 (mAP@0.5) across different test subsets. Reported statistics include linear coefficients (Coef.), standard errors (Std. Err.), t-statistics (t), p-values (P$>$$|$t$|$), and 95\% confidence intervals. Model architectures are compared against YOLOv11n as the baseline. The SAHI factor is evaluated relative to the baseline without SAHI. Sample sizes are compared with 64 images as the reference. The Background (B-prefixed) factor represents the presence of complex backgrounds compared to ones similar to the calibration sets.}
+    \label{tab:ols_results}
+    \small
+    \begin{tabular}{lrrrrrr}
+        \toprule
+        \textbf{Factor (level)} & \textbf{Coef.} & \textbf{Std. Err.} & \textbf{t} & \textbf{P$>$$|$t$|$} & \textbf{[0.025} & \textbf{0.975]} \\
+        \midrule
+        Intercept & 0.7290 & 0.004 & 170.447 & < 1e-4 & 0.721 & 0.737 \\
+        Model (yolo11m) & 0.0385 & 0.004 & 9.435 & < 1e-4 & 0.031 & 0.047 \\
+        Model (rtdetr-l) & 0.0765 & 0.004 & 19.772 & < 1e-4 & 0.069 & 0.084 \\
+        SAHI (with) & -0.0856 & 0.003 & -26.579 & < 1e-4 & -0.092 & -0.079 \\
+        Sample size (256) & 0.1037 & 0.004 & 26.443 & < 1e-4 & 0.096 & 0.111 \\
+        Sample size (1024) & 0.1526 & 0.004 & 38.610 & < 1e-4 & 0.145 & 0.160 \\
+        Background (B-prefixed) & -0.1902 & 0.003 & -59.052 & < 1e-4 & -0.197 & -0.184 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+A more detailed evaluation of the model performance metrics (mAP@0.5, F1 score, precision, and recall) are presented in Table \ref{tab:s1_results} and Figure \ref{fig:s1_results}. The results demonstrate that models perform better on subsets with backgrounds similar to the calibration set. With only 64 calibration images, the averaged mAP@0.5 performance on similar background subsets (A01, A02, A03) reached 88.2\%, 73.5\%, and 73.8\%, respectively, while performance on complex background subsets (B01, B02, B03) dropped to 59.9\%, 62.7\%, and 50.6\%, respectively. When the calibration set increased to 256 images, all A subsets achieved over 80\% mAP@0.5, while B03 remained relatively low at 63.6\%.
 
 These findings suggest that with limited calibration images, models can achieve good performance on similar backgrounds, but require larger datasets for complex backgrounds, though performance may still lag behind that of similar background subsets. Notably, increasing calibration set size does not consistently improve performance. In subset A03, quadrupling the calibration size from 64 to 256 images improved mAP@0.5 by 8.5\%, but further increasing to 1024 images yielded only an additional 3.2\% improvement despite adding 768 more images. This indicates a saturation point in model performance, particularly for straightforward detection tasks with consistent backgrounds.
 Conversely, subset B03 showed consistent improvement: averaged mAP@0.5 increased from 50.6\% (64 images) to 63.6\% (256 images) to 72.2\% (1024 images), suggesting that marginal performance gains correlate with background complexity.

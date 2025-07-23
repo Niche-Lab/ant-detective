@@ -3,11 +3,12 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: plainnat.bst
 Database file #1: references.bib
+Warning--I didn't find a database entry for "seabold_statsmodels_2010"
 Warning--empty journal in rocha_two_2024
 Warning--empty year in ultralytics_rt-detr_nodate
 You've used 46 entries,
             2773 wiz_defined-function locations,
-            989 strings with 20309 characters,
+            990 strings with 20333 characters,
 and the built_in function-call counts, 28965 in all, are:
 = -- 2623
 > -- 2234
@@ -46,4 +47,4 @@ warning$ -- 2
 while$ -- 203
 width$ -- 0
 write$ -- 835
-(There were 2 warnings)
+(There were 3 warnings)

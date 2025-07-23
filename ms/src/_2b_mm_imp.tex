@@ -1,0 +1,42 @@
+\subsection{Model Implementation and Evaluation}
+
+The CV detection system used in addressing the three study objectives is established using multiple model architectures: YOLOv11n \cite{jocher_yolo_2023}, YOLOv11m \cite{jocher_yolo_2023}, and RT-DETR-L \cite{ultralytics_rt-detr_nodate,lv_rtdetrv2_2024} to evaluate the impact of model complexity on detection performance. These models are object detction models that take images as input and output bounding boxes indicating the ant locations and therefore automate the ant counting tasks. Given that ant detection is relatively simple compared to general object detection tasks involving over 50 object classes \cite{everingham_pascal_2010,lin_microsoft_2015}, the smallest model version, YOLOv11n, with 2.6 million parameters, was chosen as a baseline. This ligthweight model version is suitable for deployment on most personal computers due to its minimal hardware requirements (e.g., GPU or high memory), without compromising detection performance, particularly for simple tasks focusing on one specific object \cite{das_evaluating_2025}. Additionally, a larger model variant of YOLOv11, YOLOv11m, with 20.1 million parameters, was selected to evaluate the impact of model complexity on detection performance under the similar model architecture. Finally, the most complex model in this study, RT-DETR-L, with 42 million parameters, provides a more complex architecture that incorporates a transformer-based approach, which has shown superior performance in various object detection tasks \cite{ultralytics_rt-detr_nodate,lv_rtdetrv2_2024}. The RT-DETR-L model was chosen to assess the potential benefits of self-attention mechanisms that can capture long-range dependencies in images.
+
+In addressing the first two study objectives (Study 1 and Study 2 hereafter) that evaluate the system performance in varies background conditions, the system is established in two stage: calibration and evaluation. The calibration stage trains the model using images from the \textit{Calibration} subset in each study so the models aquire the knowledge of ant morphology to localize and count ants in images. A common practice in calibrating object detection models is to apply data augmentation to the images to increase the diversity of the calibration data. Specifically, the procedure randomly applies noise, rotation, scaling, and cropping to the original images, increasing the model robustness to variations in imaging conditions, such as camera angles, lighting conditions, and ant distribution when applying the model to new images. The model was calibrated with the Adam optimizer \cite{kingma_adam_2017}, using a learning rate scheduler that started at 0.001 and decreased by 10\% every 10 epochs. The batch size was set to 16, and the calibration process was conducted by updating the model weights for 8,192 steps, which corresponds to 128 epochs when the total number of calibration images is 1,024 or 512 epochs with 256 calibration images. Ten percent of the calibration dataset was randomly selected as the validation set to monitor generalization performance during calibration. The ant positions and counts in the validation set were not used during the calibration but only to ensure the model is not overfitting to the calibration data. The model achieving the best performance on the validation set was chosen for subsequent evaluation. 
+
+The evaluation stage tests the model performance on the designated subsets from Studies 1 and 2, which are not used during the calibration stage to ensure a fair evaluation of the model performance. The evaluation metrics include mean Average Precision @ 0.5 (mAP@0.5), F1 score, recall, precision, correlation $r^2$, and Root Mean Square Error (RMSE). Precision and recall were calculated based on the number of true positive (TP), false positive (FP), and false negative (FN) detections. And the F1 score was calculated as the harmonic mean of precision and recall:
+
+\begin{equation}
+\text{Precision} = \frac{TP}{TP + FP}
+\end{equation}
+
+\begin{equation}
+\text{Recall} = \frac{TP}{TP + FN}
+\end{equation}
+
+\begin{equation}
+\text{F1} = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
+\end{equation}
+
+A high recall indicates that the model successfully detected most ants in the images, while a high precision indicates that the detections were mostly correct with few false positives. Two additional criteria were considered when calculating precision and recall: Intersection over Union (IoU) and confidence threshold. IoU measures the overlap ratio between the detected bounding box and the actual area occupied by the ant, while the confidence threshold is the minimum confidence score required for a detection to be included in the results. This study set the IoU threshold at 0.6. The mAP@0.5 is a widely used metric in object detection tasks, which measures the average precision across confidence threshold at an IoU threshold of 0.5. It provides a comprehensive evaluation of the model's ability than precision and recall that focus on specific confidence thresholds:
+
+\begin{equation}
+\text{mAP@0.5} = \frac{1}{N} \sum_{i=1}^{N} \text{AP}_i
+\end{equation}
+
+Where $N$ is the number of classes (in this case, 1 for ants), and $\text{AP}_i$ is the average precision for class $i$ across different confidence thresholds. In addition to evaluating detection performance, $r^2$ and RMSE were calculated to compare the automated counting results with the manual counts :
+
+\begin{equation}
+r^2 = \left( \frac{\text{cov}(\hat{y}, y)}{\sigma_{\hat{y}} \sigma_y} \right)^2
+\end{equation}
+
+\begin{equation}
+\text{RMSE} = \sqrt{ \frac{ \sum_{i=1}^{n} (\hat{y}_i - y_i)^2 }{ n } }
+\end{equation}
+
+Where $y$ and $\hat{y}$ are the manual and automated counts, respectively, and $n$ is the total number of images. $\text{cov}(\hat{y}, y)$ is the covariance between $\hat{y}$ and $y$, and $\sigma$ represents the standard deviations of the terms. The $r^2$ assesses the agreement between automated and manual counting results, while RMSE measures their absolute difference. Depending on different needs of model accuracy, such as focusing on precise localization or counting, these metrics provide a comprehensive evaluation of the model’s effectiveness and reliability for automated ant detection and counting.
+
+Both the calibration and evaluation stages were conducted using the Python library, Ultralytics framework \cite{jocher_yolo_2023}, on Dell PowerEdge R760XA server with NVIDIA L40S GPUs, which provided sufficient computational resources for the model training and evaluation. It is noted that calibrating a model does not require a high-end GPU like the L40S. The GPU used in this study was chosen to expedite the calibration process when evaluating more than 300 different calibration settings in parallel, which would otherwise take several weeks on a personal computer. A consumer-grade GPU, such as NVIDIA RTX 4090 that has 24 GB of video memory, would suffice for calibrating the models used in this study for a regular ant counting task.
+
+Time and memory consumption were also recorded during the calibration and evaluation processes. The recorded time includes the total time taken for model calibration, the time taken for detecting ants from one image (i.e., the invert of frame per second, FPS), and the time taken for tuning the SAHI parameters. The memory consumption was recorded as the maximum GPU memory usage during the calibration through the Python PyTorch library \cite{paszke_pytorch_2019}. The time and memory consumption were recorded to provide insights into the computational efficiency of the CV system, which is crucial for practical applications in real-time ant monitoring and counting.
+
