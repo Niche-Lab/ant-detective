@@ -1,50 +1,49 @@
 This is BibTeX, Version 0.99d (TeX Live 2024)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
-The style file: plainnat.bst
+The style file: unsrt.bst
 Database file #1: references.bib
-Warning--I didn't find a database entry for "seabold_statsmodels_2010"
 Warning--empty journal in rocha_two_2024
-Warning--empty year in ultralytics_rt-detr_nodate
-You've used 46 entries,
-            2773 wiz_defined-function locations,
-            990 strings with 20333 characters,
-and the built_in function-call counts, 28965 in all, are:
-= -- 2623
-> -- 2234
-< -- 19
-+ -- 748
-- -- 702
-* -- 2751
-:= -- 4632
-add.period$ -- 259
-call.type$ -- 46
-change.case$ -- 372
-chr.to.int$ -- 46
-cite$ -- 94
-duplicate$ -- 962
-empty$ -- 1831
-format.name$ -- 768
-if$ -- 5911
-int.to.chr$ -- 1
-int.to.str$ -- 1
-missing$ -- 38
-newline$ -- 357
-num.names$ -- 184
-pop$ -- 609
+Warning--empty booktitle in cartas_ayala_behavior_2016
+You've used 59 entries,
+            1791 wiz_defined-function locations,
+            818 strings with 18802 characters,
+and the built_in function-call counts, 15949 in all, are:
+= -- 1310
+> -- 995
+< -- 5
++ -- 353
+- -- 294
+* -- 1367
+:= -- 2628
+add.period$ -- 202
+call.type$ -- 59
+change.case$ -- 59
+chr.to.int$ -- 0
+cite$ -- 61
+duplicate$ -- 562
+empty$ -- 1389
+format.name$ -- 294
+if$ -- 3390
+int.to.chr$ -- 0
+int.to.str$ -- 59
+missing$ -- 51
+newline$ -- 320
+num.names$ -- 59
+pop$ -- 116
 preamble$ -- 1
-purify$ -- 326
+purify$ -- 0
 quote$ -- 0
-skip$ -- 824
+skip$ -- 249
 stack$ -- 0
-substring$ -- 956
-swap$ -- 120
-text.length$ -- 4
+substring$ -- 1122
+swap$ -- 104
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 506
+type$ -- 0
 warning$ -- 2
-while$ -- 203
-width$ -- 0
-write$ -- 835
-(There were 3 warnings)
+while$ -- 144
+width$ -- 61
+write$ -- 688
+(There were 2 warnings)

@@ -30,8 +30,8 @@
 \newlabel{tab:dataset_overview}{{1}{5}{Summary information of each image subset. Std. refers to standard deviation. The number of ants per image is presented as mean $\pm $ standard deviation}{table.1}{}}
 \citation{jocher_yolo_2023}
 \citation{madsen_sugar_2017}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Experimental Setup and Rationale}{6}{subsection.3.2}\protected@file@percent }
 \citation{qin_food-burying_2019}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Experimental Setup and Rationale}{6}{subsection.3.2}\protected@file@percent }
 \citation{czaczkes_ant_2013}
 \citation{billen_pretarsus_2017}
 \citation{lei_rhythms_2019,das_biological_2023}
@@ -52,14 +52,14 @@
 \citation{jocher_yolo_2023}
 \citation{paszke_pytorch_2019}
 \citation{akyon_slicing_2022}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Study 1: Determining the Amount of Image Resources Required for Generalization}{11}{subsection.3.4}\protected@file@percent }
 \citation{seabold_statsmodels_2010}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Study 1: Determining the Amount of Image Resources Required for Generalization}{11}{subsection.3.4}\protected@file@percent }
+\newlabel{eq4}{{7}{11}{Study 1: Determining the Amount of Image Resources Required for Generalization}{equation.3.7}{}}
 \citation{shapiro_analysis_1965}
 \citation{levene_robust_1960}
 \citation{welch_generalization_1947}
 \citation{mann_test_1947}
 \citation{virtanen_scipy_2020}
-\newlabel{eq4}{{7}{12}{Study 1: Determining the Amount of Image Resources Required for Generalization}{equation.3.7}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Study 2: Strategies for Handling Dense Imaging Scenarios}{13}{subsection.3.5}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Illustration of the image slicing process for the \textit  {Dense} subset in Study 2. The original image is divided into patches of different sizes for object detection. The patch sizes are determined by the parameter divider number.}}{13}{figure.2}\protected@file@percent }
 \newlabel{fig:s2_slicing}{{2}{13}{Illustration of the image slicing process for the \textit {Dense} subset in Study 2. The original image is divided into patches of different sizes for object detection. The patch sizes are determined by the parameter divider number}{figure.2}{}}
@@ -70,99 +70,126 @@
 \citation{virtanen_scipy_2020}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces An illustration of three different model calibration strategies for Study 2. Sup. = Supervised, Unsup. = Unsupervised.}}{15}{figure.3}\protected@file@percent }
 \newlabel{fig:s2_strategies}{{3}{15}{An illustration of three different model calibration strategies for Study 2. Sup. = Supervised, Unsup. = Unsupervised}{figure.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Study 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant-Foraging Behaviors}{15}{subsection.3.6}\protected@file@percent }
-\newlabel{eq1}{{8}{16}{Study 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant-Foraging Behaviors}{equation.3.8}{}}
-\newlabel{eq2}{{9}{16}{Study 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant-Foraging Behaviors}{equation.3.9}{}}
-\newlabel{eq3}{{10}{16}{Study 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant-Foraging Behaviors}{equation.3.10}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Results and Discussion}{16}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Study 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant Foraging Behaviors}{15}{subsection.3.6}\protected@file@percent }
+\newlabel{eq1}{{8}{16}{Study 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant Foraging Behaviors}{equation.3.8}{}}
+\newlabel{eq2}{{9}{16}{Study 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant Foraging Behaviors}{equation.3.9}{}}
+\newlabel{eq3}{{10}{16}{Study 3: Enhancing Understanding of Spatial and Temporal Aspects of Ant Foraging Behaviors}{equation.3.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{16}{section.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Study 1: Effects of Sample Size, Background Complexity, and SAHI on Model Performance}{16}{subsection.4.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Ordinary Least Squares (OLS) regression results for model performance evaluation. The response variable is the mean Average Precision at IoU threshold 0.5 (mAP@0.5) across different test subsets. Reported statistics include linear coefficients (Coef.), standard errors (Std. Err.), t-statistics (t), p-values (P$>$$|$t$|$), and 95\% confidence intervals. Model architectures are compared against YOLOv11n as the baseline. The SAHI factor is evaluated relative to the baseline without SAHI. Sample sizes are compared with 64 images as the reference. The Background (B-prefixed) factor represents the presence of complex backgrounds compared to ones similar to the calibration sets.}}{17}{table.2}\protected@file@percent }
-\newlabel{tab:ols_results}{{2}{17}{Ordinary Least Squares (OLS) regression results for model performance evaluation. The response variable is the mean Average Precision at IoU threshold 0.5 (mAP@0.5) across different test subsets. Reported statistics include linear coefficients (Coef.), standard errors (Std. Err.), t-statistics (t), p-values (P$>$$|$t$|$), and 95\% confidence intervals. Model architectures are compared against YOLOv11n as the baseline. The SAHI factor is evaluated relative to the baseline without SAHI. Sample sizes are compared with 64 images as the reference. The Background (B-prefixed) factor represents the presence of complex backgrounds compared to ones similar to the calibration sets}{table.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Ordinary Least Squares (OLS) regression results evaluating model performance, with mean Average Precision at IoU threshold 0.5 (mAP@0.5) as the response variable. Reported statistics include regression coefficients (Coef.), standard errors (Std. Err.), t-statistics (t), p-values (P$>$$|$t$|$), and 95\% confidence intervals. Model architectures are compared against YOLOv11n as the baseline. The SAHI factor is assessed relative to a baseline without SAHI, while sample sizes are compared with a reference set of 64 images. The background complexity factor (B-prefix) indicates comparisons against image backgrounds similar to calibration sets (A-prefix).}}{17}{table.2}\protected@file@percent }
+\newlabel{tab:ols_results}{{2}{17}{Ordinary Least Squares (OLS) regression results evaluating model performance, with mean Average Precision at IoU threshold 0.5 (mAP@0.5) as the response variable. Reported statistics include regression coefficients (Coef.), standard errors (Std. Err.), t-statistics (t), p-values (P$>$$|$t$|$), and 95\% confidence intervals. Model architectures are compared against YOLOv11n as the baseline. The SAHI factor is assessed relative to a baseline without SAHI, while sample sizes are compared with a reference set of 64 images. The background complexity factor (B-prefix) indicates comparisons against image backgrounds similar to calibration sets (A-prefix)}{table.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Model performance on different evaluation subsets (column facets) and different models (row facets) with varying calibration set sizes ($n$) on x-axis. One standard deviation of the 50 sampling iterations is shown as colored bands of each line. Blue lines represent the baseline performance without Slicing Aided Hyper Inference (SAHI), while orange lines indicate performance with SAHI. Significance levels are shown as asterisks above the lines, with * indicating $p < 0.05$, ** indicating $p < 0.01$, and *** indicating $p < 0.001$.}}{18}{figure.4}\protected@file@percent }
 \newlabel{fig:s1_results}{{4}{18}{Model performance on different evaluation subsets (column facets) and different models (row facets) with varying calibration set sizes ($n$) on x-axis. One standard deviation of the 50 sampling iterations is shown as colored bands of each line. Blue lines represent the baseline performance without Slicing Aided Hyper Inference (SAHI), while orange lines indicate performance with SAHI. Significance levels are shown as asterisks above the lines, with * indicating $p < 0.05$, ** indicating $p < 0.01$, and *** indicating $p < 0.001$}{figure.4}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces The average performance of the three models, including YOLO11n, YOLO11m, and RT-DETR-L, was evaluated using two inference methods, with and without Slicing Aided Hyper Inference (SAHI), across six test datasets in Study 1. The complete results are presented in the supplementary material.}}{19}{table.3}\protected@file@percent }
 \newlabel{tab:s1_results}{{3}{19}{The average performance of the three models, including YOLO11n, YOLO11m, and RT-DETR-L, was evaluated using two inference methods, with and without Slicing Aided Hyper Inference (SAHI), across six test datasets in Study 1. The complete results are presented in the supplementary material}{table.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Comparison of manual and automated counting results for subsets A01, A02, A03, B01, B02, and B03. The calibration set size is fixed at 1024 images. Each point represents the count of ants in a single image.}}{20}{figure.5}\protected@file@percent }
-\newlabel{fig:s1_scatter}{{5}{20}{Comparison of manual and automated counting results for subsets A01, A02, A03, B01, B02, and B03. The calibration set size is fixed at 1024 images. Each point represents the count of ants in a single image}{figure.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Comparison of manual and automated counting results for subsets A01, A02, A03, B01, B02, and B03. The calibration set size is fixed at 1,024 images. Each point represents the count of ants in a single image.}}{20}{figure.5}\protected@file@percent }
+\newlabel{fig:s1_scatter}{{5}{20}{Comparison of manual and automated counting results for subsets A01, A02, A03, B01, B02, and B03. The calibration set size is fixed at 1,024 images. Each point represents the count of ants in a single image}{figure.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Study 2: Slicing Dense-Populated Images Significantly Improves Model Performance}{21}{subsection.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Comparison of detection results between the original image and SAHI-aid inference results. The SAHI-aid inference was conducted by YOLO11n with parameters of divider number = 4 and overlap ratio = 0. (a) The original scale (b) Three examples in rows showing zoomed-in views of the original image. The detected ants are highlighted with blue bounding boxes.}}{21}{figure.6}\protected@file@percent }
-\newlabel{fig:s2_vis}{{6}{21}{Comparison of detection results between the original image and SAHI-aid inference results. The SAHI-aid inference was conducted by YOLO11n with parameters of divider number = 4 and overlap ratio = 0. (a) The original scale (b) Three examples in rows showing zoomed-in views of the original image. The detected ants are highlighted with blue bounding boxes}{figure.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Model performance on the \textit  {Dense} subset with different models, calibration strategies, and search approaches. The top panel shows the mAP@0.5 performance of YOLO11n, YOLO11m, and RT-DETR-L models under different strategies and search approaches. The letter in black indicates the Tukey HSD test result, where different letters indicate significant differences between search approaches. While the letter in white font and purple background indicates the Tukey HSD test result between calibration strategies with grid search as the search approach of optimal parameters. The bottom panel compares the computational cost of different search approaches in terms of hyperparameter tuning time. The black font indicates the Tukey HSD test results between search approaches.}}{22}{figure.7}\protected@file@percent }
-\newlabel{fig:s2_results}{{7}{22}{Model performance on the \textit {Dense} subset with different models, calibration strategies, and search approaches. The top panel shows the mAP@0.5 performance of YOLO11n, YOLO11m, and RT-DETR-L models under different strategies and search approaches. The letter in black indicates the Tukey HSD test result, where different letters indicate significant differences between search approaches. While the letter in white font and purple background indicates the Tukey HSD test result between calibration strategies with grid search as the search approach of optimal parameters. The bottom panel compares the computational cost of different search approaches in terms of hyperparameter tuning time. The black font indicates the Tukey HSD test results between search approaches}{figure.7}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Model performance comparison on the subset \textit  {Dense} across different calibration strategies and search approach. FT: finetuning with target images, unsup.: unsupervised SAHI tuning, sup.: supervised SAHI tuning. BO: Bayesian optimization.}}{23}{table.4}\protected@file@percent }
-\newlabel{tab:s2_performance}{{4}{23}{Model performance comparison on the subset \textit {Dense} across different calibration strategies and search approach. FT: finetuning with target images, unsup.: unsupervised SAHI tuning, sup.: supervised SAHI tuning. BO: Bayesian optimization}{table.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Comparison of detection results between the original image and SAHI-aided inference. SAHI-aided inference was conducted using YOLO11n with divider number = 4 and overlap ratio = 0. (a) The original scale (b) Three examples in rows showing zoomed-in views of the original image. Detected ants are highlighted with blue bounding boxes.}}{21}{figure.6}\protected@file@percent }
+\newlabel{fig:s2_vis}{{6}{21}{Comparison of detection results between the original image and SAHI-aided inference. SAHI-aided inference was conducted using YOLO11n with divider number = 4 and overlap ratio = 0. (a) The original scale (b) Three examples in rows showing zoomed-in views of the original image. Detected ants are highlighted with blue bounding boxes}{figure.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Model performance on the \textit  {Dense} subset with different models, calibration strategies, and search approaches. The top panel shows the mAP@0.5 performance of YOLO11n, YOLO11m, and RT-DETR-L models under different strategies and search approaches. Black letters indicate Tukey HSD test results, where different letters indicate significant differences between search approaches. White font letters with purple background indicate Tukey HSD test results between calibration strategies using grid search as the optimal parameter search approach. The bottom panel compares the computational cost of different search approaches in terms of hyperparameter tuning time. Black font indicates Tukey HSD test results between search approaches.}}{22}{figure.7}\protected@file@percent }
+\newlabel{fig:s2_results}{{7}{22}{Model performance on the \textit {Dense} subset with different models, calibration strategies, and search approaches. The top panel shows the mAP@0.5 performance of YOLO11n, YOLO11m, and RT-DETR-L models under different strategies and search approaches. Black letters indicate Tukey HSD test results, where different letters indicate significant differences between search approaches. White font letters with purple background indicate Tukey HSD test results between calibration strategies using grid search as the optimal parameter search approach. The bottom panel compares the computational cost of different search approaches in terms of hyperparameter tuning time. Black font indicates Tukey HSD test results between search approaches}{figure.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Model performance comparison on the subset \textit  {Dense} across different calibration strategies and search approaches. FT: fine-tuning with target images, unsup.: unsupervised SAHI tuning, sup.: supervised SAHI tuning. BO: Bayesian optimization.}}{23}{table.4}\protected@file@percent }
+\newlabel{tab:s2_performance}{{4}{23}{Model performance comparison on the subset \textit {Dense} across different calibration strategies and search approaches. FT: fine-tuning with target images, unsup.: unsupervised SAHI tuning, sup.: supervised SAHI tuning. BO: Bayesian optimization}{table.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Computational Cost Analysis}{23}{subsection.4.3}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Hyperparameter tuning time comparison across different models, metrics, and strategies. BO: Bayesian optimization, unsup.: unsupervised SAHI tuning, sup.: supervised SAHI tuning.}}{24}{table.5}\protected@file@percent }
 \newlabel{tab:hptuning_time}{{5}{24}{Hyperparameter tuning time comparison across different models, metrics, and strategies. BO: Bayesian optimization, unsup.: unsupervised SAHI tuning, sup.: supervised SAHI tuning}{table.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4}SAHI tuning results on the \textit  {Dense} subset}{24}{subsection.4.4}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Expected performance of SAHI inference on the \textit  {Dense} subset with different hyperparameter settings. Left: The heatmap shows the mAP@0.5 performance under different divider number and overlap ratio settings, with the color gradient indicating the performance level. Right: The heatmap shows the time cost of SAHI inference on sixty images from the \textit  {Dense} subset under different hyperparameter settings.}}{25}{figure.8}\protected@file@percent }
 \newlabel{fig:s2_bo}{{8}{25}{Expected performance of SAHI inference on the \textit {Dense} subset with different hyperparameter settings. Left: The heatmap shows the mAP@0.5 performance under different divider number and overlap ratio settings, with the color gradient indicating the performance level. Right: The heatmap shows the time cost of SAHI inference on sixty images from the \textit {Dense} subset under different hyperparameter settings}{figure.8}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Performance of SAHI inference on the \textit  {Dense} subset with different hyperparameter settings. The performance is evaluated in terms of mAP@0.5 and the frames per second (FPS) by NVIDIA L40S GPU. The largest numbers of mAP and FPS are highlighted in bold. The frequency of each hyperparameter setting determined by the search approach is also shown.}}{26}{table.6}\protected@file@percent }
-\newlabel{tab:s2_hpmap}{{6}{26}{Performance of SAHI inference on the \textit {Dense} subset with different hyperparameter settings. The performance is evaluated in terms of mAP@0.5 and the frames per second (FPS) by NVIDIA L40S GPU. The largest numbers of mAP and FPS are highlighted in bold. The frequency of each hyperparameter setting determined by the search approach is also shown}{table.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Performance of Slicing and Hyperparameter Inference (SAHI) on the \textit  {Dense} subset with different hyperparameter settings explored by three different search approaches: grid search, exploration Bayesian optimization (BO), and exploitation BO. The most frequent hyperparameter settings in each search approach are highlighted in bold. The performance is evaluated in terms of averaged mAP@0.5 and the frames per second (FPS) by NVIDIA L40S GPU. The largest numbers of mAP and FPS are highlighted in bold. The frequency of each hyperparameter setting determined by the search approach is also shown.}}{26}{table.6}\protected@file@percent }
+\newlabel{tab:s2_hpmap}{{6}{26}{Performance of Slicing and Hyperparameter Inference (SAHI) on the \textit {Dense} subset with different hyperparameter settings explored by three different search approaches: grid search, exploration Bayesian optimization (BO), and exploitation BO. The most frequent hyperparameter settings in each search approach are highlighted in bold. The performance is evaluated in terms of averaged mAP@0.5 and the frames per second (FPS) by NVIDIA L40S GPU. The largest numbers of mAP and FPS are highlighted in bold. The frequency of each hyperparameter setting determined by the search approach is also shown}{table.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces (a) Comparison of manual and automated counting results. The left panel shows a scatter plot of the manual and automated counts, while the right panel shows the automated counts for the SINV-3 infection experiment. (b) Temporal trend of ant population dynamics in the SINV-3 infection experiment.}}{27}{figure.9}\protected@file@percent }
 \newlabel{fig:s2_time}{{9}{27}{(a) Comparison of manual and automated counting results. The left panel shows a scatter plot of the manual and automated counts, while the right panel shows the automated counts for the SINV-3 infection experiment. (b) Temporal trend of ant population dynamics in the SINV-3 infection experiment}{figure.9}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Study 3: Combining Spatial and Temporal Information Enhances Understanding of Ant Foraging Behavior}{27}{subsection.4.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Heatmap of the aggregated ant activity across multiple time points for the subsets (a) \textit  {B01}, \textit  {B02} and (b) \textit  {B03}. The top row shows the original images. In panel (b), the letters ‘P’ and ‘S’ represent peptone and sucrose, respectively, corresponding to the left and right petri dishes. The middle row shows the corresponding heatmaps illustrating ant activity over time. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity. The bottom row presents line plots of ant presence over time, with the x-axis representing hours and the y-axis representing the number of detected ants.}}{29}{figure.10}\protected@file@percent }
-\newlabel{fig:s3_heatmap_small}{{10}{29}{Heatmap of the aggregated ant activity across multiple time points for the subsets (a) \textit {B01}, \textit {B02} and (b) \textit {B03}. The top row shows the original images. In panel (b), the letters ‘P’ and ‘S’ represent peptone and sucrose, respectively, corresponding to the left and right petri dishes. The middle row shows the corresponding heatmaps illustrating ant activity over time. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity. The bottom row presents line plots of ant presence over time, with the x-axis representing hours and the y-axis representing the number of detected ants}{figure.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Heatmap of aggregated ant activity across multiple time points for subsets (a) \textit  {B01}, \textit  {B02} and (b) \textit  {B03}. The top row shows the original images. In panel (b), the letters 'P' and 'S' represent peptone and sucrose, respectively, corresponding to the left and right petri dishes. The middle row shows the corresponding heatmaps illustrating ant activity over time. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity. The bottom row presents line plots of ant presence over time, with the x-axis representing hours and the y-axis representing the number of detected ants.}}{29}{figure.10}\protected@file@percent }
+\newlabel{fig:s3_heatmap_small}{{10}{29}{Heatmap of aggregated ant activity across multiple time points for subsets (a) \textit {B01}, \textit {B02} and (b) \textit {B03}. The top row shows the original images. In panel (b), the letters 'P' and 'S' represent peptone and sucrose, respectively, corresponding to the left and right petri dishes. The middle row shows the corresponding heatmaps illustrating ant activity over time. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity. The bottom row presents line plots of ant presence over time, with the x-axis representing hours and the y-axis representing the number of detected ants}{figure.10}{}}
+\citation{hooper_food_1997}
+\citation{czaczkes_ant_2013,gruter_collective_2015}
+\citation{dejean_foraging_2024}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Heatmap of ant distribution in subset \textit  {Dense}. The left panel displays the uninfected group, while the right panel shows the SINV-3 infected group. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity.}}{30}{figure.11}\protected@file@percent }
+\newlabel{fig:s3_heatmap_dense}{{11}{30}{Heatmap of ant distribution in subset \textit {Dense}. The left panel displays the uninfected group, while the right panel shows the SINV-3 infected group. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity}{figure.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{30}{section.5}\protected@file@percent }
+\citation{vogt_timing_2005}
+\citation{li_chaosorder_2014}
+\citation{cartas_ayala_behavior_2016,xu_segmentation_2022,sabattini_anttracker_2023}
+\citation{sclocco_integrating_2021}
+\citation{zhang_aphid_2023,grijalva_detecting_2024}
+\citation{chen_common_2025}
+\citation{xu_segmentation_2022,zhang_aphid_2023,grijalva_detecting_2024}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Ecological and Applied Implications}{31}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Methodological advances: robustness, scalability, and accessibility}{31}{subsection.5.2}\protected@file@percent }
 \citation{horn_inaturalist_2018}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Heatmap of ant distribution in the subset \textit  {Dense}. The left panel displays the uninfected group, while the right panel shows the SINV-3 infected group. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity.}}{30}{figure.11}\protected@file@percent }
-\newlabel{fig:s3_heatmap_dense}{{11}{30}{Heatmap of ant distribution in the subset \textit {Dense}. The left panel displays the uninfected group, while the right panel shows the SINV-3 infected group. The color gradient represents the scaled number of ant detections, with white/yellow indicating high activity and black indicating low activity}{figure.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Study Limitations and Future Work}{30}{subsection.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Study Limitations and Future Work}{32}{subsection.5.3}\protected@file@percent }
 \citation{horn_inaturalist_2018}
 \citation{akyon_slicing_2022}
 \citation{horn_inaturalist_2018}
 \citation{akyon_slicing_2022}
 \citation{horn_inaturalist_2018}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Ant images from the iNaturalist dataset \cite  {horn_inaturalist_2018}. The ant species are \emph  {Linepithema humile} (a, b, c, e) and \emph  {Pogonomyrmex barbatus} (d, f). The blue bounding boxes indicate the detection results from the RT-DETR-L model calibrated in Study 1 and make detection by Slicing Aided Hyper Inference (SAHI) \cite  {akyon_slicing_2022}.}}{31}{figure.12}\protected@file@percent }
-\newlabel{fig:inat}{{12}{31}{Ant images from the iNaturalist dataset \cite {horn_inaturalist_2018}. The ant species are \emph {Linepithema humile} (a, b, c, e) and \emph {Pogonomyrmex barbatus} (d, f). The blue bounding boxes indicate the detection results from the RT-DETR-L model calibrated in Study 1 and make detection by Slicing Aided Hyper Inference (SAHI) \cite {akyon_slicing_2022}}{figure.12}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Data Dissemination and Web-Based Application}{32}{subsection.4.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{32}{section.5}\protected@file@percent }
-\bibstyle{plainnat}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Ant images from the iNaturalist dataset \cite  {horn_inaturalist_2018}. The ant species are \emph  {Linepithema humile} (a, b, c, e) and \emph  {Pogonomyrmex barbatus} (d, f). The blue bounding boxes indicate the detection results from the RT-DETR-L model calibrated in Study 1 and detection made by Slicing Aided Hyper Inference (SAHI) \cite  {akyon_slicing_2022}.}}{33}{figure.12}\protected@file@percent }
+\newlabel{fig:inat}{{12}{33}{Ant images from the iNaturalist dataset \cite {horn_inaturalist_2018}. The ant species are \emph {Linepithema humile} (a, b, c, e) and \emph {Pogonomyrmex barbatus} (d, f). The blue bounding boxes indicate the detection results from the RT-DETR-L model calibrated in Study 1 and detection made by Slicing Aided Hyper Inference (SAHI) \cite {akyon_slicing_2022}}{figure.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Data Dissemination and Web-Based Application}{33}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{34}{section.6}\protected@file@percent }
+\bibstyle{unsrt}
 \bibdata{references}
-\bibcite{akyon_slicing_2022}{{1}{2022}{{Akyon et~al.}}{{Akyon, Onur~Altinuc, and Temizel}}}
-\bibcite{alciatore_immune_2021}{{2}{2021}{{Alciatore et~al.}}{{Alciatore, Ugelvig, Frank, Bidaux, Gal, Schmitt, Kronauer, and Ulrich}}}
-\bibcite{bereciartua-perez_multiclass_2023}{{3}{2023}{{Bereciartua-Pérez et~al.}}{{Bereciartua-Pérez, Gómez, Picón, Navarra-Mestre, Klukas, and Eggers}}}
-\bibcite{billen_pretarsus_2017}{{4}{2017}{{Billen et~al.}}{{Billen, Al-Khalifa, and Silva}}}
-\bibcite{chiara_animalta_2023}{{5}{2023}{{Chiara and Kim}}{{}}}
-\bibcite{czaczkes_ant_2013}{{6}{2013}{{Czaczkes et~al.}}{{Czaczkes, Grüter, Ellis, Wood, and Ratnieks}}}
-\bibcite{das_biological_2023}{{7}{2023}{{Das and Gordon}}{{}}}
-\bibcite{das_evaluating_2025}{{8}{2025}{{Das et~al.}}{{Das, Ferreira, and Chen}}}
-\bibcite{deng_imagenet_2009}{{9}{2009}{{Deng et~al.}}{{Deng, Dong, Socher, Li, Li, and Fei-Fei}}}
-\bibcite{du_foraging_2023}{{10}{2023}{{Du et~al.}}{{Du, Lyu, Wang, Mao, Li, Yang, and Wang}}}
-\bibcite{everingham_pascal_2010}{{11}{2010}{{Everingham et~al.}}{{Everingham, Van~Gool, Williams, Winn, and Zisserman}}}
-\bibcite{galante_acute_2024}{{12}{2024}{{Galante et~al.}}{{Galante, De~Agrò, Koch, Kau, and Czaczkes}}}
-\bibcite{hong_automatic_2021}{{13}{2021}{{Hong et~al.}}{{Hong, Nam, Kim, Kim, Lee, Ahn, Park, and Kim}}}
-\bibcite{horn_inaturalist_2018}{{14}{2018}{{Horn et~al.}}{{Horn, Aodha, Song, Cui, Sun, Shepard, Adam, Perona, and Belongie}}}
-\bibcite{hsu_viral_2018}{{15}{2018}{{Hsu et~al.}}{{Hsu, Chiu, Shoemaker, and Yang}}}
-\bibcite{hsu_apoptosis_2019}{{16}{2019}{{Hsu et~al.}}{{Hsu, Chiu, Shih, Matsuura, and Yang}}}
-\bibcite{jocher_yolo_2023}{{17}{2023}{{Jocher et~al.}}{{Jocher, Chaurasia, and Qiu}}}
-\bibcite{keselman_tukey_1977}{{18}{1977}{{Keselman and Rogan}}{{}}}
-\bibcite{kingma_adam_2017}{{19}{2017}{{Kingma and Ba}}{{}}}
-\bibcite{kooij_differences_2014}{{20}{2014}{{Kooij et~al.}}{{Kooij, Liberti, Giampoudakis, Schiøtt, and Boomsma}}}
-\bibcite{kushner_new_1964}{{21}{1964}{{Kushner}}{{}}}
-\bibcite{lei_rhythms_2019}{{22}{2019}{{Lei et~al.}}{{Lei, Zhou, Lü, and He}}}
-\bibcite{levene_robust_1960}{{23}{1960}{{Levene}}{{}}}
-\bibcite{lin_microsoft_2015}{{24}{2015}{{Lin et~al.}}{{Lin, Maire, Belongie, Bourdev, Girshick, Hays, Perona, Ramanan, Zitnick, and Dollár}}}
-\bibcite{liu_fire_2025}{{25}{2025}{{Liu et~al.}}{{Liu, Lin, McMillan, and Yang}}}
-\bibcite{lv_rtdetrv2_2024}{{26}{2024}{{Lv et~al.}}{{Lv, Zhao, Chang, Huang, Wang, and Liu}}}
-\bibcite{madsen_sugar_2017}{{27}{2017}{{Madsen et~al.}}{{Madsen, Sørensen, and Offenberg}}}
-\bibcite{mann_test_1947}{{28}{1947}{{Mann and Whitney}}{{}}}
-\bibcite{marchowski_drones_2021}{{29}{2021}{{Marchowski}}{{}}}
-\bibcite{parker_using_2020}{{30}{2020}{{Parker et~al.}}{{Parker, Meador, and Hoover}}}
-\bibcite{parr_response_2022}{{31}{2022}{{Parr and Bishop}}{{}}}
-\bibcite{paszke_pytorch_2019}{{32}{2019}{{Paszke et~al.}}{{Paszke, Gross, Massa, Lerer, Bradbury, Chanan, Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison, Tejani, Chilamkurthy, Steiner, Fang, Bai, and Chintala}}}
-\bibcite{qin_food-burying_2019}{{33}{2019}{{Qin et~al.}}{{Qin, Chen, Hooper-Bùi, Cai, Wang, Sun, Wen, and Wang}}}
-\bibcite{reeves_evolution_2019}{{34}{2019}{{Reeves and Moreau}}{{}}}
-\bibcite{rocha_two_2024}{{35}{2024}{{Rocha et~al.}}{{Rocha, Bogar, Ibañez~Weemaels, Hu, Liang, Park, Lee, Khan, Han, Ng, and Guénard}}}
-\bibcite{saradopoulos_image-based_2023}{{36}{2023}{{Saradopoulos et~al.}}{{Saradopoulos, Potamitis, Konstantaras, Eliopoulos, Ntalampiras, and Rigakis}}}
-\bibcite{shapiro_analysis_1965}{{37}{1965}{{SHAPIRO and WILK}}{{}}}
-\bibcite{smythe_using_2020}{{38}{2020}{{Smythe et~al.}}{{Smythe, Boxler, Brewer, Psota, and Watson}}}
-\bibcite{snoek_practical_2012}{{39}{2012}{{Snoek et~al.}}{{Snoek, Larochelle, and Adams}}}
-\bibcite{sola_feeding_2016}{{40}{2016}{{Sola and Josens}}{{}}}
-\bibcite{terven_comprehensive_2023}{{41}{2023}{{Terven et~al.}}{{Terven, Córdova-Esparza, and Romero-González}}}
-\bibcite{thiel_sublethal_2016}{{42}{2016}{{Thiel and Köhler}}{{}}}
-\bibcite{ultralytics_rt-detr_nodate}{{43}{}{{Ultralytics}}{{}}}
-\bibcite{virtanen_scipy_2020}{{44}{2020}{{Virtanen et~al.}}{{Virtanen, Gommers, Oliphant, Haberland, Reddy, Cournapeau, Burovski, Peterson, Weckesser, Bright, van~der Walt, Brett, Wilson, Millman, Mayorov, Nelson, Jones, Kern, Larson, Carey, Polat, Feng, Moore, VanderPlas, Laxalde, Perktold, Cimrman, Henriksen, Quintero, Harris, Archibald, Ribeiro, Pedregosa, and van Mulbregt}}}
-\bibcite{wang_yolov7_2022}{{45}{2022}{{Wang et~al.}}{{Wang, Bochkovskiy, and Liao}}}
-\bibcite{welch_generalization_1947}{{46}{1947}{{Welch}}{{}}}
+\bibcite{reeves_evolution_2019}{{1}{}{{}}{{}}}
+\bibcite{parr_response_2022}{{2}{}{{}}{{}}}
+\bibcite{rocha_two_2024}{{3}{}{{}}{{}}}
+\bibcite{alciatore_immune_2021}{{4}{}{{}}{{}}}
+\bibcite{thiel_sublethal_2016}{{5}{}{{}}{{}}}
+\bibcite{galante_acute_2024}{{6}{}{{}}{{}}}
+\bibcite{hsu_viral_2018}{{7}{}{{}}{{}}}
+\bibcite{kooij_differences_2014}{{8}{}{{}}{{}}}
+\bibcite{sola_feeding_2016}{{9}{}{{}}{{}}}
+\bibcite{du_foraging_2023}{{10}{}{{}}{{}}}
+\bibcite{parker_using_2020}{{11}{}{{}}{{}}}
+\bibcite{smythe_using_2020}{{12}{}{{}}{{}}}
+\bibcite{marchowski_drones_2021}{{13}{}{{}}{{}}}
+\bibcite{chiara_animalta_2023}{{14}{}{{}}{{}}}
+\bibcite{wang_yolov7_2022}{{15}{}{{}}{{}}}
+\bibcite{jocher_yolo_2023}{{16}{}{{}}{{}}}
+\bibcite{terven_comprehensive_2023}{{17}{}{{}}{{}}}
+\bibcite{saradopoulos_image-based_2023}{{18}{}{{}}{{}}}
+\bibcite{lin_microsoft_2015}{{19}{}{{}}{{}}}
+\bibcite{deng_imagenet_2009}{{20}{}{{}}{{}}}
+\bibcite{bereciartua-perez_multiclass_2023}{{21}{}{{}}{{}}}
+\bibcite{hong_automatic_2021}{{22}{}{{}}{{}}}
+\bibcite{madsen_sugar_2017}{{23}{}{{}}{{}}}
+\bibcite{qin_food-burying_2019}{{24}{}{{}}{{}}}
+\bibcite{czaczkes_ant_2013}{{25}{}{{}}{{}}}
+\bibcite{billen_pretarsus_2017}{{26}{}{{}}{{}}}
+\bibcite{lei_rhythms_2019}{{27}{}{{}}{{}}}
+\bibcite{das_biological_2023}{{28}{}{{}}{{}}}
+\bibcite{liu_fire_2025}{{29}{}{{}}{{}}}
+\bibcite{hsu_apoptosis_2019}{{30}{}{{}}{{}}}
+\bibcite{ultralytics_rt-detr_nodate}{{31}{}{{}}{{}}}
+\bibcite{lv_rtdetrv2_2024}{{32}{}{{}}{{}}}
+\bibcite{everingham_pascal_2010}{{33}{}{{}}{{}}}
+\bibcite{das_evaluating_2025}{{34}{}{{}}{{}}}
+\bibcite{kingma_adam_2017}{{35}{}{{}}{{}}}
+\bibcite{paszke_pytorch_2019}{{36}{}{{}}{{}}}
+\bibcite{akyon_slicing_2022}{{37}{}{{}}{{}}}
+\bibcite{seabold_statsmodels_2010}{{38}{}{{}}{{}}}
+\bibcite{shapiro_analysis_1965}{{39}{}{{}}{{}}}
+\bibcite{levene_robust_1960}{{40}{}{{}}{{}}}
+\bibcite{welch_generalization_1947}{{41}{}{{}}{{}}}
+\bibcite{mann_test_1947}{{42}{}{{}}{{}}}
+\bibcite{virtanen_scipy_2020}{{43}{}{{}}{{}}}
+\bibcite{kushner_new_1964}{{44}{}{{}}{{}}}
+\bibcite{snoek_practical_2012}{{45}{}{{}}{{}}}
+\bibcite{keselman_tukey_1977}{{46}{}{{}}{{}}}
+\bibcite{hooper_food_1997}{{47}{}{{}}{{}}}
+\bibcite{gruter_collective_2015}{{48}{}{{}}{{}}}
+\bibcite{dejean_foraging_2024}{{49}{}{{}}{{}}}
+\bibcite{vogt_timing_2005}{{50}{}{{}}{{}}}
+\bibcite{li_chaosorder_2014}{{51}{}{{}}{{}}}
+\bibcite{cartas_ayala_behavior_2016}{{52}{}{{}}{{}}}
+\bibcite{xu_segmentation_2022}{{53}{}{{}}{{}}}
+\bibcite{sabattini_anttracker_2023}{{54}{}{{}}{{}}}
+\bibcite{sclocco_integrating_2021}{{55}{}{{}}{{}}}
+\bibcite{zhang_aphid_2023}{{56}{}{{}}{{}}}
+\bibcite{grijalva_detecting_2024}{{57}{}{{}}{{}}}
+\bibcite{chen_common_2025}{{58}{}{{}}{{}}}
+\bibcite{horn_inaturalist_2018}{{59}{}{{}}{{}}}
+\providecommand\NAT@force@numbers{}\NAT@force@numbers
 \gdef \@abspage@last{39}

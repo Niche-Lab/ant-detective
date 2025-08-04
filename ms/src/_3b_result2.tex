@@ -3,21 +3,21 @@
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figure_8.jpg}
-    \caption{Comparison of detection results between the original image and SAHI-aid inference results. The SAHI-aid inference was conducted by YOLO11n with parameters of divider number = 4 and overlap ratio = 0. (a) The original scale (b) Three examples in rows showing zoomed-in views of the original image. The detected ants are highlighted with blue bounding boxes.}
+    \caption{Comparison of detection results between the original image and SAHI-aided inference. SAHI-aided inference was conducted using YOLO11n with divider number = 4 and overlap ratio = 0. (a) The original scale (b) Three examples in rows showing zoomed-in views of the original image. Detected ants are highlighted with blue bounding boxes.}
     \label{fig:s2_vis}
 \end{figure}
 
 \textit{Alt text}: Side-by-side images showing ant detection results: the original image with blue boxes around ants on the left, and the results of this work on the right of each panel (a and b)
 
 The CV system achieved substantial accuracy improvements through the SAHI approach compared to original images. Without SAHI, none of the 50 iterations exceeded 1.00\% mAP@0.5 (Figure \ref{fig:s2_vis}), so these baseline results were excluded from evaluation.
-Among the three calibration strategies tested, with grid search serving as the upper-bound benchmark for SAHI-tuned performance, Strategy C (fine-tuned with target images + supervised SAHI tuning) demonstrated significant superior performance for both YOLO11n and YOLO11m models. This strategy achieved average mAP@0.5 scores of 81.0\% and 73.7\%, respectively, as confirmed by Tukey HSD testing (Figure \ref{fig:s2_results} top, Table \ref{tab:s2_performance}).
+Among the three calibration strategies tested, with grid search serving as the upper-bound benchmark for SAHI-tuned performance, Strategy C (fine-tuned with target images + supervised SAHI tuning) demonstrated significantly superior performance for both YOLO11n and YOLO11m models. This strategy achieved average mAP@0.5 scores of 81.0\% and 73.7\%, respectively, as confirmed by Tukey HSD testing (Figure \ref{fig:s2_results} top, Table \ref{tab:s2_performance}).
 These results indicate that using only a single labeled image, despite requiring up to one hour to label approximately one thousand ants, can boost model performance by 6.2\% mAP@0.5 for YOLO11n and 5.7\% for YOLO11m when comparing Strategy A to Strategy C. Notably, while the RT-DETR-L model performed best in Study 1, it benefited least from the SAHI approach in Study 2.
 Regarding the comparison between exploration and exploitation optimization algorithms, exploration demonstrated significantly superior performance in one of nine comparisons (three strategies $\times$ three models). The remaining eight comparisons showed higher average performance for exploration over exploitation, though not statistically significant, with average performance gaps ranging from 0.15\% to 2.5\%.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{figure_6.jpg}
-    \caption{Model performance on the \textit{Dense} subset with different models, calibration strategies, and search approaches. The top panel shows the mAP@0.5 performance of YOLO11n, YOLO11m, and RT-DETR-L models under different strategies and search approaches. The letter in black indicates the Tukey HSD test result, where different letters indicate significant differences between search approaches. While the letter in white font and purple background indicates the Tukey HSD test result between calibration strategies with grid search as the search approach of optimal parameters. The bottom panel compares the computational cost of different search approaches in terms of hyperparameter tuning time. The black font indicates the Tukey HSD test results between search approaches.}
+    \caption{Model performance on the \textit{Dense} subset with different models, calibration strategies, and search approaches. The top panel shows the mAP@0.5 performance of YOLO11n, YOLO11m, and RT-DETR-L models under different strategies and search approaches. Black letters indicate Tukey HSD test results, where different letters indicate significant differences between search approaches. White font letters with purple background indicate Tukey HSD test results between calibration strategies using grid search as the optimal parameter search approach. The bottom panel compares the computational cost of different search approaches in terms of hyperparameter tuning time. Black font indicates Tukey HSD test results between search approaches.}
     \label{fig:s2_results}
 \end{figure}
 
@@ -26,7 +26,7 @@ Regarding the comparison between exploration and exploitation optimization algor
 
 \begin{table}[H]
     \centering
-    \caption{Model performance comparison on the subset \textit{Dense} across different calibration strategies and search approach. FT: finetuning with target images, unsup.: unsupervised SAHI tuning, sup.: supervised SAHI tuning. BO: Bayesian optimization.}
+    \caption{Model performance comparison on the subset \textit{Dense} across different calibration strategies and search approaches. FT: fine-tuning with target images, unsup.: unsupervised SAHI tuning, sup.: supervised SAHI tuning. BO: Bayesian optimization.}
 
     \label{tab:s2_performance}
     \small
@@ -95,6 +95,7 @@ Video memory requirements present another critical consideration for model selec
 Therefore, practitioners must carefully weigh the trade-offs between performance gains and computational costs when selecting search algorithms and strategies, considering their specific application requirements, available hardware resources, and budget constraints.
 
 
+
 \begin{table}[h]
 \centering
 \caption{Hyperparameter tuning time comparison across different models, metrics, and strategies. BO: Bayesian optimization, unsup.: unsupervised SAHI tuning, sup.: supervised SAHI tuning.}
@@ -136,13 +137,13 @@ Therefore, practitioners must carefully weigh the trade-offs between performance
 \subsection{SAHI tuning results on the \textit{Dense} subset}
 
 Given that YOLO11n performed best using Strategy C, we analyzed 50 iterations of SAHI tuning results on the Dense subset. These results were linearly interpolated to visualize expected SAHI inference performance under different parameter settings, comparing the observed performance across exploration, exploitation, and grid search approaches (Figure \ref{fig:s2_bo} and Table \ref{tab:s2_hpmap}). 
-The analysis revealed that divider number has considerably greater impact than overlap ratio on model performance. Increasing the divider from 2 to 4 improved average performance from approximately 60\% to over 75\% mAP@0.5, while overlap ratio variations affected performance by less than 5\% regardless of divider number. The optimal performance occurred at parameter combination (4, 0)—representing divider number 4 and overlap ratio 0—yielding 81.8\% mAP@0.5, followed by (4, 0.5) with 79.3\% mAP@0.5. The divider value of 4 likely outperformed other options because it created the smallest patches, effectively enlarging the ant objects within each patch. This enlargement is important because it makes the morphological features of ants more prominent and similar in scale to the calibration images, which contain an average of ten ants per image versus the dense-populated images with over 1390 ants per image in average.
+The analysis revealed that divider number has considerably greater impact than overlap ratio on model performance. Increasing the divider from 2 to 4 improved average performance from approximately 60\% to over 75\% mAP@0.5, while overlap ratio variations affected performance by less than 5\% regardless of divider number. The optimal performance occurred at parameter combination (4, 0)—representing divider number 4 and overlap ratio 0—yielding 81.8\% mAP@0.5, followed by (4, 0.5) with 79.3\% mAP@0.5. The divider value of 4 likely outperformed other options because it created the smallest patches, effectively enlarging the ant objects within each patch. This enlargement is crucial because it makes the morphological features of ants more prominent and similar in scale to the calibration images, which contain an average of ten ants per image versus the dense-populated images with over 1390 ants per image on average.
 
 The computational cost dynamics align with theoretical expectations: larger divider numbers generate smaller patches requiring more processing, similar to larger overlap ratios. The heatmap confirms that the most time-consuming inference occurs when both parameters reach maximum values (Figure \ref{fig:s2_bo}). Importantly, optimal SAHI performance does not require maximum computational cost—the best performance was achieved with relatively low computational overhead of just 0.44 seconds per image (2.26 FPS).
 
 The parameter search approaches exhibited distinct behaviors. Grid search consistently selected the optimal parameter combination (4, 0) across all 50 iterations (100\% selection rate), indicating relatively homogeneous data distribution since only 10 of the 60 Dense subset images were used for hyperparameter tuning in each iteration.
 In contrast, exploration and exploitation approaches demonstrated more diverse parameter selection patterns. The exploration approach selected the optimal (4, 0) parameters in 41.7\% of iterations, while exploitation selected them in 30.0\% of cases. Notably, exploration proved more effective at identifying top-performing parameters, selecting the top-2 parameter combinations [(4, 0) and (4, 0.5)] in 45.9\% of iterations compared to exploitation's 34.0\% success rate.
-Although this represents a relatively small search space, it effectively demonstrates how exploration-exploitation trade-offs apply to hyperparameter tuning processes. Exploration shows greater likelihood of discovering optimal parameter choices, though at higher computational cost compared to grid search.
+Although this represents a relatively small search space, it effectively demonstrates how exploration-exploitation trade-offs apply to hyperparameter tuning processes. Exploration shows a greater likelihood of discovering optimal parameter choices, though at higher computational cost compared to grid search.
 
 
 \begin{figure}[H]
@@ -157,19 +158,21 @@ Although this represents a relatively small search space, it effectively demonst
 
 \begin{table}[H]
     \centering
-    \caption{Performance of SAHI inference on the \textit{Dense} subset with different hyperparameter settings. The performance is evaluated in terms of mAP@0.5 and the frames per second (FPS) by NVIDIA L40S GPU. The largest numbers of mAP and FPS are highlighted in bold. The frequency of each hyperparameter setting determined by the search approach is also shown.}
+    \caption{Performance of Slicing and Hyperparameter Inference (SAHI) on the \textit{Dense} subset with different hyperparameter settings explored by three different search approaches: grid search, exploration Bayesian optimization (BO), and exploitation BO. The most frequent hyperparameter settings in each search approach are highlighted in bold. The performance is evaluated in terms of averaged mAP@0.5 and the frames per second (FPS) by NVIDIA L40S GPU. The largest numbers of mAP and FPS are highlighted in bold. The frequency of each hyperparameter setting determined by the search approach is also shown.}
     \label{tab:s2_hpmap}
     \begin{tabular}{ccccccc}
         \midrule
-    \textbf{Param. 1:} & \textbf{Param. 2:} & \textbf{Grid Search} & \textbf{Exploration BO} & \textbf{Exploitation BO} & \textbf{Exp.} & \textbf{Frames} \\
-    \textbf{Divider} & \textbf{Overlap} & \textbf{Freq.} & \textbf{Freq.} & \textbf{Freq.} & \textbf{mAP@0.5} & \textbf{per Sec.} \\
+    \textbf{Param. 1:} & \textbf{Param. 2:} & \textbf{Grid Search} & \textbf{Exploration BO} & \textbf{Exploitation BO} & \textbf{Average} & \textbf{FPS} \\
+    \textbf{Divider} & \textbf{Overlap} & \textbf{Freq.} & \textbf{Freq.} & \textbf{Freq.} & \textbf{mAP@0.5} & \\
     \midrule
-        4 & 0 & 100.0\% & 41.7\% & 30.0\% & \textbf{81.8\%} & 2.26 \\
+        4 & 0 & \textbf{100.0\%} & \textbf{41.7\%} & \textbf{30.0\%} & \textbf{81.8\%} & 2.26 \\
         4 & 0.5 & 0.0\% & 4.2\% & 4.0\% & 79.3\% & 0.90 \\
         4 & 0.25 & 0.0\% & 0.0\% & 4.0\% & 77.5\% & 1.50 \\
+        \midrule
         3 & 0.25 & 0.0\% & 12.5\% & 20.0\% & 75.5\% & 1.99 \\
         3 & 0.5 & 0.0\% & 8.3\% & 4.0\% & 75.2\% & 1.26 \\
         3 & 0 & 0.0\% & 25.0\% & 30.0\% & 74.8\% & 2.45 \\
+        \midrule
         2 & 0.25 & 0.0\% & 8.4\% & 4.0\% & 60.4\% & 2.11 \\
         2 & 0 & 0.0\% & 0.0\% & 4.0\% & 57.1\% & \textbf{3.47} \\
         \midrule
@@ -179,9 +182,6 @@ Although this represents a relatively small search space, it effectively demonst
 Based on the optimization results, YOLO11n with optimal parameters (divider number = 4, overlap ratio = 0) was selected for propagating detection results across the entire image dataset. Validation against manual counts demonstrated strong agreement, with an $R^2$ of 0.939 and RMSE of 418.644 (Figure \ref{fig:s2_time}a, left). The relatively high RMSE value is attributed to ants overlooked during manual counting, while the CV system successfully detected these missed individuals, thereby maintaining robust correlation with manual counts.
 
 The experiment on the Dense subset aimed to investigate whether SINV-3 infection alters foraging behaviors in fire ants. The automated counting system effectively captured ant foraging dynamics in response to SINV-3 infection (Figure \ref{fig:s2_time}a, right). When applied to the complete 14-day experimental dataset, clear temporal trends in ant population dynamics emerged that closely matched manual counting patterns (Figure \ref{fig:s2_time}b).
-Both counting methodologies revealed consistent trends in foraging behavior, with SINV-3 infected ants exhibiting consistently elevated foraging activity compared to uninfected controls. This finding demonstrates the CV system's capability to accurately capture ant foraging dynamics in a high-throughput manner, providing a powerful tool for investigating pathogen effects on foraging patterns and potentially other complex social behaviors.
-The successful validation of automated counting against manual methods, combined with the system's ability to detect biological phenomena of interest, establishes its utility for large-scale behavioral ecology studies where manual counting would be prohibitively time-consuming or prone to observer bias.
-
 
 \begin{figure}[H]
     \centering
