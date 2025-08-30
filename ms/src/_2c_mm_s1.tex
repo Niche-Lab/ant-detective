@@ -6,7 +6,7 @@ When objects of interest are small, previous studies have demonstrated that mode
 
 Since each parameter combination potentially yields different performance outcomes, we conducted a grid search evaluating all nine possible combinations of patch size and overlap size through hyperparameter tuning. Before testing the model on each subset, we sampled 10 images from the target subset to determine optimal parameter combinations for SAHI implementation. Given the absence of ground truth data for ant counts in these tuning images, we used high-confidence detections (confidence > 0.5) as a proxy for prediction quality. This unsupervised approach avoids data leakage issues since ground truth labels are not used during hyperparameter tuning.
 
-Because the investigated factors—including calibration sample size, SAHI usage, model complexity, and background similarity may affect model generalization performance, an ordinary least squares (OLS) regression model was used to evaluate their impact:
+Because the investigated factors, including calibration sample size, SAHI usage, model complexity, and background similarity, may affect model generalization performance, an ordinary least squares (OLS) regression model was used to evaluate their impact:
 
 \begin{equation}
 y_{ijk} = \beta_0 + \beta_1 n_i + \beta_2 m_j + \beta_3 b_k + \varepsilon_{ijk}
