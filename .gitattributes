@@ -1,1 +1,3 @@
+# Exclude LaTeX sources from language stats
 *.tex linguist-vendored
+*.bib linguist-vendored
