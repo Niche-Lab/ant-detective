@@ -3,7 +3,7 @@ streamlit_shortcuts
 opencv-python-headless
 ultralytics
 dill
-sahi
+sahi==0.11.23
 pathlib
 pillow
 numpy

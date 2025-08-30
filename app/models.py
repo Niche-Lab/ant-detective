@@ -7,7 +7,7 @@ import time
 from PIL import Image
 from pathlib import Path
 
-from sahi import AutoDetectionModel
+from sahi.models.ultralytics import UltralyticsDetectionModel
 from sahi.predict import get_sliced_prediction
 import supervision as sv
 
@@ -32,8 +32,7 @@ DIR_ROOT = Path(os.path.dirname(FILEPATH))
 MODEL_NAME = DIR_ROOT / "ant_detective.pt"
 DIR_OUT = DIR_ROOT / "output"
 
-model = AutoDetectionModel.from_pretrained(
-    model_type='ultralytics',
+model = UltralyticsDetectionModel(
     model_path=MODEL_NAME,
     confidence_threshold=0.25,
     device="cpu", 
